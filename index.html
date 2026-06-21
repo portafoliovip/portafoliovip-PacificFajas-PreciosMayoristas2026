@@ -526,6 +526,8 @@ const PRODUCTOS = PRODUCTOS_DATA.map((p, index) => ({
 let nivelActual = 'pro';
 let monedaActual = 'COP';
 let catActual = 'Todas';
+let carrito = [];       // Lista de líneas del pedido: { lineId, prodId, talla, color, cant }
+let carritoSeq = 0;     // Generador de IDs únicos para cada línea
 let busquedaActual = '';
 let catsAbiertas = {};
 
@@ -579,35 +581,49 @@ function toggleCat(cat){
   renderProducts();
 }
 
-// Función para atrapar el valor cuando se cambia en los selects e inputs
+// Guarda en el producto la selección actual de la fila (talla/color/cantidad a punto de añadir)
 function updateProd(id, field, value) {
   if (field === 'cant') {
     value = parseInt(value);
     if (isNaN(value) || value < 0) value = 0;
   }
   PRODUCTOS[id][field] = value;
-  actualizarCarrito();
-  
-  // Ocultar mensaje de error si el cliente ha agregado prendas
-  if (field === 'cant' && value > 0) {
-    document.getElementById('error-msg').classList.add('hidden');
-  }
 }
 
-// Lógica del nuevo botón Añadir/Seleccionar visualmente
-function animarBoton(btn, id) {
-  // Si la cantidad es 0, la subimos a 1 para hacer la vida más facil
+// Añade la selección actual de la fila (talla + color + cantidad) como una línea del pedido.
+// Si ya existe una línea con la MISMA referencia + talla + color, suma la cantidad en lugar de duplicarla.
+// Si la talla o el color son diferentes, crea una línea nueva (así se pueden pedir varias variantes de la misma referencia).
+function agregarAlCarrito(btn, id) {
   const inputCant = document.getElementById(`cant-${id}`);
-  if (inputCant && parseInt(inputCant.value) === 0) {
-    inputCant.value = 1;
-    updateProd(id, 'cant', 1);
+  const selectTalla = document.getElementById(`talla-${id}`);
+  const selectColor = document.getElementById(`color-${id}`);
+
+  // Si la cantidad está en 0, la subimos a 1 para hacer la vida más fácil
+  let cant = parseInt(inputCant.value);
+  if (isNaN(cant) || cant <= 0) cant = 1;
+
+  const talla = selectTalla.value;
+  const color = selectColor.value;
+
+  const existente = carrito.find(it => it.prodId === id && it.talla === talla && it.color === color);
+  if (existente) {
+    existente.cant += cant;
+  } else {
+    carrito.push({ lineId: 'L' + (carritoSeq++), prodId: id, talla: talla, color: color, cant: cant });
   }
-  
+
+  // Reiniciamos la cantidad de la fila a 0 para que pueda elegir otra talla/color de la misma referencia sin confusión
+  inputCant.value = 0;
+  PRODUCTOS[id].cant = 0;
+
+  document.getElementById('error-msg').classList.add('hidden');
+  actualizarCarrito();
+
   // Efecto visual
   const textoOriginal = btn.innerHTML;
   btn.innerHTML = '¡Añadido! ✅';
   btn.style.background = '#25D366';
-  
+
   setTimeout(() => {
     btn.innerHTML = 'Seleccionar';
     btn.style.background = '#1b4332';
@@ -684,18 +700,18 @@ function renderProducts(){
             </div>
             <div class="opt-box" style="flex:1">
               <label class="opt-label">Talla</label>
-              <select class="opt-input" style="width:100%" onchange="updateProd(${p.id}, 'talla', this.value)">
+              <select class="opt-input" id="talla-${p.id}" style="width:100%" onchange="updateProd(${p.id}, 'talla', this.value)">
                 ${opcionesTallasHTML}
               </select>
             </div>
             <div class="opt-box" style="flex:1">
               <label class="opt-label">Color</label>
-              <select class="opt-input" style="width:100%" onchange="updateProd(${p.id}, 'color', this.value)">
+              <select class="opt-input" id="color-${p.id}" style="width:100%" onchange="updateProd(${p.id}, 'color', this.value)">
                 ${opcionesColoresHTML}
               </select>
             </div>
             <div class="opt-box" style="justify-content:flex-end;">
-              <button class="btn-add" onclick="animarBoton(this, ${p.id})">Seleccionar</button>
+              <button class="btn-add" onclick="agregarAlCarrito(this, ${p.id})">Seleccionar</button>
             </div>
           </div>
         </div>`;
@@ -718,14 +734,14 @@ function renderProducts(){
 
 // Actualiza el carrito inferior flotante en tiempo real
 function actualizarCarrito() {
-  const seleccionados = PRODUCTOS.filter(p => p.cant > 0);
   let cantTotal = 0;
   let costoTotal = 0;
   const nv = NIVELES[nivelActual];
 
-  seleccionados.forEach(p => {
-    cantTotal += p.cant;
-    costoTotal += (p.precio * (1 - nv.pct)) * p.cant;
+  carrito.forEach(item => {
+    const prod = PRODUCTOS[item.prodId];
+    cantTotal += item.cant;
+    costoTotal += (prod.precio * (1 - nv.pct)) * item.cant;
   });
 
   const cartBar = document.getElementById('cart-bar');
@@ -757,53 +773,59 @@ function cerrarCarritoModal() {
   document.body.style.overflow = '';
 }
 
-// Dibuja el contenido del modal: cada prenda seleccionada con su cantidad editable y botón de eliminar
+// Dibuja el contenido del modal: cada línea del pedido (referencia + talla + color) con su cantidad editable y botón de eliminar
 function renderCarritoModal() {
-  const seleccionados = PRODUCTOS.filter(p => p.cant > 0);
   const nv = NIVELES[nivelActual];
   const body = document.getElementById('cart-modal-body');
 
-  if (seleccionados.length === 0) {
+  if (carrito.length === 0) {
     body.innerHTML = `<div class="cart-modal-empty">🛒 Aún no has agregado productos a tu pedido.</div>`;
     document.getElementById('cart-modal-total').textContent = fmt(0);
     return;
   }
 
   let total = 0;
-  body.innerHTML = seleccionados.map(p => {
-    const costoUnidad = p.precio * (1 - nv.pct);
-    const subtotal = costoUnidad * p.cant;
+  body.innerHTML = carrito.map(item => {
+    const prod = PRODUCTOS[item.prodId];
+    const costoUnidad = prod.precio * (1 - nv.pct);
+    const subtotal = costoUnidad * item.cant;
     total += subtotal;
 
     return `
       <div class="cart-item-row">
         <div class="cart-item-info">
-          <div class="cart-item-name">${p.nombre}</div>
-          <div class="cart-item-meta">REF ${p.ref} · Talla ${p.talla} · ${p.color}</div>
+          <div class="cart-item-name">${prod.nombre}</div>
+          <div class="cart-item-meta">REF ${prod.ref} · Talla ${item.talla} · ${item.color}</div>
         </div>
-        <input type="number" min="0" class="cart-item-qty" value="${p.cant}"
-          onchange="actualizarDesdeModal(${p.id}, this.value)">
+        <input type="number" min="0" class="cart-item-qty" value="${item.cant}"
+          onchange="actualizarCantidadCarrito('${item.lineId}', this.value)">
         <div class="cart-item-subtotal">${fmt(subtotal)}</div>
-        <button class="cart-item-remove" onclick="eliminarDelCarrito(${p.id})" title="Eliminar del pedido">🗑️</button>
+        <button class="cart-item-remove" onclick="eliminarDelCarrito('${item.lineId}')" title="Eliminar del pedido">🗑️</button>
       </div>`;
   }).join('');
 
   document.getElementById('cart-modal-total').textContent = fmt(total);
 }
 
-// Cambia la cantidad de una prenda desde el modal y mantiene sincronizada la lista principal de productos
-function actualizarDesdeModal(id, value) {
-  updateProd(id, 'cant', value);
-  const mainInput = document.getElementById(`cant-${id}`);
-  if (mainInput) mainInput.value = PRODUCTOS[id].cant;
+// Cambia la cantidad de una línea específica del pedido (si llega a 0, se elimina la línea)
+function actualizarCantidadCarrito(lineId, value) {
+  let cant = parseInt(value);
+  if (isNaN(cant) || cant < 0) cant = 0;
+
+  if (cant === 0) {
+    carrito = carrito.filter(it => it.lineId !== lineId);
+  } else {
+    const item = carrito.find(it => it.lineId === lineId);
+    if (item) item.cant = cant;
+  }
+  actualizarCarrito();
   renderCarritoModal();
 }
 
-// Elimina por completo una prenda del pedido (la deja en cantidad 0)
-function eliminarDelCarrito(id) {
-  updateProd(id, 'cant', 0);
-  const mainInput = document.getElementById(`cant-${id}`);
-  if (mainInput) mainInput.value = 0;
+// Elimina por completo una línea del pedido
+function eliminarDelCarrito(lineId) {
+  carrito = carrito.filter(it => it.lineId !== lineId);
+  actualizarCarrito();
   renderCarritoModal();
 }
 
