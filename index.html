@@ -174,6 +174,11 @@
     .cart-modal-empty{text-align:center; padding:50px 16px; color:#9ca3af; font-size:14px}
     .cart-modal-footer{padding:16px 20px; border-top:1px solid #f0f0f0; background:#fafafa; flex-shrink:0}
     .cart-modal-total-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
+    .cart-modal-nivel-aviso{
+      background:#fef2f2; border-left:3px solid #ef4444; color:#991b1b;
+      font-size:12px; font-weight:700; padding:10px 12px; border-radius:8px;
+      margin-bottom:12px; line-height:1.4;
+    }
     .cart-modal-total-label{font-size:13px; font-weight:700; color:#374151}
     .cart-modal-total-val{font-size:20px; font-weight:900; color:#1b4332}
 
@@ -345,7 +350,7 @@
 <div style="max-width:960px; margin:0 auto; padding:0 16px 40px;">
   <div id="error-msg" class="hidden" style="background:#fef2f2; border-left:4px solid #ef4444; padding:16px; margin-bottom:20px; border-radius:8px; display:flex; gap:12px; align-items:center;">
     <span style="color:#ef4444;font-size:24px;">⚠️</span>
-    <span style="color:#991b1b;font-size:14px;font-weight:700;">Selecciona la cantidad de al menos un producto para poder enviar el pedido.</span>
+    <span id="error-msg-text" style="color:#991b1b;font-size:14px;font-weight:700;">Selecciona la cantidad de al menos un producto para poder enviar el pedido.</span>
   </div>
 
   <!-- NOTA IMPORTANTE ANTES DE REALIZAR PEDIDO -->
@@ -394,6 +399,7 @@
         <span class="cart-modal-total-label">Total del pedido</span>
         <span id="cart-modal-total" class="cart-modal-total-val">$0 COP</span>
       </div>
+      <div id="cart-modal-nivel-aviso" class="cart-modal-nivel-aviso hidden"></div>
       <button onclick="enviarPedidoMayorista()" class="btn-wa-main" style="width:100%; font-size:14px; padding:16px;">
         📦 Confirmar y Enviar Pedido
       </button>
@@ -404,9 +410,9 @@
 <script>
 const TASA_USD = 3000;
 const NIVELES = {
-  starter: { pct: 0.20, label: '20% OFF', name: 'Emprendedora · 6 – 24 unidades' },
-  pro:     { pct: 0.25, label: '25% OFF', name: 'Revendedora Pro · 25 – 99 unidades' },
-  elite:   { pct: 0.28, label: '28% OFF', name: 'Distribuidora Elite · 100+ unidades' },
+  starter: { pct: 0.20, label: '20% OFF', name: 'Emprendedora · 6 – 24 unidades', min: 6, max: 24 },
+  pro:     { pct: 0.25, label: '25% OFF', name: 'Revendedora Pro · 25 – 99 unidades', min: 25, max: 99 },
+  elite:   { pct: 0.28, label: '28% OFF', name: 'Distribuidora Elite · 100+ unidades', min: 100, max: Infinity },
 };
 
 // DATOS ORIGINALES TOTALMENTE ADAPTADOS AL PDF PARA TALLAS Y COLORES ESPECÍFICOS POR REFERENCIA
@@ -773,23 +779,40 @@ function cerrarCarritoModal() {
   document.body.style.overflow = '';
 }
 
+// Calcula si la cantidad total de unidades corresponde al rango del nivel seleccionado.
+// Devuelve el texto del aviso si NO corresponde, o null si todo está correcto.
+function obtenerAvisoNivel(totalUnidades, nv) {
+  if (totalUnidades < nv.min) {
+    const faltan = nv.min - totalUnidades;
+    return `Te faltan ${faltan} unidad${faltan === 1 ? '' : 'es'} para alcanzar el mínimo de ${nv.min} unidades del nivel ${nv.label}. Agrega más prendas o cambia de nivel para continuar.`;
+  }
+  if (totalUnidades > nv.max) {
+    return `Tu pedido tiene ${totalUnidades} unidades, más de las ${nv.max} del nivel ${nv.label}. Selecciona el siguiente nivel para aplicar el descuento correcto. 🎉`;
+  }
+  return null;
+}
+
 // Dibuja el contenido del modal: cada línea del pedido (referencia + talla + color) con su cantidad editable y botón de eliminar
 function renderCarritoModal() {
   const nv = NIVELES[nivelActual];
   const body = document.getElementById('cart-modal-body');
+  const avisoEl = document.getElementById('cart-modal-nivel-aviso');
 
   if (carrito.length === 0) {
     body.innerHTML = `<div class="cart-modal-empty">🛒 Aún no has agregado productos a tu pedido.</div>`;
     document.getElementById('cart-modal-total').textContent = fmt(0);
+    avisoEl.classList.add('hidden');
     return;
   }
 
   let total = 0;
+  let totalUnidades = 0;
   body.innerHTML = carrito.map(item => {
     const prod = PRODUCTOS[item.prodId];
     const costoUnidad = prod.precio * (1 - nv.pct);
     const subtotal = costoUnidad * item.cant;
     total += subtotal;
+    totalUnidades += item.cant;
 
     return `
       <div class="cart-item-row">
@@ -805,6 +828,15 @@ function renderCarritoModal() {
   }).join('');
 
   document.getElementById('cart-modal-total').textContent = fmt(total);
+
+  // Mostramos la nota si las unidades no corresponden al rango del nivel seleccionado
+  const aviso = obtenerAvisoNivel(totalUnidades, nv);
+  if (aviso) {
+    avisoEl.textContent = '⚠️ ' + aviso;
+    avisoEl.classList.remove('hidden');
+  } else {
+    avisoEl.classList.add('hidden');
+  }
 }
 
 // Cambia la cantidad de una línea específica del pedido (si llega a 0, se elimina la línea)
@@ -829,41 +861,57 @@ function eliminarDelCarrito(lineId) {
   renderCarritoModal();
 }
 
+// Muestra el aviso rojo con un mensaje específico y hace scroll hasta él
+function mostrarAvisoPedido(msg) {
+  document.getElementById('error-msg-text').textContent = msg;
+  document.getElementById('error-msg').classList.remove('hidden');
+  document.getElementById('error-msg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 // Lógica de Recopilación y Envío a WhatsApp
 function enviarPedidoMayorista() {
-  const seleccionados = PRODUCTOS.filter(p => p.cant > 0);
   const nv = NIVELES[nivelActual];
-  
-  if (seleccionados.length === 0) {
-    document.getElementById('error-msg').classList.remove('hidden');
-    // Scroll suave hasta el mensaje de error para que lo vea
-    document.getElementById('error-msg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // 1. Carrito vacío
+  if (carrito.length === 0) {
+    mostrarAvisoPedido('Selecciona la cantidad de al menos un producto para poder enviar el pedido.');
     return;
   }
 
+  // 2. La cantidad total debe corresponder al rango de unidades del nivel seleccionado
+  const totalUnidades = carrito.reduce((sum, item) => sum + item.cant, 0);
+  const aviso = obtenerAvisoNivel(totalUnidades, nv);
+
+  if (aviso) {
+    mostrarAvisoPedido(aviso);
+    return;
+  }
+
+  // 3. Armamos el mensaje con cada línea del carrito (cada referencia + talla + color por separado)
   let mensaje = `🚨 *NUEVO PEDIDO MAYORISTA*\n\n`;
   mensaje += `*Nivel:* ${nv.name}\n`;
   mensaje += `*Moneda:* ${monedaActual}\n\n`;
   mensaje += `*🛒 PRODUCTOS:*\n`;
-  
+
   let totalCosto = 0;
-  
-  seleccionados.forEach(p => {
-    const costoUnidad = p.precio * (1 - nv.pct);
-    const subtotalLinea = costoUnidad * p.cant;
+
+  carrito.forEach(item => {
+    const prod = PRODUCTOS[item.prodId];
+    const costoUnidad = prod.precio * (1 - nv.pct);
+    const subtotalLinea = costoUnidad * item.cant;
     totalCosto += subtotalLinea;
-    
-    mensaje += `▫️ ${p.cant}x [REF ${p.ref}] ${p.nombre}\n`;
-    mensaje += `   Talla: ${p.talla} | Color: ${p.color} | Und: ${fmt(costoUnidad)}\n`;
+
+    mensaje += `▫️ ${item.cant}x [REF ${prod.ref}] ${prod.nombre}\n`;
+    mensaje += `   Talla: ${item.talla} | Color: ${item.color} | Und: ${fmt(costoUnidad)}\n`;
   });
-  
+
   mensaje += `\n*TOTAL APROX (${monedaActual}):* ${fmt(totalCosto)}\n\n`;
   mensaje += `Espero la cotización final para coordinar pagos y la entrega.\n¡Muchas gracias!`;
 
   // Número proporcionado
   const numeroWhatsApp = "573172335456";
   const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-  
+
   window.open(url, '_blank');
 }
 
