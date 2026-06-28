@@ -1,930 +1,1247 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portal Mayoristas – Pacific Fajas</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafafa;color:#1a202c;padding-bottom:80px;}
-    a{text-decoration:none}
-    .scrollbar-hide{scrollbar-width:none;-ms-overflow-style:none}
-    .scrollbar-hide::-webkit-scrollbar{display:none}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pacific Fajas — Catálogo 2026</title>
+<style>
+  :root{
+    --verde: #1f3d39;
+    --verde-osc: #152926;
+    --dorado: #c79a3c;
+    --dorado-claro: #e8c873;
+    --crema: #f7f3ec;
+    --texto: #2c2c2c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+  }
 
-    /* HEADER */
-    .header{background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
-    .logo-circle{width:36px;height:36px;border-radius:50%;background:#1b4332;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:11px;flex-shrink:0}
-    .logo-name{font-weight:900;font-size:15px;color:#111;line-height:1.1}
-    .logo-sub{font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.12em}
-    .currency-toggle{display:flex;background:#f3f4f6;border-radius:8px;padding:3px;gap:2px}
-    .currency-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:900;border:none;cursor:pointer;transition:all .2s;background:transparent;color:#555}
-    .currency-btn.active{background:#1b4332;color:#fff}
-    .shipping-badge{font-size:11px;font-weight:700;color:#1b4332;display:flex;align-items:center;gap:4px}
+  /* HEADER */
+  header{
+    position: sticky;
+    top:0;
+    z-index: 50;
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
+    color:#fff;
+    padding: 14px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-logo{
+    width:42px;height:42px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, var(--dorado-claro), var(--dorado));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;font-family: 'Georgia', serif;color:var(--verde-osc);
+    font-size:18px;
+  }
+  .brand-title{
+    font-family: 'Georgia', serif;
+    letter-spacing: 2px;
+    font-size: 18px;
+  }
+  .brand-title small{
+    display:block;
+    letter-spacing: 1px;
+    font-size:11px;
+    color: var(--dorado-claro);
+    font-weight: normal;
+  }
+  .header-actions{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .header-actions a, .header-actions button{
+    background: var(--dorado);
+    color: var(--verde-osc);
+    border:none;
+    padding:8px 16px;
+    border-radius: 20px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    transition: transform .15s, background .15s;
+    white-space:nowrap;
+  }
+  .header-actions a:hover, .header-actions button:hover{
+    background: var(--dorado-claro);
+    transform: translateY(-1px);
+  }
+  .page-indicator{
+    color:#fff;
+    font-size:13px;
+    opacity:.85;
+    min-width: 70px;
+    text-align:center;
+  }
 
-    /* HERO */
-    .hero{background:linear-gradient(135deg,#0d2b1f 0%,#1b4332 60%,#2d6a4f 100%);color:#fff;text-align:center;padding:40px 16px 32px}
-    .hero-pre{font-size:11px;text-transform:uppercase;letter-spacing:.3em;opacity:.7;margin-bottom:10px}
-    .hero-title{font-size:clamp(24px,5vw,36px);font-weight:900;line-height:1.15;margin-bottom:8px}
-    .hero-sub{font-size:15px;opacity:.85;max-width:420px;margin:0 auto 28px}
-    .niveles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:580px;margin:0 auto}
-    .nivel-card{border-radius:14px;padding:14px;text-align:left;cursor:pointer;border:none;transition:all .25s;background:rgba(255,255,255,.15);position:relative}
-    .nivel-card.active{background:#fff;box-shadow:0 20px 40px rgba(0,0,0,.25);transform:scale(1.05)}
-    .nivel-pct{font-size:16px;font-weight:900;margin-top:6px;line-height:1.1}
-    .nivel-range{font-size:10px;margin-top:2px;opacity:.8}
-    .nivel-card.active .nivel-pct{color:#1b4332}
-    .nivel-card.active .nivel-range{color:#6b7280;opacity:1}
-    .popular-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#0d2b1f;color:#fff;font-size:9px;font-weight:900;padding:2px 8px;border-radius:20px;white-space:nowrap;text-transform:uppercase}
+  /* HERO / INTRO */
+  .intro{
+    text-align:center;
+    padding: 36px 20px 10px;
+  }
+  .intro h1{
+    font-family: 'Georgia', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    color: var(--verde-osc);
+    margin: 0 0 6px;
+    letter-spacing: 1px;
+  }
+  .intro p{
+    color:#666;
+    margin:0;
+    font-size:14px;
+    letter-spacing:.5px;
+  }
+  .intro .line{
+    width:80px;height:2px;background:var(--dorado);
+    margin: 14px auto 0;
+  }
 
-    /* BANNER NIVEL */
-    .nivel-banner{background:#d8f3dc;border:2px solid #95d5b2;border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px auto 24px;max-width:960px}
-    .nivel-banner-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#0d2b1f}
-    .nivel-banner-name{font-size:17px;font-weight:900;color:#1b4332;margin-top:2px}
-    .nivel-banner-pct{font-size:40px;font-weight:900;color:#1b4332;line-height:1}
-    .nivel-banner-sub{font-size:11px;color:#0d2b1f;margin-top:2px}
+  /* TABLE OF CONTENTS / CHAPTER NAV */
+  .toc{
+    max-width: 1100px;
+    margin: 28px auto 10px;
+    padding: 0 20px;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content:center;
+  }
+  .toc button{
+    background:#fff;
+    border:1px solid #ddd;
+    color: var(--verde-osc);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    cursor:pointer;
+    transition: all .15s;
+    font-weight:600;
+    letter-spacing:.3px;
+  }
+  .toc button:hover{
+    background: var(--verde);
+    color:#fff;
+    border-color: var(--verde);
+  }
 
-    /* CONTROLES */
-    .controls{padding:10px 16px 8px;max-width:960px;margin:0 auto}
-    .search-wrap{position:relative;margin-bottom:8px}
-    .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:16px;pointer-events:none}
-    .search-input{width:100%;padding:12px 14px 12px 40px;border:2px solid #e5e7eb;border-radius:12px;font-size:14px;background:#fff;outline:none;transition:border-color .2s}
-    .search-input:focus{border-color:#1b4332}
-    .cats-scroll{display:flex;flex-wrap:wrap;gap:7px;padding-bottom:4px}
-    .cat-btn{white-space:nowrap;padding:7px 13px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid #e5e7eb;background:#fff;color:#555;cursor:pointer;transition:all .2s}
-    .cat-btn.active{background:#1b4332;color:#fff;border-color:#1b4332}
-    .cat-btn:hover:not(.active){border-color:#1b4332}
+  /* VIEWER (flipbook style) */
+  .viewer-wrap{
+    max-width: 980px;
+    margin: 26px auto 10px;
+    padding: 0 16px;
+  }
+  .viewer{
+    position:relative;
+    background: var(--verde-osc);
+    border-radius: 10px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.28);
+    overflow:hidden;
+    aspect-ratio: 1755/1241;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .viewer img{
+    width:100%;
+    height:100%;
+    object-fit: contain;
+    display:block;
+    opacity:0;
+    animation: fadeIn .35s ease forwards;
+    cursor: zoom-in;
+  }
+  @keyframes fadeIn{ to{opacity:1;} }
 
-    /* PRODUCTOS Y VARIACIONES */
-    .products-area{max-width:960px;margin:0 auto;padding:0 16px 24px}
-    .cat-block{background:#fff;border-radius:16px;border:1px solid #f0f0f0;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden;margin-bottom:12px}
-    .cat-header{width:100%;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:none;border:none;cursor:pointer;transition:background .15s}
-    .cat-header:hover{background:#f0fdf4}
-    .cat-dot{width:10px;height:10px;border-radius:50%;background:#1b4332;flex-shrink:0}
-    .cat-name{font-size:15px;font-weight:900;color:#1a202c;margin-left:10px}
-    .cat-count{background:#f3f4f6;color:#6b7280;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px}
-    .cat-arrow{color:#9ca3af;font-size:18px;transition:transform .2s}
-    .cat-arrow.open{transform:rotate(180deg)}
-    .prod-list{border-top:1px solid #f9fafb}
-    .prod-row{display:flex;flex-direction:column;gap:12px;padding:16px 20px;border-left:4px solid #2d6a4f;border-bottom:1px solid #f9fafb;transition:background .15s}
-    .prod-row:hover{background:rgba(240,253,244,.4)}
-    .prod-row:last-child{border-bottom:none}
-    
-    .prod-top{display:flex;flex-direction:column;gap:10px}
-    @media(min-width:640px){.prod-top{flex-direction:row;align-items:center;justify-content:space-between}}
-    
-    .prod-ref{display:inline-block;background:#f3f4f6;color:#6b7280;font-size:9px;font-weight:900;padding:2px 6px;border-radius:4px;letter-spacing:.08em;margin-bottom:4px}
-    .prod-name{font-size:14px;font-weight:800;color:#1a202c;line-height:1.35}
-    .prod-retail{font-size:11px;color:#9ca3af;margin-top:2px}
-    .prod-retail s{text-decoration:line-through}
-    
-    .prices-wrap{display:flex;align-items:stretch;gap:10px;flex-shrink:0}
-    .price-cost{text-align:right}
-    .price-cost-label{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:2px}
-    .price-cost-val{font-size:20px;font-weight:900;color:#1a202c;line-height:1}
-    .price-gain{background:#d8f3dc;border:1px solid #95d5b2;border-radius:12px;padding:8px 14px;text-align:right;min-width:120px}
-    .price-gain-label{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#1b4332;margin-bottom:2px;display:flex;align-items:center;justify-content:flex-end;gap:3px}
-    .price-gain-val{font-size:17px;font-weight:900;color:#1b4332;line-height:1}
+  .nav-btn{
+    position:absolute;
+    top:0;bottom:0;
+    width:64px;
+    background: linear-gradient(to right, rgba(0,0,0,.35), transparent);
+    border:none;
+    color:#fff;
+    font-size: 28px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:.55;
+    transition: opacity .2s, background .2s;
+    z-index: 5;
+  }
+  .nav-btn:hover{ opacity:1; }
+  .nav-btn.next{ right:0; background: linear-gradient(to left, rgba(0,0,0,.35), transparent); }
+  .nav-btn.prev{ left:0; }
 
-    /* CONTROLES DE VARIANTE (CANTIDAD, TALLA, COLOR) */
-    .prod-options{display:flex; gap:10px; border-top:1px dashed #e5e7eb; padding-top:12px; align-items:flex-end; flex-wrap:wrap;}
-    .opt-box{display:flex; flex-direction:column; gap:5px;}
-    .opt-label{font-size:10px; font-weight:800; color:#dc2626; text-transform:uppercase;}
-    .opt-input{
-      padding:8px 10px; border:2px solid #e5e7eb; border-radius:8px; font-size:13px; font-weight:600; 
-      background:#fff; outline:none; transition:border-color 0.2s; color:#374151; height:38px;
-    }
-    .opt-input:focus{border-color:#1b4332;}
-    .opt-input[type="number"]{width:65px; text-align:center; padding-right:5px;}
-    
-    /* Estilizar selectores */
-    select.opt-input {
-      appearance: none;
-      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231b4332%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      background-size: 10px auto;
-      padding-right: 28px;
-    }
+  .viewer-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 16px;
+    margin: 16px 0 6px;
+    flex-wrap: wrap;
+  }
+  .viewer-controls button{
+    background: var(--verde);
+    color:#fff;
+    border:none;
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    transition: background .15s;
+  }
+  .viewer-controls button:hover{ background: var(--verde-osc); }
+  .slider-wrap{
+    flex:1;
+    max-width: 400px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .slider-wrap input[type=range]{
+    flex:1;
+    accent-color: var(--dorado);
+  }
 
-    .btn-add{
-      background:#1b4332; color:#fff; padding:0 16px; border:none; border-radius:8px; 
-      font-size:12px; font-weight:800; cursor:pointer; transition:all 0.2s; height:38px;
-      display:flex; align-items:center; justify-content:center; white-space:nowrap;
-    }
-    .btn-add:hover{opacity:0.9; transform:scale(0.98);}
+  /* GRID / THUMBNAILS by chapter */
+  .chapter{
+    max-width: 1200px;
+    margin: 50px auto 0;
+    padding: 0 20px;
+  }
+  .chapter-title{
+    font-family:'Georgia',serif;
+    color: var(--verde-osc);
+    font-size: 22px;
+    border-left: 5px solid var(--dorado);
+    padding-left: 12px;
+    margin-bottom: 18px;
+    letter-spacing:.5px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .thumb{
+    cursor:pointer;
+    border-radius: 8px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,.10);
+    transition: transform .18s, box-shadow .18s;
+    position:relative;
+  }
+  .thumb:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  }
+  .thumb img{
+    width:100%;
+    display:block;
+    aspect-ratio: 1755/1241;
+    object-fit: cover;
+    object-position: top;
+  }
+  .thumb .num{
+    position:absolute;
+    bottom:6px;right:6px;
+    background: rgba(0,0,0,.55);
+    color:#fff;
+    font-size:10px;
+    padding:2px 7px;
+    border-radius: 10px;
+  }
 
-    /* EMPTY Y UTILIDADES */
-    .empty{text-align:center;padding:60px 16px;background:#fff;border-radius:16px;border:2px dashed #e5e7eb}
-    .empty p{color:#6b7280;font-size:15px;font-weight:500}
-    .empty button{margin-top:12px;background:none;border:none;color:#1b4332;font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
-    .hidden{display:none !important}
+  /* LIGHTBOX */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background: rgba(10,15,14,.94);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index: 200;
+    flex-direction: column;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{
+    max-width: 92vw;
+    max-height: 82vh;
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.6);
+  }
+  .lightbox-close{
+    position:absolute;
+    top:18px;right:24px;
+    color:#fff;
+    font-size:32px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    line-height:1;
+  }
+  .lightbox-nav{
+    margin-top: 14px;
+    display:flex;
+    gap: 20px;
+    align-items:center;
+  }
+  .lightbox-nav button{
+    background: var(--dorado);
+    border:none;
+    color:var(--verde-osc);
+    font-weight:700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor:pointer;
+  }
+  .lightbox-nav span{ color:#fff; font-size:13px; }
 
-    /* BOTONES GLOBALES Y BARRA INFERIOR */
-    .btn-wa-main{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;color:#fff;font-weight:900;font-size:13px;letter-spacing:.05em;padding:16px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 4px 14px rgba(37,211,102,.35);transition:opacity .2s, transform 0.1s}
-    .btn-wa-main:hover{opacity:.9}
-    .btn-wa-main:active{transform:scale(0.98)}
-    
-    .cart-bar { 
-      position:fixed; bottom:0; left:0; width:100%; background:#fff; border-top:2px solid #1b4332; 
-      box-shadow:0 -10px 25px rgba(0,0,0,0.1); padding:16px 20px; display:flex; align-items:center; 
-      justify-content:space-between; z-index:100; transform:translateY(110%); 
-      transition:transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    }
-    .cart-bar.show { transform:translateY(0); }
-    .cart-bar-info{cursor:pointer}
-    .cart-bar-link{font-size:11px;font-weight:800;color:#1b4332;text-decoration:underline;margin-top:3px}
+  footer{
+    text-align:center;
+    padding: 40px 20px 60px;
+    color:#777;
+    font-size:13px;
+  }
+  footer .fbrand{
+    font-family:'Georgia',serif;
+    color: var(--verde-osc);
+    font-size:16px;
+    letter-spacing:1px;
+    margin-bottom:6px;
+  }
+  footer a{ color: var(--verde); text-decoration:none; font-weight:600; }
 
-    /* MODAL DE REVISIÓN DEL PEDIDO */
-    .cart-modal-overlay{
-      position:fixed; inset:0; background:rgba(13,43,31,.55); z-index:200;
-      display:flex; align-items:flex-end; justify-content:center; padding:0;
-    }
-    @media(min-width:640px){ .cart-modal-overlay{ align-items:center; padding:20px; } }
-    .cart-modal{
-      background:#fff; width:100%; max-width:560px; max-height:88vh;
-      border-radius:20px 20px 0 0; display:flex; flex-direction:column; overflow:hidden;
-      box-shadow:0 -10px 40px rgba(0,0,0,.2);
-    }
-    @media(min-width:640px){ .cart-modal{ border-radius:20px; } }
-    .cart-modal-header{
-      display:flex; align-items:center; justify-content:space-between; padding:18px 20px;
-      border-bottom:1px solid #f0f0f0; flex-shrink:0;
-    }
-    .cart-modal-title{font-weight:900; font-size:16px; color:#1b4332}
-    .cart-modal-close{
-      background:#f3f4f6; border:none; width:30px; height:30px; border-radius:50%;
-      font-size:14px; cursor:pointer; color:#6b7280; flex-shrink:0;
-    }
-    .cart-modal-body{padding:6px 20px; overflow-y:auto; flex:1}
-    .cart-item-row{display:flex; gap:10px; align-items:center; padding:13px 0; border-bottom:1px solid #f9fafb}
-    .cart-item-row:last-child{border-bottom:none}
-    .cart-item-info{flex:1; min-width:0}
-    .cart-item-name{font-size:13px; font-weight:800; color:#1a202c; line-height:1.3}
-    .cart-item-meta{font-size:11px; color:#6b7280; margin-top:3px}
-    .cart-item-qty{
-      width:50px; text-align:center; padding:7px 4px; border:2px solid #e5e7eb; border-radius:8px;
-      font-weight:800; font-size:13px; color:#374151; outline:none; flex-shrink:0;
-    }
-    .cart-item-qty:focus{border-color:#1b4332}
-    .cart-item-subtotal{font-size:13px; font-weight:900; color:#1b4332; min-width:88px; text-align:right; flex-shrink:0}
-    .cart-item-remove{
-      background:#fef2f2; color:#ef4444; border:none; width:32px; height:32px; border-radius:8px;
-      font-size:14px; cursor:pointer; flex-shrink:0; transition:background .15s;
-    }
-    .cart-item-remove:hover{background:#fee2e2}
-    .cart-modal-empty{text-align:center; padding:50px 16px; color:#9ca3af; font-size:14px}
-    .cart-modal-footer{padding:16px 20px; border-top:1px solid #f0f0f0; background:#fafafa; flex-shrink:0}
-    .cart-modal-total-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
-    .cart-modal-nivel-aviso{
-      background:#fef2f2; border-left:3px solid #ef4444; color:#991b1b;
-      font-size:12px; font-weight:700; padding:10px 12px; border-radius:8px;
-      margin-bottom:12px; line-height:1.4;
-    }
-    .cart-modal-total-label{font-size:13px; font-weight:700; color:#374151}
-    .cart-modal-total-val{font-size:20px; font-weight:900; color:#1b4332}
+  /* whatsapp floating */
+  .wa-float{
+    position:fixed;
+    bottom: 22px;
+    right: 22px;
+    background:#25D366;
+    color:#fff;
+    border-radius:50%;
+    width:56px;height:56px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow: 0 6px 18px rgba(0,0,0,.3);
+    z-index: 90;
+    text-decoration:none;
+    font-size: 26px;
+  }
 
-  </style>
+  @media (max-width: 600px){
+    .brand-title{font-size:15px;}
+    .nav-btn{width:44px;font-size:20px;}
+    .viewer-controls{gap:8px;}
+    .slider-wrap{max-width: 100%; width:100%; order:3;}
+  }
+
+  /* ===== PRICE LEVEL PANEL ===== */
+  .price-panel{
+    position: sticky;
+    top: 70px;
+    z-index: 40;
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
+    border-bottom: 2px solid var(--dorado);
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  .price-panel-inner{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 18px;
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content:center;
+  }
+  .price-panel-label{
+    color: var(--dorado-claro);
+    font-size: 12.5px;
+    font-weight:600;
+    letter-spacing:.3px;
+    white-space:nowrap;
+  }
+  .level-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .level-btn{
+    position:relative;
+    background: rgba(255,255,255,.08);
+    border: 1.5px solid rgba(255,255,255,.25);
+    color:#fff;
+    padding: 7px 14px 6px;
+    border-radius: 12px;
+    cursor:pointer;
+    text-align:center;
+    transition: all .18s;
+    font-family: inherit;
+    line-height:1.25;
+  }
+  .level-btn small{
+    display:block;
+    font-size: 9.5px;
+    font-weight:400;
+    opacity:.8;
+    margin-top:1px;
+  }
+  .level-btn:hover{
+    background: rgba(255,255,255,.18);
+    transform: translateY(-1px);
+  }
+  .level-btn.active{
+    background: var(--dorado);
+    border-color: var(--dorado-claro);
+    color: var(--verde-osc);
+    font-weight:700;
+    box-shadow: 0 3px 10px rgba(0,0,0,.25);
+  }
+  .level-btn.active small{ opacity:.85; }
+  .level-btn .pop-tag{
+    position:absolute;
+    top:-9px; right:-6px;
+    background: var(--dorado-claro);
+    color: var(--verde-osc);
+    font-size: 8.5px;
+    font-weight:800;
+    padding: 1px 6px;
+    border-radius: 8px;
+    letter-spacing:.3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  }
+  .currency-toggle{
+    background: transparent;
+    border: 1.5px solid var(--dorado);
+    color: var(--dorado-claro);
+    padding: 7px 14px;
+    border-radius: 12px;
+    cursor:pointer;
+    font-size: 12px;
+    font-weight:600;
+    transition: all .18s;
+    font-family: inherit;
+  }
+  .currency-toggle:hover{
+    background: var(--dorado);
+    color: var(--verde-osc);
+  }
+
+  /* ===== PRODUCT INFO CARD (under main viewer) ===== */
+  .product-info{
+    background:#fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.10);
+    padding: 16px 22px;
+    margin: 14px auto 0;
+    max-width: 760px;
+    text-align:center;
+    border-top: 3px solid var(--dorado);
+  }
+  .pi-name{
+    font-family:'Georgia',serif;
+    color: var(--verde-osc);
+    font-size: 16px;
+    letter-spacing:.3px;
+    margin-bottom: 8px;
+  }
+  .pi-price-row{
+    font-size: 22px;
+    font-weight:700;
+    color: var(--verde-osc);
+    margin-bottom: 4px;
+  }
+  .price-old{
+    font-size: 14px;
+    color:#999;
+    text-decoration: line-through;
+    font-weight:500;
+    margin-right: 8px;
+  }
+  .price-now{
+    color: var(--verde);
+    font-weight:800;
+  }
+  .ganancia{
+    font-size: 12.5px;
+    color: #8a6d1d;
+    background: #fbf2da;
+    display:inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin: 4px 0;
+  }
+  .pi-meta{
+    font-size: 11.5px;
+    color:#888;
+    margin-top: 6px;
+    letter-spacing:.2px;
+  }
+
+  /* price footer inside grid thumbnails */
+  .thumb{
+    display:flex;
+    flex-direction: column;
+  }
+  .thumb img{
+    aspect-ratio: 1755/1300;
+  }
+  .thumb-price{
+    background: var(--crema);
+    padding: 7px 8px 8px;
+    border-top: 1px solid #eee;
+  }
+  .tp-name{
+    font-size: 10.5px;
+    color: var(--verde-osc);
+    font-weight:700;
+    line-height:1.25;
+    margin-bottom:3px;
+    min-height: 24px;
+  }
+  .tp-price{
+    font-size: 12px;
+    font-weight:800;
+    color: var(--verde);
+  }
+  .tp-old{
+    font-size: 10px;
+    color:#aaa;
+    text-decoration:line-through;
+    margin-right: 4px;
+  }
+
+  @media (max-width: 600px){
+    .price-panel{ top: 0; position: relative; }
+    .price-panel-inner{ padding: 10px; }
+    .pi-price-row{ font-size: 19px; }
+  }
+
+  /* ===== SYNC MODE ===== */
+  .sync-panel{
+    display:none;
+    background: #fff3cd;
+    border: 2px dashed #c79a3c;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 14px auto 0;
+    max-width: 760px;
+    text-align:center;
+  }
+  .sync-panel.active{ display:block; }
+  .sync-panel .sync-title{
+    font-weight:700;
+    color:#8a6d1d;
+    font-size:13.5px;
+    margin-bottom:8px;
+  }
+  .sync-panel select{
+    width:100%;
+    max-width: 480px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1.5px solid #c79a3c;
+    font-size: 13.5px;
+    font-family: inherit;
+    background:#fff;
+    color: var(--texto);
+  }
+  .sync-panel .sync-export{
+    margin-top: 12px;
+    background: var(--verde);
+    color:#fff;
+    border:none;
+    padding: 8px 16px;
+    border-radius: 18px;
+    cursor:pointer;
+    font-size: 12.5px;
+    font-weight:600;
+  }
+  .sync-panel .sync-export:hover{ background: var(--verde-osc); }
+  .sync-export-box{
+    display:none;
+    max-width: 760px;
+    margin: 12px auto 0;
+  }
+  .sync-export-box.active{ display:block; }
+  .sync-export-box textarea{
+    width:100%;
+    height: 140px;
+    font-family: monospace;
+    font-size: 11.5px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+  }
+  .sync-export-box .copy-btn{
+    margin-top:6px;
+    background: var(--dorado);
+    color: var(--verde-osc);
+    border:none;
+    padding: 7px 16px;
+    border-radius: 16px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:12.5px;
+  }
+  .sync-panel .sync-status{
+    font-size: 11.5px;
+    color:#666;
+    margin-top:6px;
+  }
+</style>
 </head>
 <body>
 
-<header class="header">
-  <div style="display:flex;align-items:center;gap:10px">
-    <div class="logo-circle">PF</div>
-    <div>
-      <div class="logo-name">PACIFIC FAJAS</div>
-      <div class="logo-sub">Portal Mayoristas</div>
-    </div>
+<header>
+  <div class="brand">
+    <div class="brand-logo">PF</div>
+    <div class="brand-title">PACIFIC FAJAS<small>Catálogo Edición Mundialista 2026</small></div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="currency-toggle">
-      <button class="currency-btn active" id="btn-cop" onclick="setCurrency('COP')">🇨🇴 COP</button>
-      <button class="currency-btn" id="btn-usd" onclick="setCurrency('USD')">🇺🇸 USD</button>
-    </div>
-    <div class="shipping-badge" style="display:none" id="ship-badge">🚚 Envíos a todo Colombia</div>
+  <div class="header-actions">
+    <span class="page-indicator" id="pageIndicator">1 / 82</span>
+    <a href="https://wa.me/573172335456" target="_blank">WhatsApp</a>
+    <a href="https://www.pacificfajas.com" target="_blank">Web</a>
+
   </div>
 </header>
 
-<div class="hero">
-  <p class="hero-pre">Programa exclusivo para revendedoras</p>
-  <h1 class="hero-title">Vende Pacific Fajas<br>y gana desde casa</h1>
-  <p class="hero-sub">Descuentos reales sobre precio de detal. Calcula tu ganancia prenda por prenda en tiempo real.</p>
-  
-  <!-- AQUÍ ESTÁ EL TEXTO MODIFICADO ARRIBA CON FORMATO IDENTICO A 20% OFF -->
-  <p style="font-size:16px; font-weight:900; margin-bottom:16px; color:#fff;">Toca tu nivel de compra para ver los precios</p>
-  
-  <div class="niveles-grid">
-    <button class="nivel-card" id="card-starter" onclick="setNivel('starter')">
-      <div style="font-size:18px">📦</div>
-      <div class="nivel-pct">20% OFF</div>
-      <div class="nivel-range">6–24 und</div>
-      <div style="font-size:10px;color:#6b7280;margin-top:2px">Ideal para empezar</div>
-    </button>
-    <button class="nivel-card active" id="card-pro" onclick="setNivel('pro')" style="position:relative">
-      <div class="popular-badge">⭐ Popular</div>
-      <div style="font-size:18px">⭐</div>
-      <div class="nivel-pct" style="color:#1b4332">25% OFF</div>
-      <div class="nivel-range" style="color:#6b7280;opacity:1">25–99 und</div>
-      <div style="font-size:10px;opacity:.7;margin-top:2px">El más elegido</div>
-    </button>
-    <button class="nivel-card" id="card-elite" onclick="setNivel('elite')">
-      <div style="font-size:18px">👑</div>
-      <div class="nivel-pct">28% OFF</div>
-      <div class="nivel-range">100+ und</div>
-      <div style="font-size:10px;opacity:.7;margin-top:2px">Máximo margen</div>
-    </button>
-  </div>
-</div>
-
-<!-- BANNER NIVEL ACTIVO -->
-<div style="padding:0 16px">
-  <div class="nivel-banner">
-    <div>
-      <div class="nivel-banner-label">Calculando con</div>
-      <div class="nivel-banner-name" id="banner-name">Revendedora Pro · 25 – 99 unidades</div>
+<div class="price-panel" id="pricePanel">
+  <div class="price-panel-inner">
+    <span class="price-panel-label">💰 ELIGE TU NIVEL PARA VER PRECIOS:</span>
+    <div class="level-buttons" id="levelButtons">
+      <button class="level-btn active" data-level="detal" onclick="setLevel('detal')">Detal<small>Precio público</small></button>
+      <button class="level-btn" data-level="20" onclick="setLevel('20')">20% OFF<small>6–24 und</small></button>
+      <button class="level-btn" data-level="25" onclick="setLevel('25')"><span class="pop-tag">★ POPULAR</span>25% OFF<small>25–99 und</small></button>
+      <button class="level-btn" data-level="28" onclick="setLevel('28')">28% OFF<small>100+ und</small></button>
     </div>
-    <div>
-      <div class="nivel-banner-pct" id="banner-pct">25% OFF</div>
-      <div class="nivel-banner-sub">sobre precio al público</div>
+    <button class="currency-toggle" id="currencyToggle" onclick="toggleCurrency()">Ver en USD</button>
+  </div>
+</div>
+
+<section class="intro">
+  <h1>Hechas para mujeres reales como tú</h1>
+  <p>FÁBRICA EN CALI, COLOMBIA · ENVÍOS NACIONALES E INTERNACIONALES · @pacificfajas</p>
+  <div class="line"></div>
+</section>
+
+<div class="toc" id="toc">
+  <!-- se llena con JS -->
+</div>
+
+<div class="viewer-wrap">
+  <div class="viewer" id="viewer">
+    <button class="nav-btn prev" onclick="goPage(-1)">&#10094;</button>
+    <img id="pageImg" src="1.jpg" alt="Página 1" onclick="openLightbox(currentPage)">
+    <button class="nav-btn next" onclick="goPage(1)">&#10095;</button>
+  </div>
+  <div class="viewer-controls">
+    <button onclick="goPage(-1)">‹ Anterior</button>
+    <div class="slider-wrap">
+      <input type="range" id="slider" min="1" max="82" value="1" oninput="setPage(this.value)">
     </div>
+    <button onclick="goPage(1)">Siguiente ›</button>
+  </div>
+  <div class="product-info" id="productInfo"></div>
+  <div class="sync-panel" id="syncPanel">
+    <div class="sync-title">🔧 MODO SINCRONIZACIÓN — Página <span id="syncPageNum">1</span>: ¿qué producto muestra esta foto?</div>
+    <select id="syncSelect" onchange="onSyncSelect(this.value)"></select>
+    <div class="sync-status" id="syncStatus"></div>
+    <button class="sync-export" onclick="exportPageMap()">📋 Exportar mapeo final</button>
+  </div>
+  <div class="sync-export-box" id="syncExportBox">
+    <textarea id="syncExportText" readonly></textarea>
+    <button class="copy-btn" onclick="copyExport()">Copiar texto</button>
+    <div class="sync-status">Copia este bloque y pégalo en el código reemplazando la línea <code>const PAGE_MAP = {...}</code>, o envíamelo en el chat y yo lo aplico al archivo por ti.</div>
   </div>
 </div>
 
-<div style="max-width:960px;margin:0 auto 24px;padding:0 16px">
-  <div style="display:grid;grid-template-columns:1fr;gap:16px">
+<div id="gridSection" style="display:none;"></div>
 
-    <!-- PASOS PARA COMPRAR ACTUALIZADOS -->
-    <div style="background:#fff;border-radius:20px;border:1px solid #bbf7d0;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.02)">
-      <div style="background:#1b4332;padding:16px 20px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">🛒</span>
-        <span style="color:#fff;font-weight:900;font-size:16px">Pasos para Comprar</span>
-      </div>
-      <div style="padding:20px">
-        <ol style="list-style:none;display:flex;flex-direction:column;gap:14px">
-          <li style="display:flex;gap:12px;align-items:flex-start">
-            <span style="background:#1b4332;color:#fff;font-weight:900;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</span>
-            <span style="font-size:14px;color:#374151;line-height:1.5">Arriba, <strong>selecciona tu nivel de compra</strong> para ver los precios correspondientes (esto según la cantidad que desees pedir).</span>
-          </li>
-          <li style="display:flex;gap:12px;align-items:flex-start">
-            <span style="background:#1b4332;color:#fff;font-weight:900;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</span>
-            <span style="font-size:14px;color:#374151;line-height:1.5">Selecciona <strong>tallas, colores y cantidades</strong> debajo de cada referencia. <em>(Las fotos de las referencias están en el catálogo PDF que te enviamos).</em></span>
-          </li>
-          <li style="display:flex;gap:12px;align-items:flex-start">
-            <span style="background:#1b4332;color:#fff;font-weight:900;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</span>
-            <span style="font-size:14px;color:#374151;line-height:1.5">Da clic en <strong>REALIZAR PEDIDO</strong> (este pedido nos llega directo a WhatsApp).</span>
-          </li>
-          <li style="display:flex;gap:12px;align-items:flex-start">
-            <span style="background:#1b4332;color:#fff;font-weight:900;font-size:12px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</span>
-            <span style="font-size:14px;color:#374151;line-height:1.5">Recibo el pedido y te envío la <strong>cotización final</strong> para coordinar y gestionar pagos y entrega de tu pedido.</span>
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- CONDICIONES DE COMPRA -->
-    <div style="background:#fff;border-radius:20px;border:1px solid #bbf7d0;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.02)">
-      <div style="background:#1b4332;padding:16px 20px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">📋</span>
-        <span style="color:#fff;font-weight:900;font-size:16px">Condiciones de Compra</span>
-      </div>
-      <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
-        <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #f0fdf4">
-          <span style="font-size:18px;flex-shrink:0">📦</span>
-          <div>
-            <p style="font-size:12px;font-weight:900;color:#1b4332;margin-bottom:2px">MÍNIMO DE COMPRA</p>
-            <p style="font-size:13px;color:#374151;line-height:1.5">6 unidades en cualquier referencia.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #f0fdf4">
-          <span style="font-size:18px;flex-shrink:0">💳</span>
-          <div>
-            <p style="font-size:12px;font-weight:900;color:#1b4332;margin-bottom:2px">FORMAS DE PAGO</p>
-            <p style="font-size:13px;color:#374151;line-height:1.6">Nequi, Bancolombia, Tarjeta débito o crédito y PSE.<br>
-            <strong>Cali:</strong> mínimo 50% de anticipo, el resto al recibir (se coordina por WhatsApp).<br>
-            <strong>Nacional e internacional:</strong> pago total del pedido.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #f0fdf4">
-          <span style="font-size:18px;flex-shrink:0">🚚</span>
-          <div>
-            <p style="font-size:12px;font-weight:900;color:#1b4332;margin-bottom:2px">ENVÍOS NACIONALES</p>
-            <p style="font-size:13px;color:#374151;line-height:1.5">Desde Cali a todo Colombia. Tiempo estimado: <strong>1 a 5 días hábiles</strong>.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #f0fdf4">
-          <span style="font-size:18px;flex-shrink:0">✈️</span>
-          <div>
-            <p style="font-size:12px;font-weight:900;color:#1b4332;margin-bottom:2px">ENVÍOS INTERNACIONALES</p>
-            <p style="font-size:13px;color:#374151;line-height:1.6"><strong>Express:</strong> 1 a 7 días. <strong>Standard:</strong> 1 a 30 días.</p>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #f0fdf4">
-          <span style="font-size:18px;flex-shrink:0">🛡️</span>
-          <div>
-            <p style="font-size:12px;font-weight:900;color:#1b4332;margin-bottom:2px">GARANTÍA</p>
-            <p style="font-size:13px;color:#374151;line-height:1.5">Aplica únicamente para <strong>costuras y fábrica</strong>. Encajes, cierres y broches <strong>no aplican garantía</strong>.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="product-info" id="lightboxInfo" style="margin-top:14px;"></div>
+  <div class="lightbox-nav">
+    <button onclick="lbGo(-1)">‹</button>
+    <span id="lbIndicator">1 / 82</span>
+    <button onclick="lbGo(1)">›</button>
   </div>
 </div>
 
-<!-- TÍTULO PRINCIPAL DEL CATÁLOGO -->
-<div style="text-align:center; margin:40px 0 20px; padding:0 16px;">
-  <h2 style="font-size:26px; font-weight:900; color:#1b4332; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">
-    Haz Tu Pedido
-  </h2>
-</div>
+<footer>
+  <div class="fbrand">PACIFIC FAJAS</div>
+  Cali, Colombia · Fábrica de fajas moldeadoras, postquirúrgicas y deportivas<br>
+  Instagram <a href="https://instagram.com/pacificfajas" target="_blank">@pacificfajas</a> ·
+  WhatsApp <a href="https://wa.me/573172335456" target="_blank">317 233 5456</a> ·
+  <a href="https://www.pacificfajas.com" target="_blank">www.pacificfajas.com</a>
+</footer>
 
-<!-- CONTROLES -->
-<div class="controls">
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input class="search-input" id="search-input" type="text" placeholder="Busca por nombre o referencia..." oninput="filtrar()">
-  </div>
-  <div class="cats-scroll" id="cats-wrap"></div>
-</div>
-
-<!-- PRODUCTOS -->
-<div class="products-area" id="products-area"></div>
-
-<div style="max-width:960px; margin:0 auto; padding:0 16px 40px;">
-  <div id="error-msg" class="hidden" style="background:#fef2f2; border-left:4px solid #ef4444; padding:16px; margin-bottom:20px; border-radius:8px; display:flex; gap:12px; align-items:center;">
-    <span style="color:#ef4444;font-size:24px;">⚠️</span>
-    <span id="error-msg-text" style="color:#991b1b;font-size:14px;font-weight:700;">Selecciona la cantidad de al menos un producto para poder enviar el pedido.</span>
-  </div>
-
-  <!-- NOTA IMPORTANTE ANTES DE REALIZAR PEDIDO -->
-  <div style="background:#fff; border:1px solid #fde68a; border-radius:12px; padding:14px 16px; margin-bottom:16px; display:flex; gap:10px; align-items:flex-start;">
-    <span style="font-size:18px; flex-shrink:0;">⚠️</span>
-    <p style="font-size:13px; color:#374151; line-height:1.5;"><strong style="color:#b45309;">Importante:</strong> Este botón es únicamente para quienes ya revisaron los precios y están listas para realizar su pedido mayorista. Si aún tienes dudas sobre tallas, referencias o disponibilidad, puedes consultarnos también por WhatsApp antes de decidirte.</p>
-  </div>
-
-  <button onclick="enviarPedidoMayorista()" class="btn-wa-main" style="width:100%; font-size:15px; padding:18px;">
-    📦 REALIZAR PEDIDO POR WHATSAPP
-  </button>
-
-  <!-- BOTÓN PARA QUIENES AÚN TIENEN DUDAS -->
-  <a href="https://wa.me/573172335456?text=Quiero%20realizar%20mi%20pedido%20mayorista%20pero%20tengo%20una%20duda" target="_blank" style="display:block; text-align:center; margin-top:12px; background:#eafff1; color:#1b4332; font-weight:800; font-size:13px; padding:16px; border-radius:12px; border:2px solid #1b4332;">
-    💬 Aún tengo dudas, quiero consultar antes
-  </a>
-
-  <!-- PIE DE PÁGINA -->
-  <p style="text-align:center; font-size:12px; color:#9ca3af; margin-top:18px;">
-    📍 Pacific Fajas · Cali, Valle del Cauca · Envíos a toda Colombia
-  </p>
-</div>
-
-<!-- BARRA INFERIOR FLOTANTE DEL CARRITO -->
-<div id="cart-bar" class="cart-bar">
-  <div class="cart-bar-info" onclick="abrirCarritoModal()">
-    <div id="cart-count" style="font-weight:900; font-size:16px; color:#1b4332;">0 prendas</div>
-    <div id="cart-total" style="font-size:12px; color:#6b7280; font-weight:700;">$0 COP</div>
-    <div class="cart-bar-link">👁️ Ver detalles del pedido</div>
-  </div>
-  <button onclick="enviarPedidoMayorista()" class="btn-wa-main" style="width:auto; padding:12px 24px; font-size:14px;">
-    Realizar Pedido 💬
-  </button>
-</div>
-
-<!-- MODAL DE REVISIÓN DEL PEDIDO (VER / MODIFICAR / ELIMINAR) -->
-<div id="cart-modal-overlay" class="cart-modal-overlay hidden" onclick="cerrarCarritoModal()">
-  <div class="cart-modal" onclick="event.stopPropagation()">
-    <div class="cart-modal-header">
-      <span class="cart-modal-title">🛒 Detalles de tu Pedido</span>
-      <button class="cart-modal-close" onclick="cerrarCarritoModal()">✕</button>
-    </div>
-    <div id="cart-modal-body" class="cart-modal-body"></div>
-    <div class="cart-modal-footer">
-      <div class="cart-modal-total-row">
-        <span class="cart-modal-total-label">Total del pedido</span>
-        <span id="cart-modal-total" class="cart-modal-total-val">$0 COP</span>
-      </div>
-      <div id="cart-modal-nivel-aviso" class="cart-modal-nivel-aviso hidden"></div>
-      <button onclick="enviarPedidoMayorista()" class="btn-wa-main" style="width:100%; font-size:14px; padding:16px;">
-        📦 Confirmar y Enviar Pedido
-      </button>
-    </div>
-  </div>
-</div>
+<a class="wa-float" href="https://wa.me/573172335456" target="_blank" title="Escríbenos">&#128172;</a>
 
 <script>
-const TASA_USD = 3000;
-const NIVELES = {
-  starter: { pct: 0.20, label: '20% OFF', name: 'Emprendedora · 6 – 24 unidades', min: 6, max: 24 },
-  pro:     { pct: 0.25, label: '25% OFF', name: 'Revendedora Pro · 25 – 99 unidades', min: 25, max: 99 },
-  elite:   { pct: 0.28, label: '28% OFF', name: 'Distribuidora Elite · 100+ unidades', min: 100, max: Infinity },
-};
+  const TOTAL_PAGES = 82;
+  let currentPage = 1;
 
-// DATOS ORIGINALES TOTALMENTE ADAPTADOS AL PDF PARA TALLAS Y COLORES ESPECÍFICOS POR REFERENCIA
-const PRODUCTOS_DATA = [
-  // ── LÍNEA RELOJ DE ARENA ──
-  { ref:"PACIFIC PERLA", nombre:"Faja Reloj de Arena con Brassier Media Pierna", precio:237000, cat:"Línea Reloj de Arena", tallas:['S','M','L','XL','2XL','S-M','M-L','L-XL','XL-2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC PERLA NEGRA", nombre:"Faja Reloj de Arena Larga con Brassier", precio:247000, cat:"Línea Reloj de Arena", tallas:['S','M','L','XL','2XL','S-M','M-L','L-XL','XL-2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"ESMERALDA", nombre:"Faja Reloj de Arena Media Pierna", precio:207000, cat:"Línea Reloj de Arena", tallas:['S','M','L','XL','2XL','S-M','M-L','L-XL','XL-2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC CORAL", nombre:"Faja Reloj de Arena 2 en 1 Media Pierna", precio:217000, cat:"Línea Reloj de Arena", tallas:['S','M','L','XL','2XL','S-M','M-L','L-XL','XL-2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC MARFIL", nombre:"Faja Reloj de Arena Larga", precio:217000, cat:"Línea Reloj de Arena", tallas:['S','M','L','XL','2XL','S-M','M-L','L-XL','XL-2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
+  // 👉 AJUSTA AQUÍ si tu carpeta o extensión es diferente
+  const IMG_FOLDER = "";   // las imágenes están sueltas, junto al HTML (sin subcarpeta)
+  const IMG_EXT = "jpg";         // extensión de tus imágenes: jpg, jpeg o png
 
-  // ── FAJAS LARGAS (USO DIARIO) ──
-  { ref:"PACIFIC NACÁR", nombre:"Faja Moldeadora 3/4 Cierre", precio:197000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL','3XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC NACÁR", nombre:"Faja Moldeadora 3/4 Abrochadura", precio:187000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC ZAFIRO", nombre:"Faja Moldeadora Larga con Brassier Cierre", precio:207000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC ZAFIRO", nombre:"Faja Moldeadora Larga con Brassier Abrochadura", precio:197000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC JADE", nombre:"Faja Moldeadora Larga Tira Ancha Cierre", precio:197000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC JADE", nombre:"Faja Moldeadora Larga Tira Ancha Abrochadura", precio:187000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC CRISTAL", nombre:"Faja Moldeadora Larga Tira Removible Cierre", precio:197000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC CRISTAL", nombre:"Faja Moldeadora Larga Tira Removible Abrochadura", precio:187000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC DIAMANTE", nombre:"Faja Moldeadora Larga con Mangas Abrochadura", precio:197000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC DIAMANTE", nombre:"Faja Moldeadora Larga con Mangas Cierre", precio:207000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC MAREA", nombre:"Faja Moldeadora Larga con Mangas y Brassier Abrochadura", precio:247000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC MAREA", nombre:"Faja Moldeadora Larga con Mangas y Brassier Cierre", precio:257000, cat:"Fajas Largas", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
+  // ====================================================================
+  // BASE DE DATOS DE PRECIOS (origen: lista de precios mayoristas Pacific Fajas)
+  // Cada producto está asociado a una página del catálogo (p).
+  // 👉 AJUSTA AQUÍ el campo "p" de cada producto si el orden real de tus
+  //    fotos no coincide exactamente con el listado de precios.
+  // d = precio DETAL (público) en COP. Los niveles 20/25/28% se calculan
+  //    automáticamente aplicando el descuento sobre el precio detal,
+  //    igual que en la lista de precios oficial.
+  // ====================================================================
+  const LEVEL_FACTOR = { detal: 1, "20": 0.80, "25": 0.75, "28": 0.72 };
+  const USD_RATE = 3000; // COP por USD aprox., según la lista de precios
 
-  // ── FAJAS MEDIA PIERNA (USO DIARIO) ──
-  { ref:"PACIFIC BRISA", nombre:"Faja Moldeadora Media Pierna Tira Ancha Cierre", precio:187000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC BRISA", nombre:"Faja Moldeadora Media Pierna Tira Ancha Abrochadura", precio:177000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC BAHÍA", nombre:"Faja Moldeadora Strapless Cierre", precio:167000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL','3XL'], colores:['Beige', 'Cocoa', 'Negro', 'Blanco'] },
-  { ref:"PACIFIC BAHÍA", nombre:"Faja Moldeadora Strapless Abrochadura", precio:157000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL','3XL'], colores:['Beige', 'Cocoa', 'Blanco', 'Negro'] },
-  { ref:"PACIFIC OLEAJE", nombre:"Faja Moldeadora Tira Removible Cierre", precio:187000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC OLEAJE", nombre:"Faja Moldeadora Tira Removible Abrochadura", precio:177000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC AURORA", nombre:"Faja Moldeadora Corta con Brassier Cierre", precio:197000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC AURORA", nombre:"Faja Moldeadora Corta con Brassier Abrochadura", precio:187000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC MAREJADA", nombre:"Faja Moldeadora Corta con Brassier y Mangas Abrochadura", precio:247000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC OCÉANO", nombre:"Faja Moldeadora Corta con Brassier Cierre", precio:197000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-  { ref:"PACIFIC OCÉANO", nombre:"Faja Moldeadora Corta con Brassier Abrochadura", precio:187000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC AMANECER", nombre:"Faja Mold. Corta con Brassier y Manga Corta Cierre", precio:227000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC AMANECER", nombre:"Faja Mold. Corta con Brassier y Manga Corta Abrochadura", precio:217000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC NUQUÍ", nombre:"Faja Moldeadora Body Chachetera", precio:157000, cat:"Fajas Media Pierna", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
+  const products = [
+    {id:1,  n:"PACIFIC PERLA · Faja Reloj de Arena con brassier media pierna", d:237000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:2,  n:"PACIFIC PERLA NEGRA · Faja Reloj de Arena larga con brassier", d:247000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:3,  n:"ESMERALDA · Faja Reloj de Arena media pierna", d:207000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:4,  n:"PACIFIC CORAL · Faja Reloj de Arena 2 en 1 media pierna", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:5,  n:"PACIFIC MARFIL · Faja Reloj de Arena larga", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:6,  n:"PACIFIC NACÁR · Faja moldeadora 3/4 — Cierre", d:197000, s:"S–3XL", c:"Beige, Cocoa, Negro"},
+    {id:7,  n:"PACIFIC NACÁR · Faja moldeadora 3/4 — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:8,  n:"PACIFIC ZAFIRO · Faja moldeadora larga con brassier — Cierre", d:207000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:9,  n:"PACIFIC ZAFIRO · Faja moldeadora larga con brassier — Abrochadura", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:10, n:"PACIFIC JADE · Faja moldeadora larga tira ancha — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:11, n:"PACIFIC JADE · Faja moldeadora larga tira ancha — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:12, n:"PACIFIC CRISTAL · Faja moldeadora larga tira removible — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:13, n:"PACIFIC CRISTAL · Faja moldeadora larga tira removible — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:14, n:"PACIFIC DIAMANTE · Faja moldeadora larga con mangas — Abrochadura", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:15, n:"PACIFIC DIAMANTE · Faja moldeadora larga con mangas — Cierre", d:207000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:16, n:"PACIFIC MAREA · Faja con mangas y brassier — Abrochadura", d:247000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:17, n:"PACIFIC MAREA · Faja con mangas y brassier — Cierre", d:257000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:18, n:"PACIFIC BRISA · Faja media pierna tira ancha — Cierre", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:19, n:"PACIFIC BRISA · Faja media pierna tira ancha — Abrochadura", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:20, n:"PACIFIC BAHÍA · Faja moldeadora strapless — Cierre", d:167000, s:"S–3XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:21, n:"PACIFIC BAHÍA · Faja moldeadora strapless — Abrochadura", d:157000, s:"S–3XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:22, n:"PACIFIC OLEAJE · Faja tira removible — Cierre", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:23, n:"PACIFIC OLEAJE · Faja tira removible — Abrochadura", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:24, n:"PACIFIC AURORA · Faja corta con brassier — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:25, n:"PACIFIC AURORA · Faja corta con brassier — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:26, n:"PACIFIC MAREJADA · Faja corta con brassier y mangas — Abrochadura", d:247000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:27, n:"PACIFIC OCÉANO · Faja corta con brassier — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:28, n:"PACIFIC OCÉANO · Faja corta con brassier — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:29, n:"PACIFIC AMANECER · Faja con brassier y manga corta — Cierre", d:227000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:30, n:"PACIFIC AMANECER · Faja con brassier y manga corta — Abrochadura", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:31, n:"PACIFIC NUQUÍ · Faja body cachetera — Cierre/Abrochadura", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:32, n:"PACIFIC EMPERATRIZ · Panty faja control abdomen", d:137000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:33, n:"PACIFIC ESTRELLA · Faja cachetera con brassier", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:34, n:"PACIFIC TESORO · Panty faja postquirúrgica", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:35, n:"PACIFIC DELFINA · Faja brasilera estraple", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:36, n:"PACIFIC JAGUAR · Cinturilla moldeadora — Cierre", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:37, n:"PACIFIC JAGUAR · Cinturilla moldeadora — Abrochadura", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:38, n:"PACIFIC COLIBRÍ · Chaleco Reloj de Arena con brassier", d:167000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:39, n:"PACIFIC MARIPOSA · Chaleco 2 en 1 con brassier", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:40, n:"PACIFIC PANTERA · Cinturilla látex", d:87000,  s:"S–2XL", c:"Negro"},
+    {id:41, n:"PACIFIC TUCÁN · Chaleco moldeador con mangas", d:167000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:42, n:"PACIFIC GARZA · Chaleco tira removible — Cierre", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:43, n:"PACIFIC GARZA · Chaleco tira removible — Abrochadura", d:147000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:44, n:"PACIFIC QUETZAL · Cinturilla 2 en 1 Reloj de Arena", d:167000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:45, n:"PACIFIC DANTA · Chaleco corrector de postura — Cierre", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:46, n:"PACIFIC DANTA · Chaleco corrector de postura — Abrochadura", d:147000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:47, n:"PACIFIC TIGRESA · Chaleco tira ancha", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:48, n:"PACIFIC TIGRESA · Chaleco tira ancha (variante)", d:147000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:49, n:"PACIFIC PUMA · Chaleco 2 en 1 Reloj de Arena", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:50, n:"PACIFIC ORQUÍDEA · Short levantacola cachetero", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:51, n:"PACIFIC AZUCENA · Short levantacola control abdomen", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:52, n:"PACIFIC MAGNOLIA · Short levantacola con abrochadura", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:53, n:"PACIFIC CAMELIA · Short levantacola", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:54, n:"PACIFIC ROSA · Short levantacola pescador", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
+    {id:55, n:"PACIFIC MORPHO · Faja postquirúrgica larga con brassier", d:207000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:56, n:"PACIFIC LIBÉLULA · Faja de descanso", d:117000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:57, n:"PACIFIC CEIBA · Faja postquirúrgica corta con brassier", d:197000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:58, n:"PACIFIC YARUMO · Faja postquirúrgica larga con brassier y mangas", d:247000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:59, n:"PACIFIC TIGRILLO · Faja postquirúrgica larga", d:197000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:60, n:"PACIFIC GARCETA · Faja postquirúrgica corta tira ancha", d:187000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:61, n:"PACIFIC HALCÓN · Faja postquirúrgica corta tira removible", d:187000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:62, n:"PACIFIC TÁNGARA · Faja postquirúrgica larga — cierre atrás", d:197000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:63, n:"PACIFIC LUCIÉRNAGA · Faja postquirúrgica larga con mangas", d:207000, s:"S–2XL", c:"Beige, Cocoa"},
+    {id:64, n:"REF 0110 · Brassier postquirúrgico tira removible", d:77000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:65, n:"REF 0106 · Brassier postquirúrgico", d:77000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:66, n:"REF 01061 · Brassier corrector de postura", d:87000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:67, n:"REF 0107 · Brassier postquirúrgico tira removible", d:77000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:68, n:"REF 0108 · Brassier postquirúrgico con mangas", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:69, n:"REF 2018 · Cinturilla deportiva hombre", d:97000,  s:"S–2XL", c:"Negro"},
+    {id:70, n:"REF 2016 · Cinturilla men — Cierre", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:71, n:"REF 2017 · Cinturilla men — Abrochadura", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:72, n:"PACIFIC OCELOTE · Chaleco hombre — Cierre", d:137000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:73, n:"PACIFIC OCELOTE · Chaleco hombre — Abrochadura", d:127000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:74, n:"REF 2017 · Faja postquirúrgica men", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:75, n:"REF 2019 · Fajón abdominal", d:87000,  s:"S–2XL", c:"Negro"},
+    {id:76, n:"REF 1252 · Chaleco light men", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:77, n:"REF 2011 · Boxer levantacola", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
+    {id:78, n:"REF 1255 · Chaleco en neopreno men", d:77000,  s:"S–2XL", c:"Negro"},
+    {id:79, n:"REF 1257 · Chaleco dama en neopreno", d:77000,  s:"S–2XL", c:"Negro"},
+    {id:80, n:"REF 0726 · Cinturilla deportiva mujer", d:97000,  s:"S–2XL", c:"Negro"},
+    {id:81, n:"REF 1253 · Short deportivo neopreno", d:77000,  s:"S–2XL", c:"Negro"},
+    {id:82, n:"REF 1254 · Leggins con faja en neopreno", d:97000,  s:"S–2XL", c:"Negro"},
+  ];
 
-  // ── FAJAS PANTY ──
-  { ref:"PANTY FAJA", nombre:"Panty Faja Control Abdomen", precio:137000, cat:"Fajas Panty", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC ESTRELLA", nombre:"Faja Mold. Cachetera con Brassier", precio:177000, cat:"Fajas Panty", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC TESORO", nombre:"Panty Faja Postquirúrgico", precio:97000, cat:"Fajas Panty", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC DELFINA", nombre:"Faja Moldeadora Brasilera Estraple", precio:107000, cat:"Fajas Panty", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
+  let currentLevel = 'detal';
+  let currentCurrency = 'COP';
 
-  // ── CINTURILLAS Y CHALECOS ──
-  { ref:"PACIFIC JAGUAR", nombre:"Cinturilla Moldeadora Cierre", precio:107000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC JAGUAR", nombre:"Cinturilla Moldeadora Abrochadura", precio:97000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC COLIBRÍ", nombre:"Chaleco Reloj de Arena con Brassier", precio:167000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC MARIPOSA", nombre:"Chaleco Reloj de Arena 2 en 1 con Brassier", precio:187000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-  { ref:"PACIFIC PANTERA", nombre:"Cinturilla Látex", precio:87000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC TUCÁN", nombre:"Chaleco Moldeador con Mangas", precio:167000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC GARZA", nombre:"Chaleco Moldeador Tira Removible Cierre", precio:157000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC GARZA", nombre:"Chaleco Moldeador Tira Removible Abrochadura", precio:147000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC QUETZAL", nombre:"Cinturilla 2 en 1 Reloj de Arena", precio:167000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC DANTA", nombre:"Chaleco Dama Corrector de Postura Cierre", precio:157000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC DANTA", nombre:"Chaleco Dama Corrector de Postura Abrochadura", precio:147000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC TIGRESA", nombre:"Chaleco Moldeador Tira Ancha Cierre", precio:157000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC TIGRESA", nombre:"Chaleco Moldeador Tira Ancha Abrochadura", precio:147000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC PUMA", nombre:"Chaleco 2 en 1 Reloj de Arena", precio:177000, cat:"Cinturillas y Chalecos", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
+  // ====================================================================
+  // MAPEO PÁGINA → PRODUCTO(S)
+  // Construido cruzando el índice real de las 82 páginas del catálogo
+  // con la lista de precios mayoristas. Cuando una página muestra el
+  // mismo diseño en dos versiones (Cierre / Abrochadura), se listan
+  // ambos ids en un arreglo y se muestran los dos precios juntos.
+  // Valor null = la página no es una foto de producto (portada,
+  // separador de línea, guía de tallas, contraportada, etc.)
+  // ====================================================================
+  const PAGE_MAP = {
+    1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
+    7: null,                 // portada línea Reloj de Arena
+    8: 1,                    // Pacific Perla
+    9: 2,                    // Pacific Perla Negra
+    10: 3,                   // Pacific Esmeralda
+    11: 5,                   // Pacific Marfil
+    12: 4,                   // Pacific Coral
+    13: null,                // portada línea Moldeadora Uso Diario
+    14: [6, 7],              // Pacific Nácar (Cierre / Abrochadura)
+    15: [8, 9],              // Pacific Zafiro
+    16: [10, 11],            // Pacific Jade
+    17: [12, 13],            // Pacific Cristal
+    18: [14, 15],            // Pacific Diamante (pdf: abrochadura, cierre)
+    19: [16, 17],            // Pacific Marea (pdf: abrochadura, cierre)
+    20: [18, 19],            // Pacific Brisa
+    21: [20, 21],            // Pacific Bahía
+    22: [22, 23],            // Pacific Oleaje
+    23: [24, 25],            // Pacific Aurora
+    24: 26,                  // Pacific Marejada (solo abrochadura)
+    25: [27, 28],            // Pacific Océano
+    26: [29, 30],            // Pacific Amanecer
+    27: 31,                  // "Pacific Sirena" = Pacific Nuquí en la lista de precios
+    28: 32,                  // Pacific Emperatriz
+    29: 33,                  // Pacific Estrella
+    30: 34,                  // Pacific Tesoro
+    31: 35,                  // Pacific Delfina
+    32: null,                // portada línea Cinturillas y Chalecos
+    33: [36, 37],            // Pacific Jaguar
+    34: 38,                  // Pacific Colibrí
+    35: 39,                  // Pacific Mariposa
+    36: 40,                  // Pacific Pantera
+    37: 41,                  // Pacific Tucán
+    38: [42, 43],            // Pacific Garza
+    39: 44,                  // Pacific Quetzal
+    40: [45, 46],            // Pacific Danta
+    41: [47, 48],            // Pacific Tigresa
+    42: 49,                  // Pacific Puma
+    43: null,                // portada línea Short Levantacola
+    44: 50,                  // Pacific Orquídea
+    45: 51,                  // Pacific Azucena
+    46: 52,                  // Pacific Magnolia
+    47: 53,                  // Pacific Camelia
+    48: 54,                  // Pacific Rosa
+    49: null,                // portada línea Postquirúrgica
+    50: 55,                  // Pacific Morpho
+    51: 56,                  // Pacific Libélula
+    52: 57,                  // Pacific Ceiba
+    53: 58,                  // Pacific Yarumo
+    54: 59,                  // Pacific Tigrillo
+    55: 60,                  // Pacific Garceta
+    56: 61,                  // Pacific Halcón
+    57: 62,                  // Pacific Tángara
+    58: 63,                  // Pacific Luciérnaga
+    59: null,                // portada línea Brassier Postquirúrgico
+    60: 64,                  // Brassier Ref. 0110
+    61: 65,                  // Brassier Ref. 0106
+    62: 65,                  // Brassier Ref. 0106 (segunda foto, mismo producto)
+    63: 66,                  // Brassier Ref. 01061 Corrector de postura
+    64: 67,                  // Brassier Ref. 0107
+    65: 68,                  // Brassier Ref. 0108
+    66: null,                // portada línea Hombre
+    67: 69,                  // Ref. 2018 Cinturilla Deportiva Hombre
+    68: [70, 71],            // Ref. 2016/2017 Cinturilla Men (Cierre/Abrochadura)
+    69: [72, 73],            // Pacific Ocelote
+    70: 74,                  // Ref. 2017 Faja Postquirúrgica Men
+    71: 75,                  // Ref. 2019 Fajón Abdominal Ancho
+    72: 75,                  // Ref. 2019 Fajón Abdominal Corto (misma referencia/precio)
+    73: 75,                  // Ref. 2019 Fajón Abdominal Corto (otra foto)
+    74: 76,                  // Ref. 1252 Chaleco Light Men
+    75: 77,                  // Ref. 2011 Boxer Levantacola
+    76: 78,                  // Ref. 1255 Chaleco en Neopreno Men
+    77: null,                // portada línea Deportiva
+    78: 79,                  // Ref. 1257 Chaleco Dama en Neopreno
+    79: 80,                  // Ref. 0726 Cinturilla Deportiva
+    80: 81,                  // Ref. 1253 Short Deportivo Neopreno
+    81: 82,                  // Ref. 1254 Leggings con Faja en Neopreno
+    82: null                 // contraportada
+  };
 
-  // ── SHORT LEVANTACOLA ──
-  { ref:"PACIFIC ORQUÍDEA", nombre:"Short Levantacola Cachetero", precio:67000, cat:"Short Levantacola", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro', 'Blanco'] },
-  { ref:"PACIFIC AZUCENA", nombre:"Short Levantacola Control Abdomen", precio:97000, cat:"Short Levantacola", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro', 'Blanco'] },
-  { ref:"PACIFIC MAGNOLIA", nombre:"Short Levantacola con Abrochadura", precio:107000, cat:"Short Levantacola", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro', 'Blanco'] },
-  { ref:"PACIFIC CAMELIA", nombre:"Short Levantacola", precio:67000, cat:"Short Levantacola", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Blanco', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC ROSA", nombre:"Short Levantacola Pescador", precio:107000, cat:"Short Levantacola", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Blanco'] },
+  function productById(id){ return products.find(pr => pr.id === id); }
 
-  // ── LÍNEA POSTQUIRÚRGICA ──
-  { ref:"PACIFIC MORPHO", nombre:"Faja Postquirúrgica Larga con Brassier", precio:207000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC LIBÉLULA", nombre:"Faja de Descanso", precio:117000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa', 'Negro'] },
-  { ref:"PACIFIC CEIBA", nombre:"Faja Postquirúrgica Corta con Brassier", precio:197000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC YARUMO", nombre:"Faja Postquirúrgica Larga con Brassier y Mangas", precio:247000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC TIGRILLO", nombre:"Faja Postquirúrgica Larga", precio:197000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC GARCETA", nombre:"Faja Postquirúrgica Corta Tira Ancha", precio:187000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC HALCÓN", nombre:"Faja Postquirúrgica Corta Tira Removible", precio:187000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC TÁNGARA", nombre:"Faja Postquirúrgica Larga - Cierre Atrás", precio:197000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-  { ref:"PACIFIC LUCIÉRNAGA", nombre:"Faja Postquirúrgica Larga con Mangas", precio:207000, cat:"Línea Postquirúrgica", tallas:['S','M','L','XL','2XL'], colores:['Beige', 'Cocoa'] },
-
-  // ── BRASSIER POSTQUIRURGICO ──
-  { ref:"REF 0110", nombre:"Brassier Postquirúrgico Tira Removible", precio:77000, cat:"Brassier Postquirúrgico", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 0106", nombre:"Brassier Postquirúrgico", precio:77000, cat:"Brassier Postquirúrgico", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 01061", nombre:"Brassier Postquirúrgico Corrector de Postura", precio:87000, cat:"Brassier Postquirúrgico", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 0107", nombre:"Brassier Postquirúrgico Tira Removible", precio:77000, cat:"Brassier Postquirúrgico", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 0108", nombre:"Brassier Postquirúrgico con Mangas", precio:97000, cat:"Brassier Postquirúrgico", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-
-  // ── FAJAS PARA HOMBRE ──
-  { ref:"REF 2018", nombre:"Cinturilla Deportiva hombre", precio:97000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 2016", nombre:"Cinturilla men Cierre", precio:97000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 2017", nombre:"Cinturilla men Abrochadura", precio:97000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC OCELOTE", nombre:"Chaleco moldeador Hombre Cierre", precio:137000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"PACIFIC OCELOTE", nombre:"Chaleco moldeador Hombre Abrochadura", precio:127000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 2017", nombre:"Faja postquirurgica men", precio:217000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 2019", nombre:"Fajon Abdominal", precio:87000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 1252", nombre:"Chaleco light men", precio:67000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro', 'Beige', 'Cocoa'] },
-  { ref:"REF 2011", nombre:"Boxer levantacola", precio:67000, cat:"Fajas para Hombre", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-
-  // ── LÍNEA DEPORTIVA ──
-  { ref:"REF 1255", nombre:"Chaleco en neopreno men", precio:77000, cat:"Línea Deportiva", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-  { ref:"REF 1257", nombre:"Chaleco dama en neopreno", precio:77000, cat:"Línea Deportiva", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-  { ref:"REF 0726", nombre:"Cinturilla Deportiva mujer", precio:97000, cat:"Línea Deportiva", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-  { ref:"REF 1253", nombre:"Short deportivo neopreno", precio:77000, cat:"Línea Deportiva", tallas:['S','M','L','XL','2XL'], colores:['Negro'] },
-  { ref:"REF 1254", nombre:"Leggins con faja en neopreno", precio:97000, cat:"Línea Deportiva", tallas:['S','M','L','XL','2XL'], colores:['Negro'] }
-];
-
-// Preparamos los productos para añadirles los valores del pedido asignando la 1ra talla/color como por defecto.
-const PRODUCTOS = PRODUCTOS_DATA.map((p, index) => ({
-  ...p,
-  id: index,
-  cant: 0,
-  talla: p.tallas[0],
-  color: p.colores[0]
-}));
-
-let nivelActual = 'pro';
-let monedaActual = 'COP';
-let catActual = 'Todas';
-let carrito = [];       // Lista de líneas del pedido: { lineId, prodId, talla, color, cant }
-let carritoSeq = 0;     // Generador de IDs únicos para cada línea
-let busquedaActual = '';
-let catsAbiertas = {};
-
-const CATS = [...new Set(PRODUCTOS.map(p => p.cat))];
-
-function fmtCOP(v){ return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',minimumFractionDigits:0}).format(v); }
-function fmtUSD(v){ return '$'+(v/TASA_USD).toFixed(2)+' USD'; }
-function fmt(v){ return monedaActual==='USD' ? fmtUSD(v) : fmtCOP(v); }
-function pctLabel(p){ return p===0.28?'28':p===0.25?'25':'20'; }
-
-function setCurrency(m){
-  monedaActual = m;
-  document.getElementById('btn-cop').classList.toggle('active', m==='COP');
-  document.getElementById('btn-usd').classList.toggle('active', m==='USD');
-  renderProducts();
-  actualizarCarrito(); // Actualizar precios de la barra inferior
-}
-
-function setNivel(id){
-  nivelActual = id;
-  ['starter','pro','elite'].forEach(n => document.getElementById('card-'+n).classList.toggle('active', n===id));
-  const nv = NIVELES[id];
-  document.getElementById('banner-name').textContent = nv.name;
-  document.getElementById('banner-pct').textContent = nv.label;
-  
-  // Actualizar colores de las tarjetas
-  ['starter','pro','elite'].forEach(n=>{
-    const c = document.getElementById('card-'+n);
-    const pct = c.querySelector('.nivel-pct');
-    const range = c.querySelector('.nivel-range');
-    if(n===id){ pct.style.color='#1b4332'; range.style.color='#6b7280'; range.style.opacity='1'; }
-    else { pct.style.color='rgba(255,255,255,0.9)'; range.style.color=''; range.style.opacity='.8'; }
-  });
-  renderProducts();
-  actualizarCarrito(); // Los costos cambian, hay que reflejarlo en el total
-}
-
-function filtrar(){
-  busquedaActual = document.getElementById('search-input').value;
-  renderProducts();
-}
-
-function setCat(cat){
-  catActual = cat;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat===cat));
-  renderProducts();
-}
-
-function toggleCat(cat){
-  catsAbiertas[cat] = catsAbiertas[cat] === false ? true : false;
-  renderProducts();
-}
-
-// Guarda en el producto la selección actual de la fila (talla/color/cantidad a punto de añadir)
-function updateProd(id, field, value) {
-  if (field === 'cant') {
-    value = parseInt(value);
-    if (isNaN(value) || value < 0) value = 0;
-  }
-  PRODUCTOS[id][field] = value;
-}
-
-// Añade la selección actual de la fila (talla + color + cantidad) como una línea del pedido.
-// Si ya existe una línea con la MISMA referencia + talla + color, suma la cantidad en lugar de duplicarla.
-// Si la talla o el color son diferentes, crea una línea nueva (así se pueden pedir varias variantes de la misma referencia).
-function agregarAlCarrito(btn, id) {
-  const inputCant = document.getElementById(`cant-${id}`);
-  const selectTalla = document.getElementById(`talla-${id}`);
-  const selectColor = document.getElementById(`color-${id}`);
-
-  // Si la cantidad está en 0, la subimos a 1 para hacer la vida más fácil
-  let cant = parseInt(inputCant.value);
-  if (isNaN(cant) || cant <= 0) cant = 1;
-
-  const talla = selectTalla.value;
-  const color = selectColor.value;
-
-  const existente = carrito.find(it => it.prodId === id && it.talla === talla && it.color === color);
-  if (existente) {
-    existente.cant += cant;
-  } else {
-    carrito.push({ lineId: 'L' + (carritoSeq++), prodId: id, talla: talla, color: color, cant: cant });
+  // Devuelve SIEMPRE un arreglo de productos (puede tener 0, 1 ó 2 elementos)
+  function getPageProducts(n){
+    const v = PAGE_MAP[n];
+    if(v === null || v === undefined) return [];
+    const ids = Array.isArray(v) ? v : [v];
+    return ids.map(id => productById(id)).filter(Boolean);
   }
 
-  // Reiniciamos la cantidad de la fila a 0 para que pueda elegir otra talla/color de la misma referencia sin confusión
-  inputCant.value = 0;
-  PRODUCTOS[id].cant = 0;
-
-  document.getElementById('error-msg').classList.add('hidden');
-  actualizarCarrito();
-
-  // Efecto visual
-  const textoOriginal = btn.innerHTML;
-  btn.innerHTML = '¡Añadido! ✅';
-  btn.style.background = '#25D366';
-
-  setTimeout(() => {
-    btn.innerHTML = 'Seleccionar';
-    btn.style.background = '#1b4332';
-  }, 1200);
-}
-
-// Renderizar las categorías en la parte superior
-function renderCats(){
-  const wrap = document.getElementById('cats-wrap');
-  const all = ['Todas', ...CATS];
-  wrap.innerHTML = all.map(c =>
-    `<button class="cat-btn${c===catActual?' active':''}" data-cat="${c}" onclick="setCat('${c.replace(/'/g,"\\'")}')">${c}</button>`
-  ).join('');
-}
-
-// Función principal que pinta la lista de productos y sus inputs dinámicos
-function renderProducts(){
-  const nv = NIVELES[nivelActual];
-  const q = busquedaActual.toLowerCase();
-  const area = document.getElementById('products-area');
-
-  const filtrados = PRODUCTOS.filter(p => {
-    const porCat = catActual==='Todas' || p.cat===catActual;
-    const porQ = p.nombre.toLowerCase().includes(q) || p.ref.toLowerCase().includes(q);
-    return porCat && porQ;
-  });
-
-  if(filtrados.length===0){
-    area.innerHTML = `<div class="empty"><p>No encontramos resultados.</p><button onclick="document.getElementById('search-input').value='';busquedaActual='';setCat('Todas')">Limpiar filtros</button></div>`;
-    return;
+  // Para compatibilidad: producto "principal" de una página (el primero)
+  function productByPage(n){
+    const list = getPageProducts(n);
+    return list.length ? list[0] : undefined;
   }
 
-  const porCat = {};
-  CATS.forEach(c => {
-    const items = filtrados.filter(p => p.cat===c);
-    if(items.length) porCat[c] = items;
-  });
+  // Separa "PACIFIC NACÁR · Faja moldeadora 3/4 — Cierre" en
+  // base = "PACIFIC NACÁR · Faja moldeadora 3/4", variante = "Cierre"
+  function splitNameVariant(fullName){
+    const idx = fullName.lastIndexOf('—');
+    if(idx === -1) return { base: fullName, variant: null };
+    return { base: fullName.slice(0, idx).trim(), variant: fullName.slice(idx + 1).trim() };
+  }
 
-  area.innerHTML = Object.entries(porCat).map(([cat, prods]) => {
-    const open = catsAbiertas[cat] !== false;
-    const rows = prods.map(p => {
-      const costo = p.precio * (1 - nv.pct);
-      const ganancia = p.precio - costo;
-      
-      // Construir opciones exactas según la DB que mapeamos del PDF
-      const opcionesTallasHTML = p.tallas.map(t => `<option value="${t}" ${p.talla===t?'selected':''}>${t}</option>`).join('');
-      const opcionesColoresHTML = p.colores.map(c => `<option value="${c}" ${p.color===c?'selected':''}>${c}</option>`).join('');
+  // ===== MODO SINCRONIZACIÓN =====
+  let syncMode = false;
 
+  function buildSyncSelect(){
+    const sel = document.getElementById('syncSelect');
+    if(sel.options.length) return; // ya construido
+    const noneOpt = document.createElement('option');
+    noneOpt.value = "";
+    noneOpt.textContent = "— Esta página NO es un producto (portada, separador, etc.) —";
+    sel.appendChild(noneOpt);
+    products.forEach(pr=>{
+      const opt = document.createElement('option');
+      opt.value = pr.id;
+      opt.textContent = `${pr.id} — ${pr.n} — ${formatCOP(pr.d)}`;
+      sel.appendChild(opt);
+    });
+  }
+
+  function toggleSyncMode(){
+    syncMode = !syncMode;
+    const panel = document.getElementById('syncPanel');
+    const btn = document.getElementById('syncToggleBtn');
+    panel.classList.toggle('active', syncMode);
+    btn.style.background = syncMode ? 'var(--dorado)' : '#fff';
+    if(syncMode){
+      buildSyncSelect();
+      refreshSyncPanel();
+    }
+  }
+
+  function refreshSyncPanel(){
+    if(!syncMode) return;
+    document.getElementById('syncPageNum').textContent = currentPage;
+    const sel = document.getElementById('syncSelect');
+    const v = PAGE_MAP[currentPage];
+    const firstId = Array.isArray(v) ? v[0] : v;
+    sel.value = (firstId === null || firstId === undefined) ? "" : firstId;
+    const status = document.getElementById('syncStatus');
+    const list = getPageProducts(currentPage);
+    status.textContent = list.length
+      ? `Asignado: ${list.map(p=>p.n).join('  +  ')}${list.length>1 ? ' (nota: el selector solo permite elegir 1; para variantes Cierre/Abrochadura edita el PAGE_MAP directamente)' : ''}`
+      : "Sin producto asignado todavía.";
+  }
+
+  function onSyncSelect(value){
+    PAGE_MAP[currentPage] = value === "" ? null : parseInt(value);
+    renderProductInfo(currentPage);
+    refreshGridPrices();
+    refreshSyncPanel();
+  }
+
+  function exportPageMap(){
+    const lines = [];
+    for(let i=1;i<=TOTAL_PAGES;i++){
+      const v = PAGE_MAP[i];
+      let vStr;
+      if(v === null || v === undefined) vStr = 'null';
+      else if(Array.isArray(v)) vStr = '[' + v.join(', ') + ']';
+      else vStr = v;
+      lines.push(`    ${i}: ${vStr}` + (i<TOTAL_PAGES ? ',' : ''));
+    }
+    const text = "  const PAGE_MAP = {\n" + lines.join("\n") + "\n  };";
+    document.getElementById('syncExportText').value = text;
+    document.getElementById('syncExportBox').classList.add('active');
+    document.getElementById('syncExportBox').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function copyExport(){
+    const ta = document.getElementById('syncExportText');
+    ta.select();
+    document.execCommand('copy');
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = "¡Copiado!";
+    setTimeout(()=>{ btn.textContent = old; }, 1500);
+  }
+
+  function formatCOP(n){ return "$" + Math.round(n).toLocaleString('es-CO'); }
+  function formatUSD(n){ return "$" + n.toFixed(2); }
+
+  function levelPriceCOP(detalCOP, level){ return detalCOP * LEVEL_FACTOR[level]; }
+
+  function priceLabel(detalCOP, level, currency){
+    const levelCOP = levelPriceCOP(detalCOP, level);
+    if(currency === 'USD'){
+      return { detal: formatUSD(detalCOP/USD_RATE), nivel: formatUSD(levelCOP/USD_RATE), ahorro: formatUSD((detalCOP-levelCOP)/USD_RATE) };
+    }
+    return { detal: formatCOP(detalCOP), nivel: formatCOP(levelCOP), ahorro: formatCOP(detalCOP-levelCOP) };
+  }
+
+  function renderInfoInto(elId, pageNum){
+    const box = document.getElementById(elId);
+    if(!box) return;
+    const list = getPageProducts(pageNum);
+    if(!list.length){ box.innerHTML = ""; return; }
+
+    const isReseller = currentLevel !== 'detal';
+
+    if(list.length === 1){
+      const prod = list[0];
+      const lp = priceLabel(prod.d, currentLevel, currentCurrency);
+      box.innerHTML = `
+        <div class="pi-name">${prod.n}</div>
+        <div class="pi-price-row">
+          ${isReseller ? `<span class="price-old">${lp.detal}</span><span class="price-now">${lp.nivel}</span>` : `<span class="price-now">${lp.detal}</span>`}
+        </div>
+        ${isReseller ? `<div class="ganancia">Tu ganancia estimada: <strong>${lp.ahorro}</strong> por unidad si revendes al precio detal</div>` : ``}
+        <div class="pi-meta">Tallas: ${prod.s} &nbsp;·&nbsp; Colores: ${prod.c}</div>
+      `;
+      return;
+    }
+
+    // Página con 2 variantes (ej. Cierre / Abrochadura)
+    const base = splitNameVariant(list[0].n).base;
+    const rows = list.map(prod=>{
+      const { variant } = splitNameVariant(prod.n);
+      const lp = priceLabel(prod.d, currentLevel, currentCurrency);
       return `
-        <div class="prod-row">
-          <div class="prod-top">
-            <div style="flex:1;min-width:0">
-              <span class="prod-ref">REF ${p.ref}</span>
-              <div class="prod-name">${p.nombre}</div>
-              <div class="prod-retail">Precio al público: <s>${fmt(p.precio)}</s></div>
-            </div>
-            <div class="prices-wrap">
-              <div class="price-cost">
-                <div class="price-cost-label">Tu costo (${pctLabel(nv.pct)}% off)</div>
-                <div class="price-cost-val">${fmt(costo)}</div>
-              </div>
-              <div class="price-gain">
-                <div class="price-gain-label">✓ Tu ganancia</div>
-                <div class="price-gain-val">+${fmt(ganancia)}</div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Bloque de Selección de Pedido Modificado con Botón de Añadir -->
-          <div class="prod-options">
-            <div class="opt-box">
-              <label class="opt-label">Cant</label>
-              <input type="number" min="0" value="${p.cant}" id="cant-${p.id}" class="opt-input" onchange="updateProd(${p.id}, 'cant', this.value)">
-            </div>
-            <div class="opt-box" style="flex:1">
-              <label class="opt-label">Talla</label>
-              <select class="opt-input" id="talla-${p.id}" style="width:100%" onchange="updateProd(${p.id}, 'talla', this.value)">
-                ${opcionesTallasHTML}
-              </select>
-            </div>
-            <div class="opt-box" style="flex:1">
-              <label class="opt-label">Color</label>
-              <select class="opt-input" id="color-${p.id}" style="width:100%" onchange="updateProd(${p.id}, 'color', this.value)">
-                ${opcionesColoresHTML}
-              </select>
-            </div>
-            <div class="opt-box" style="justify-content:flex-end;">
-              <button class="btn-add" onclick="agregarAlCarrito(this, ${p.id})">Seleccionar</button>
-            </div>
-          </div>
-        </div>`;
+        <div class="pi-price-row" style="font-size:18px;">
+          <span style="font-weight:600;color:var(--verde-osc);margin-right:6px;">${variant || prod.n}:</span>
+          ${isReseller ? `<span class="price-old">${lp.detal}</span><span class="price-now">${lp.nivel}</span>` : `<span class="price-now">${lp.detal}</span>`}
+          ${isReseller ? `<span class="ganancia" style="margin-left:6px;">+${lp.ahorro} de ganancia</span>` : ``}
+        </div>
+      `;
     }).join('');
 
-    return `
-      <div class="cat-block">
-        <button class="cat-header" onclick="toggleCat('${cat.replace(/'/g,"\\'")}')">
-          <div style="display:flex;align-items:center">
-            <div class="cat-dot"></div>
-            <span class="cat-name">${cat}</span>
-            <span class="cat-count">${prods.length}</span>
-          </div>
-          <span class="cat-arrow${open?' open':''}">▼</span>
-        </button>
-        ${open ? `<div class="prod-list">${rows}</div>` : ''}
-      </div>`;
-  }).join('');
-}
+    box.innerHTML = `
+      <div class="pi-name">${base}</div>
+      ${rows}
+      <div class="pi-meta">Tallas: ${list[0].s} &nbsp;·&nbsp; Colores: ${list[0].c}</div>
+    `;
+  }
 
-// Actualiza el carrito inferior flotante en tiempo real
-function actualizarCarrito() {
-  let cantTotal = 0;
-  let costoTotal = 0;
-  const nv = NIVELES[nivelActual];
+  function renderProductInfo(pageNum){
+    renderInfoInto('productInfo', pageNum);
+    if(document.getElementById('lightbox').classList.contains('open')){
+      renderInfoInto('lightboxInfo', lbPage);
+    }
+  }
 
-  carrito.forEach(item => {
-    const prod = PRODUCTOS[item.prodId];
-    cantTotal += item.cant;
-    costoTotal += (prod.precio * (1 - nv.pct)) * item.cant;
+  function tpPriceHTML(list){
+    const isReseller = currentLevel !== 'detal';
+    if(list.length === 1){
+      const lp = priceLabel(list[0].d, currentLevel, currentCurrency);
+      return isReseller
+        ? `<span class="tp-old">${lp.detal}</span><span class="tp-price">${lp.nivel}</span>`
+        : `<span class="tp-price">${lp.detal}</span>`;
+    }
+    // varias variantes: mostrar el precio más bajo como "Desde"
+    const cheapest = list.reduce((min, p) => p.d < min.d ? p : min, list[0]);
+    const lp = priceLabel(cheapest.d, currentLevel, currentCurrency);
+    const prefix = `<span style="font-size:9.5px;color:#888;">Desde&nbsp;</span>`;
+    return isReseller
+      ? `${prefix}<span class="tp-old">${lp.detal}</span><span class="tp-price">${lp.nivel}</span>`
+      : `${prefix}<span class="tp-price">${lp.detal}</span>`;
+  }
+
+  function refreshGridPrices(){
+    document.querySelectorAll('.thumb-price').forEach(el=>{
+      const pageNum = parseInt(el.dataset.page);
+      const list = getPageProducts(pageNum);
+      if(!list.length) return;
+      const base = splitNameVariant(list[0].n).base;
+      el.innerHTML = `<div class="tp-name">${base}</div><div>${tpPriceHTML(list)}</div>`;
+    });
+  }
+
+  function setLevel(level){
+    currentLevel = level;
+    document.querySelectorAll('.level-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.level === level);
+    });
+    renderProductInfo(currentPage);
+    refreshGridPrices();
+  }
+
+  function toggleCurrency(){
+    currentCurrency = currentCurrency === 'COP' ? 'USD' : 'COP';
+    document.getElementById('currencyToggle').textContent = currentCurrency === 'COP' ? 'Ver en USD' : 'Ver en COP';
+    renderProductInfo(currentPage);
+    refreshGridPrices();
+  }
+
+  // Capítulos / secciones según el contenido del catálogo
+  const chapters = [
+    {title:"Portada y empresa", start:1, end:6},
+    {title:"Línea Reloj de Arena", start:7, end:12},
+    {title:"Línea Moldeadora — Uso diario", start:13, end:31},
+    {title:"Cinturillas y Chalecos", start:32, end:42},
+    {title:"Short Levantacola", start:43, end:48},
+    {title:"Línea Postquirúrgica", start:49, end:58},
+    {title:"Brassier Postquirúrgico", start:59, end:65},
+    {title:"Fajas para Hombre", start:66, end:76},
+    {title:"Línea Deportiva", start:77, end:81},
+    {title:"Cierre", start:82, end:82},
+  ];
+
+  function imgPath(n){ return IMG_FOLDER ? `${IMG_FOLDER}/${n}.${IMG_EXT}` : `${n}.${IMG_EXT}`; }
+
+  function setPage(n){
+    n = Math.max(1, Math.min(TOTAL_PAGES, parseInt(n)));
+    currentPage = n;
+    const img = document.getElementById('pageImg');
+    img.style.opacity = 0;
+    img.src = imgPath(n);
+    img.alt = "Página " + n;
+    img.onload = () => { img.style.animation='none'; requestAnimationFrame(()=>{img.style.animation='fadeIn .35s ease forwards';}); };
+    document.getElementById('slider').value = n;
+    document.getElementById('pageIndicator').textContent = n + " / " + TOTAL_PAGES;
+    document.getElementById('viewer').scrollIntoView({behavior:'smooth', block:'center'});
+    renderProductInfo(n);
+    refreshSyncPanel();
+  }
+  function goPage(delta){ setPage(currentPage + delta); }
+
+  // Build TOC
+  const tocEl = document.getElementById('toc');
+  chapters.forEach(ch=>{
+    const btn = document.createElement('button');
+    btn.textContent = ch.title;
+    btn.onclick = ()=> setPage(ch.start);
+    tocEl.appendChild(btn);
   });
 
-  const cartBar = document.getElementById('cart-bar');
-  if (cantTotal > 0) {
-    cartBar.classList.add('show');
-    document.getElementById('cart-count').textContent = cantTotal + (cantTotal === 1 ? ' prenda' : ' prendas');
-    document.getElementById('cart-total').textContent = `Total: ${fmt(costoTotal)}`;
-  } else {
-    cartBar.classList.remove('show');
+  // Build grid (lazy, built once toggled)
+  let gridBuilt = false;
+  function buildGrid(){
+    const gridSection = document.getElementById('gridSection');
+    chapters.forEach(ch=>{
+      const chDiv = document.createElement('div');
+      chDiv.className = 'chapter';
+      const h = document.createElement('div');
+      h.className = 'chapter-title';
+      h.textContent = ch.title;
+      chDiv.appendChild(h);
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      for(let i=ch.start; i<=ch.end; i++){
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        thumb.onclick = ()=> { openLightbox(i); };
+        const im = document.createElement('img');
+        im.src = imgPath(i);
+        im.loading = 'lazy';
+        im.alt = 'Página ' + i;
+        const num = document.createElement('div');
+        num.className = 'num';
+        num.textContent = i;
+        thumb.appendChild(im);
+        thumb.appendChild(num);
+        const priceFooter = document.createElement('div');
+        priceFooter.className = 'thumb-price';
+        priceFooter.dataset.page = i;
+        const prod = productByPage(i);
+        if(prod){
+          priceFooter.innerHTML = `<div class="tp-name">${prod.n}</div><div>${tpPriceHTML(prod)}</div>`;
+        }
+        thumb.appendChild(priceFooter);
+        grid.appendChild(thumb);
+      }
+      chDiv.appendChild(grid);
+      gridSection.appendChild(chDiv);
+    });
+    gridBuilt = true;
   }
 
-  // Si el modal de revisión está abierto, lo refrescamos también
-  const overlay = document.getElementById('cart-modal-overlay');
-  if (overlay && !overlay.classList.contains('hidden')) {
-    renderCarritoModal();
-  }
-}
-
-// Abre el modal de "Detalles de tu Pedido"
-function abrirCarritoModal() {
-  renderCarritoModal();
-  document.getElementById('cart-modal-overlay').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-}
-
-// Cierra el modal de "Detalles de tu Pedido"
-function cerrarCarritoModal() {
-  document.getElementById('cart-modal-overlay').classList.add('hidden');
-  document.body.style.overflow = '';
-}
-
-// Calcula si la cantidad total de unidades corresponde al rango del nivel seleccionado.
-// Devuelve el texto del aviso si NO corresponde, o null si todo está correcto.
-function obtenerAvisoNivel(totalUnidades, nv) {
-  if (totalUnidades < nv.min) {
-    const faltan = nv.min - totalUnidades;
-    return `Te faltan ${faltan} unidad${faltan === 1 ? '' : 'es'} para alcanzar el mínimo de ${nv.min} unidades del nivel ${nv.label}. Agrega más prendas o cambia de nivel para continuar.`;
-  }
-  if (totalUnidades > nv.max) {
-    return `Tu pedido tiene ${totalUnidades} unidades, más de las ${nv.max} del nivel ${nv.label}. Selecciona el siguiente nivel para aplicar el descuento correcto. 🎉`;
-  }
-  return null;
-}
-
-// Dibuja el contenido del modal: cada línea del pedido (referencia + talla + color) con su cantidad editable y botón de eliminar
-function renderCarritoModal() {
-  const nv = NIVELES[nivelActual];
-  const body = document.getElementById('cart-modal-body');
-  const avisoEl = document.getElementById('cart-modal-nivel-aviso');
-
-  if (carrito.length === 0) {
-    body.innerHTML = `<div class="cart-modal-empty">🛒 Aún no has agregado productos a tu pedido.</div>`;
-    document.getElementById('cart-modal-total').textContent = fmt(0);
-    avisoEl.classList.add('hidden');
-    return;
+  function toggleGrid(){
+    const gridSection = document.getElementById('gridSection');
+    const viewerWrap = document.querySelector('.viewer-wrap');
+    const toc = document.getElementById('toc');
+    if(!gridBuilt) buildGrid();
+    const showing = gridSection.style.display === 'block';
+    if(showing){
+      gridSection.style.display = 'none';
+      viewerWrap.style.display = 'block';
+      toc.style.display = 'flex';
+    } else {
+      gridSection.style.display = 'block';
+      viewerWrap.style.display = 'none';
+      toc.style.display = 'none';
+    }
   }
 
-  let total = 0;
-  let totalUnidades = 0;
-  body.innerHTML = carrito.map(item => {
-    const prod = PRODUCTOS[item.prodId];
-    const costoUnidad = prod.precio * (1 - nv.pct);
-    const subtotal = costoUnidad * item.cant;
-    total += subtotal;
-    totalUnidades += item.cant;
-
-    return `
-      <div class="cart-item-row">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${prod.nombre}</div>
-          <div class="cart-item-meta">REF ${prod.ref} · Talla ${item.talla} · ${item.color}</div>
-        </div>
-        <input type="number" min="0" class="cart-item-qty" value="${item.cant}"
-          onchange="actualizarCantidadCarrito('${item.lineId}', this.value)">
-        <div class="cart-item-subtotal">${fmt(subtotal)}</div>
-        <button class="cart-item-remove" onclick="eliminarDelCarrito('${item.lineId}')" title="Eliminar del pedido">🗑️</button>
-      </div>`;
-  }).join('');
-
-  document.getElementById('cart-modal-total').textContent = fmt(total);
-
-  // Mostramos la nota si las unidades no corresponden al rango del nivel seleccionado
-  const aviso = obtenerAvisoNivel(totalUnidades, nv);
-  if (aviso) {
-    avisoEl.textContent = '⚠️ ' + aviso;
-    avisoEl.classList.remove('hidden');
-  } else {
-    avisoEl.classList.add('hidden');
+  // Lightbox
+  let lbPage = 1;
+  function openLightbox(n){
+    lbPage = n;
+    document.getElementById('lightboxImg').src = imgPath(n);
+    document.getElementById('lbIndicator').textContent = n + " / " + TOTAL_PAGES;
+    document.getElementById('lightbox').classList.add('open');
+    renderInfoInto('lightboxInfo', n);
   }
-}
-
-// Cambia la cantidad de una línea específica del pedido (si llega a 0, se elimina la línea)
-function actualizarCantidadCarrito(lineId, value) {
-  let cant = parseInt(value);
-  if (isNaN(cant) || cant < 0) cant = 0;
-
-  if (cant === 0) {
-    carrito = carrito.filter(it => it.lineId !== lineId);
-  } else {
-    const item = carrito.find(it => it.lineId === lineId);
-    if (item) item.cant = cant;
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
   }
-  actualizarCarrito();
-  renderCarritoModal();
-}
-
-// Elimina por completo una línea del pedido
-function eliminarDelCarrito(lineId) {
-  carrito = carrito.filter(it => it.lineId !== lineId);
-  actualizarCarrito();
-  renderCarritoModal();
-}
-
-// Muestra el aviso rojo con un mensaje específico y hace scroll hasta él
-function mostrarAvisoPedido(msg) {
-  document.getElementById('error-msg-text').textContent = msg;
-  document.getElementById('error-msg').classList.remove('hidden');
-  document.getElementById('error-msg').scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// Lógica de Recopilación y Envío a WhatsApp
-function enviarPedidoMayorista() {
-  const nv = NIVELES[nivelActual];
-
-  // 1. Carrito vacío
-  if (carrito.length === 0) {
-    mostrarAvisoPedido('Selecciona la cantidad de al menos un producto para poder enviar el pedido.');
-    return;
+  function lbGo(delta){
+    lbPage = Math.max(1, Math.min(TOTAL_PAGES, lbPage+delta));
+    openLightbox(lbPage);
   }
-
-  // 2. La cantidad total debe corresponder al rango de unidades del nivel seleccionado
-  const totalUnidades = carrito.reduce((sum, item) => sum + item.cant, 0);
-  const aviso = obtenerAvisoNivel(totalUnidades, nv);
-
-  if (aviso) {
-    mostrarAvisoPedido(aviso);
-    return;
-  }
-
-  // 3. Armamos el mensaje con cada línea del carrito (cada referencia + talla + color por separado)
-  let mensaje = `🚨 *NUEVO PEDIDO MAYORISTA*\n\n`;
-  mensaje += `*Nivel:* ${nv.name}\n`;
-  mensaje += `*Moneda:* ${monedaActual}\n\n`;
-  mensaje += `*🛒 PRODUCTOS:*\n`;
-
-  let totalCosto = 0;
-
-  carrito.forEach(item => {
-    const prod = PRODUCTOS[item.prodId];
-    const costoUnidad = prod.precio * (1 - nv.pct);
-    const subtotalLinea = costoUnidad * item.cant;
-    totalCosto += subtotalLinea;
-
-    mensaje += `▫️ ${item.cant}x [REF ${prod.ref}] ${prod.nombre}\n`;
-    mensaje += `   Talla: ${item.talla} | Color: ${item.color} | Und: ${fmt(costoUnidad)}\n`;
+  document.getElementById('lightbox').addEventListener('click', (e)=>{
+    if(e.target.id === 'lightbox') closeLightbox();
   });
 
-  mensaje += `\n*TOTAL APROX (${monedaActual}):* ${fmt(totalCosto)}\n\n`;
-  mensaje += `Espero la cotización final para coordinar pagos y la entrega.\n¡Muchas gracias!`;
+  // Keyboard navigation
+  document.addEventListener('keydown', (e)=>{
+    if(document.getElementById('lightbox').classList.contains('open')){
+      if(e.key === 'ArrowRight') lbGo(1);
+      if(e.key === 'ArrowLeft') lbGo(-1);
+      if(e.key === 'Escape') closeLightbox();
+    } else {
+      if(e.key === 'ArrowRight') goPage(1);
+      if(e.key === 'ArrowLeft') goPage(-1);
+    }
+  });
 
-  // Número proporcionado
-  const numeroWhatsApp = "573172335456";
-  const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-
-  window.open(url, '_blank');
-}
-
-// Detectar pantalla grande para badge envíos
-function checkScreen(){
-  document.getElementById('ship-badge').style.display = window.innerWidth >= 640 ? 'flex' : 'none';
-}
-window.addEventListener('resize', checkScreen);
-checkScreen();
-
-// INIT
-renderCats();
-renderProducts();
+  // preload first page
+  setPage(1);
 </script>
+
 </body>
 </html>
