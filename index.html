@@ -19,16 +19,19 @@
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background: var(--crema);
     color: var(--texto);
-    padding-top: 135px;
   }
 
-  /* HEADER */
-  header{
+  /* TOP BAR (header + price panel, una sola franja fija) */
+  #topBar{
     position: fixed;
     top:0;
     left:0;
     right:0;
     z-index: 50;
+  }
+  /* HEADER */
+  header{
+    position: static;
     background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
     color:#fff;
     padding: 14px 22px;
@@ -362,10 +365,7 @@
 
   /* ===== PRICE LEVEL PANEL ===== */
   .price-panel{
-    position: fixed;
-    top: 70px;
-    left:0;
-    right:0;
+    position: static;
     z-index: 40;
     background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
     border-bottom: 2px solid var(--dorado);
@@ -541,8 +541,6 @@
 
   @media (max-width: 600px){
     header{ padding: 10px 14px; }
-    body{ padding-top: 120px; }
-    .price-panel{ position: fixed; top: 60px; left:0; right:0; }
     .price-panel-inner{ padding: 8px 10px; gap: 6px; }
     .pi-price-row{ font-size: 19px; }
     .price-panel-label{ font-size: 11px; }
@@ -628,6 +626,7 @@
 </head>
 <body>
 
+<div id="topBar">
 <header>
   <div class="brand">
     <div class="brand-logo">PF</div>
@@ -652,6 +651,7 @@
     </div>
     <button class="currency-toggle" id="currencyToggle" onclick="toggleCurrency()">Ver en USD</button>
   </div>
+</div>
 </div>
 
 <section class="intro">
@@ -715,6 +715,19 @@
 <a class="wa-float" href="https://wa.me/573172335456" target="_blank" title="Escríbenos">&#128172;</a>
 
 <script>
+  // Ajusta el padding-top del body dinámicamente según la altura real
+  // de la franja fija (header + panel de niveles), para que nunca se
+  // superpongan sin importar el tamaño de pantalla o si el texto se envuelve.
+  function ajustarEspacioTopBar(){
+    const topBar = document.getElementById('topBar');
+    if(topBar){
+      document.body.style.paddingTop = (topBar.offsetHeight + 2) + 'px';
+    }
+  }
+  ajustarEspacioTopBar();
+  window.addEventListener('load', ajustarEspacioTopBar);
+  window.addEventListener('resize', ajustarEspacioTopBar);
+
   const TOTAL_PAGES = 82;
   let currentPage = 1;
 
