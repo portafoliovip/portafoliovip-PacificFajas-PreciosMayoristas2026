@@ -19,12 +19,15 @@
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background: var(--crema);
     color: var(--texto);
+    padding-top: 135px;
   }
 
   /* HEADER */
   header{
-    position: sticky;
+    position: fixed;
     top:0;
+    left:0;
+    right:0;
     z-index: 50;
     background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
     color:#fff;
@@ -359,8 +362,10 @@
 
   /* ===== PRICE LEVEL PANEL ===== */
   .price-panel{
-    position: sticky;
+    position: fixed;
     top: 70px;
+    left:0;
+    right:0;
     z-index: 40;
     background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
     border-bottom: 2px solid var(--dorado);
@@ -535,9 +540,15 @@
   }
 
   @media (max-width: 600px){
-    .price-panel{ top: 0; position: relative; }
-    .price-panel-inner{ padding: 10px; }
+    header{ padding: 10px 14px; }
+    body{ padding-top: 120px; }
+    .price-panel{ position: fixed; top: 60px; left:0; right:0; }
+    .price-panel-inner{ padding: 8px 10px; gap: 6px; }
     .pi-price-row{ font-size: 19px; }
+    .price-panel-label{ font-size: 11px; }
+    .level-btn{ padding: 6px 10px 5px; font-size: 12px; }
+    .level-btn small{ font-size: 9px; }
+    .currency-toggle{ padding: 6px 10px; font-size: 11px; }
   }
 
   /* ===== SYNC MODE ===== */
