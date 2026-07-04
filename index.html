@@ -3,1269 +3,790 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pacific Fajas — Catálogo 2026</title>
+<title>Portal de Pedidos — Pacific Fajas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --verde: #1f3d39;
-    --verde-osc: #152926;
-    --dorado: #c79a3c;
-    --dorado-claro: #e8c873;
-    --crema: #f7f3ec;
-    --texto: #2c2c2c;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: var(--crema);
-    color: var(--texto);
-  }
+:root{
+  --sand:#EAE0CC;
+  --sand-deep:#DCCBA8;
+  --cocoa:#6B4630;
+  --cocoa-dark:#4A3020;
+  --tide:#1B3A45;
+  --tide-deep:#0F252E;
+  --pearl:#FBF8F2;
+  --coral:#D9704F;
+  --coral-dark:#B4573A;
+  --ink:#2A2420;
+  --line:rgba(42,36,32,0.14);
+  --ok:#3F7A5C;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--pearl);
+  color:var(--ink);
+  font-family:'Work Sans',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:'Fraunces',serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
 
-  /* TOP BAR (header + price panel, una sola franja fija) */
-  #topBar{
-    position: fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index: 50;
-  }
-  /* HEADER */
-  header{
-    position: static;
-    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
-    color:#fff;
-    padding: 14px 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow: 0 2px 10px rgba(0,0,0,.25);
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
-  .brand-logo{
-    width:42px;height:42px;
-    border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, var(--dorado-claro), var(--dorado));
-    display:flex;align-items:center;justify-content:center;
-    font-weight:bold;font-family: 'Georgia', serif;color:var(--verde-osc);
-    font-size:18px;
-  }
-  .brand-title{
-    font-family: 'Georgia', serif;
-    letter-spacing: 2px;
-    font-size: 18px;
-  }
-  .brand-title small{
-    display:block;
-    letter-spacing: 1px;
-    font-size:11px;
-    color: var(--dorado-claro);
-    font-weight: normal;
-  }
-  .header-actions{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    flex-wrap:wrap;
-  }
-  .header-actions a, .header-actions button{
-    background: var(--dorado);
-    color: var(--verde-osc);
-    border:none;
-    padding:8px 16px;
-    border-radius: 20px;
-    font-size:13px;
-    font-weight:600;
-    cursor:pointer;
-    text-decoration:none;
-    transition: transform .15s, background .15s;
-    white-space:nowrap;
-  }
-  .header-actions a:hover, .header-actions button:hover{
-    background: var(--dorado-claro);
-    transform: translateY(-1px);
-  }
-  .page-indicator{
-    color:#fff;
-    font-size:13px;
-    opacity:.85;
-    min-width: 70px;
-    text-align:center;
-  }
+/* ===== HEADER ===== */
+header.top{
+  position:sticky; top:0; z-index:50;
+  background:var(--tide-deep);
+  color:var(--pearl);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.top-inner{
+  max-width:1240px; margin:0 auto; padding:14px 24px;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.brand{display:flex; align-items:baseline; gap:10px;}
+.brand .name{font-family:'Fraunces',serif; font-weight:700; font-size:22px; letter-spacing:0.5px;}
+.brand .tag{font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.55;}
+.cart-btn{
+  display:flex; align-items:center; gap:8px;
+  background:var(--coral); color:#fff; border:none; border-radius:999px;
+  padding:10px 18px; font-family:'Work Sans',sans-serif; font-weight:600; font-size:14px;
+  cursor:pointer; transition:transform .15s ease, background .15s ease;
+}
+.cart-btn:hover{background:var(--coral-dark); transform:translateY(-1px);}
+.cart-count{
+  background:rgba(0,0,0,0.25); border-radius:999px; padding:1px 8px; font-size:12px; font-family:'JetBrains Mono',monospace;
+}
 
-  /* HERO / INTRO */
-  .intro{
-    text-align:center;
-    padding: 36px 20px 10px;
-  }
-  .intro h1{
-    font-family: 'Georgia', serif;
-    font-size: clamp(26px, 4vw, 44px);
-    color: var(--verde-osc);
-    margin: 0 0 6px;
-    letter-spacing: 1px;
-  }
-  .intro p{
-    color:#666;
-    margin:0;
-    font-size:14px;
-    letter-spacing:.5px;
-  }
-  .intro .line{
-    width:80px;height:2px;background:var(--dorado);
-    margin: 14px auto 0;
-  }
+/* Tide progress bar */
+.tide-wrap{max-width:1240px; margin:0 auto; padding:0 24px 14px;}
+.tide-label{
+  display:flex; justify-content:space-between; font-size:12px; letter-spacing:0.5px;
+  color:rgba(251,248,242,0.65); margin-bottom:6px; font-family:'JetBrains Mono',monospace;
+}
+.tide-track{
+  position:relative; height:10px; border-radius:999px; background:rgba(255,255,255,0.1); overflow:hidden;
+}
+.tide-fill{
+  position:absolute; left:0; top:0; height:100%; border-radius:999px;
+  background:linear-gradient(90deg,#3A6B7A,#5FA3A8,#E8C77E);
+  transition:width .4s ease;
+  width:0%;
+}
+.tide-marks{position:relative; height:16px; margin-top:2px;}
+.tide-mark{
+  position:absolute; top:0; transform:translateX(-50%);
+  font-size:10px; color:rgba(251,248,242,0.5); font-family:'JetBrains Mono',monospace; white-space:nowrap;
+}
 
-  /* TABLE OF CONTENTS / CHAPTER NAV */
-  .toc{
-    max-width: 1100px;
-    margin: 28px auto 10px;
-    padding: 0 20px;
-    display:flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content:center;
-  }
-  .toc button{
-    background:#fff;
-    border:1px solid #ddd;
-    color: var(--verde-osc);
-    padding: 9px 16px;
-    border-radius: 999px;
-    font-size: 12.5px;
-    cursor:pointer;
-    transition: all .15s;
-    font-weight:600;
-    letter-spacing:.3px;
-  }
-  .toc button:hover{
-    background: var(--verde);
-    color:#fff;
-    border-color: var(--verde);
-  }
+/* ===== HERO ===== */
+.hero{
+  max-width:1240px; margin:0 auto; padding:56px 24px 40px;
+  display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:end;
+}
+.hero h1{font-size:clamp(34px,5vw,58px); line-height:1.02; margin:0 0 14px; font-weight:600; letter-spacing:-0.5px;}
+.hero h1 em{font-style:italic; color:var(--coral);}
+.hero p{font-size:16px; line-height:1.6; color:rgba(42,36,32,0.72); max-width:480px; margin:0;}
+.tiers-card{
+  background:var(--tide); color:var(--pearl); border-radius:18px; padding:22px 24px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.tiers-card .eyebrow{font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.6;}
+.tier-row{display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,255,255,0.15);}
+.tier-row:last-child{border-bottom:none;}
+.tier-row .qty{font-family:'JetBrains Mono',monospace; font-size:13px; opacity:0.75;}
+.tier-row .pct{font-family:'Fraunces',serif; font-size:22px; font-weight:600;}
 
-  /* VIEWER (flipbook style) */
-  .viewer-wrap{
-    max-width: 980px;
-    margin: 26px auto 10px;
-    padding: 0 16px;
-  }
-  .viewer{
-    position:relative;
-    background: var(--verde-osc);
-    border-radius: 10px;
-    box-shadow: 0 18px 50px rgba(0,0,0,.28);
-    overflow:hidden;
-    aspect-ratio: 1755/1241;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .viewer img{
-    width:100%;
-    height:100%;
-    object-fit: contain;
-    display:block;
-    opacity:0;
-    animation: fadeIn .35s ease forwards;
-    cursor: zoom-in;
-  }
-  @keyframes fadeIn{ to{opacity:1;} }
+/* ===== FILTER BAR ===== */
+.filters{
+  max-width:1240px; margin:0 auto; padding:0 24px 24px;
+  display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+}
+.filters input[type="search"]{
+  flex:1; min-width:200px; border:1px solid var(--line); background:#fff;
+  border-radius:999px; padding:10px 18px; font-size:14px; font-family:'Work Sans',sans-serif;
+  outline:none;
+}
+.filters input[type="search"]:focus{border-color:var(--coral);}
+.chip{
+  border:1px solid var(--line); background:#fff; color:var(--ink);
+  border-radius:999px; padding:8px 16px; font-size:13px; cursor:pointer;
+  font-family:'Work Sans',sans-serif; transition:all .15s ease; white-space:nowrap;
+}
+.chip.active{background:var(--tide); color:var(--pearl); border-color:var(--tide);}
+.chip:hover{border-color:var(--tide);}
 
-  .nav-btn{
-    position:absolute;
-    top:0;bottom:0;
-    width:64px;
-    background: linear-gradient(to right, rgba(0,0,0,.35), transparent);
-    border:none;
-    color:#fff;
-    font-size: 28px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    opacity:.55;
-    transition: opacity .2s, background .2s;
-    z-index: 5;
-  }
-  .nav-btn:hover{ opacity:1; }
-  .nav-btn.next{ right:0; background: linear-gradient(to left, rgba(0,0,0,.35), transparent); }
-  .nav-btn.prev{ left:0; }
+/* ===== GRID ===== */
+.grid-wrap{max-width:1240px; margin:0 auto; padding:0 24px 80px;}
+.section-title{
+  font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--cocoa);
+  margin:38px 0 16px; display:flex; align-items:center; gap:12px;
+}
+.section-title::after{content:''; flex:1; height:1px; background:var(--line);}
+.grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px;
+}
+.card{
+  background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  display:flex; flex-direction:column; transition:box-shadow .2s ease, transform .2s ease;
+}
+.card:hover{box-shadow:0 12px 28px -12px rgba(27,58,69,0.25); transform:translateY(-2px);}
+.card-swatch{
+  height:180px; position:relative; overflow:hidden;
+  display:flex; align-items:flex-end; padding:10px 14px;
+}
+.card-swatch img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center;
+}
+.card-swatch .id{position:relative; z-index:2; font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(255,255,255,0.85); background:rgba(0,0,0,0.28); padding:2px 8px; border-radius:999px;}
+.card-body{padding:16px; display:flex; flex-direction:column; gap:10px; flex:1;}
+.card-body h3{font-size:16px; margin:0; font-weight:600; line-height:1.25;}
+.card-body .desc{font-size:12.5px; color:rgba(42,36,32,0.65); line-height:1.4; margin:0;}
+.price-line{display:flex; align-items:baseline; gap:8px; margin-top:2px;}
+.price-line .now{font-family:'Fraunces',serif; font-weight:600; font-size:19px;}
+.price-line .was{font-family:'JetBrains Mono',monospace; font-size:12px; text-decoration:line-through; opacity:0.4;}
+.price-line .save{font-size:11px; color:var(--ok); font-weight:600;}
 
-  .viewer-controls{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap: 16px;
-    margin: 16px 0 6px;
-    flex-wrap: wrap;
-  }
-  .viewer-controls button{
-    background: var(--verde);
-    color:#fff;
-    border:none;
-    padding: 9px 18px;
-    border-radius: 999px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:600;
-    transition: background .15s;
-  }
-  .viewer-controls button:hover{ background: var(--verde-osc); }
-  .slider-wrap{
-    flex:1;
-    max-width: 400px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .slider-wrap input[type=range]{
-    flex:1;
-    accent-color: var(--dorado);
-  }
+.tier-table{
+  border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:2px;
+}
+.tier-table .trow{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6px 10px; font-size:11.5px; border-bottom:1px solid var(--line);
+  background:#fff;
+}
+.tier-table .trow:last-child{border-bottom:none;}
+.tier-table .trow.active{background:var(--sand); font-weight:600;}
+.tier-table .trow .tname{color:rgba(42,36,32,0.7);}
+.tier-table .trow .trange{font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(42,36,32,0.45); margin-left:4px;}
+.tier-table .trow .tprice{font-family:'JetBrains Mono',monospace; font-size:12.5px;}
 
-  /* GRID / THUMBNAILS by chapter */
-  .chapter{
-    max-width: 1200px;
-    margin: 50px auto 0;
-    padding: 0 20px;
-  }
-  .chapter-title{
-    font-family:'Georgia',serif;
-    color: var(--verde-osc);
-    font-size: 22px;
-    border-left: 5px solid var(--dorado);
-    padding-left: 12px;
-    margin-bottom: 18px;
-    letter-spacing:.5px;
-  }
-  .grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 14px;
-    margin-bottom: 10px;
-  }
-  .thumb{
-    cursor:pointer;
-    border-radius: 8px;
-    overflow:hidden;
-    background:#fff;
-    box-shadow: 0 4px 14px rgba(0,0,0,.10);
-    transition: transform .18s, box-shadow .18s;
-    position:relative;
-  }
-  .thumb:hover{
-    transform: translateY(-4px);
-    box-shadow: 0 10px 22px rgba(0,0,0,.18);
-  }
-  .thumb img{
-    width:100%;
-    display:block;
-    aspect-ratio: 1755/1241;
-    object-fit: cover;
-    object-position: top;
-  }
-  .thumb .num{
-    position:absolute;
-    bottom:6px;right:6px;
-    background: rgba(0,0,0,.55);
-    color:#fff;
-    font-size:10px;
-    padding:2px 7px;
-    border-radius: 10px;
-  }
+.opt-label{font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:rgba(42,36,32,0.5); margin-top:4px;}
+.opt-row{display:flex; gap:6px; flex-wrap:wrap;}
+.opt-btn{
+  border:1px solid var(--line); background:var(--pearl); border-radius:8px; padding:5px 9px;
+  font-size:12px; cursor:pointer; font-family:'Work Sans',sans-serif; color:var(--ink);
+}
+.opt-btn.sel{background:var(--tide); color:var(--pearl); border-color:var(--tide);}
+.swatch-btn{
+  width:24px; height:24px; border-radius:50%; border:2px solid transparent; cursor:pointer; position:relative;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+.swatch-btn.sel{border-color:var(--coral);}
+.swatch-btn.sel::after{content:''; position:absolute; inset:-4px; border:1px solid var(--coral); border-radius:50%;}
 
-  /* LIGHTBOX */
-  .lightbox{
-    position:fixed;
-    inset:0;
-    background: rgba(10,15,14,.94);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index: 200;
-    flex-direction: column;
-  }
-  .lightbox.open{ display:flex; }
-  .lightbox img{
-    max-width: 92vw;
-    max-height: 82vh;
-    border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0,0,0,.6);
-  }
-  .lightbox-close{
-    position:absolute;
-    top:18px;right:24px;
-    color:#fff;
-    font-size:32px;
-    cursor:pointer;
-    background:none;
-    border:none;
-    line-height:1;
-  }
-  .lightbox-nav{
-    margin-top: 14px;
-    display:flex;
-    gap: 20px;
-    align-items:center;
-  }
-  .lightbox-nav button{
-    background: var(--dorado);
-    border:none;
-    color:var(--verde-osc);
-    font-weight:700;
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor:pointer;
-  }
-  .lightbox-nav span{ color:#fff; font-size:13px; }
+.qty-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; padding-top:8px;}
+.stepper{display:flex; align-items:center; border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+.stepper button{border:none; background:var(--pearl); width:28px; height:30px; cursor:pointer; font-size:15px; font-family:'Work Sans',sans-serif;}
+.stepper span{width:32px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:13px;}
+.add-btn{
+  background:var(--ink); color:#fff; border:none; border-radius:8px; padding:8px 14px;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:'Work Sans',sans-serif;
+  transition:background .15s ease;
+}
+.add-btn:hover{background:var(--coral);}
+.add-btn.added{background:var(--ok);}
 
-  footer{
-    text-align:center;
-    padding: 40px 20px 60px;
-    color:#777;
-    font-size:13px;
-  }
-  footer .fbrand{
-    font-family:'Georgia',serif;
-    color: var(--verde-osc);
-    font-size:16px;
-    letter-spacing:1px;
-    margin-bottom:6px;
-  }
-  footer a{ color: var(--verde); text-decoration:none; font-weight:600; }
+/* ===== CART DRAWER ===== */
+.overlay{
+  position:fixed; inset:0; background:rgba(15,37,46,0.45); z-index:90; opacity:0; pointer-events:none;
+  transition:opacity .25s ease;
+}
+.overlay.show{opacity:1; pointer-events:auto;}
+.drawer{
+  position:fixed; top:0; right:0; height:100%; width:min(420px,92vw); background:var(--pearl); z-index:100;
+  transform:translateX(100%); transition:transform .3s ease; display:flex; flex-direction:column;
+  box-shadow:-20px 0 50px -20px rgba(0,0,0,0.3);
+}
+.drawer.show{transform:translateX(0);}
+.drawer-head{
+  padding:20px 22px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between;
+  background:var(--tide-deep); color:var(--pearl);
+}
+.drawer-head h2{margin:0; font-size:19px;}
+.close-btn{background:none; border:none; color:var(--pearl); font-size:22px; cursor:pointer; opacity:0.7;}
+.close-btn:hover{opacity:1;}
+.drawer-tier{
+  padding:14px 22px; background:var(--sand); font-size:13px; display:flex; flex-direction:column; gap:6px;
+  border-bottom:1px solid var(--line);
+}
+.drawer-tier .msg{font-weight:600;}
+.mini-track{height:6px; border-radius:999px; background:rgba(42,36,32,0.12); overflow:hidden;}
+.mini-fill{height:100%; background:var(--coral); transition:width .3s ease;}
+.drawer-items{flex:1; overflow-y:auto; padding:10px 22px;}
+.empty-cart{padding:40px 10px; text-align:center; color:rgba(42,36,32,0.5); font-size:14px;}
+.line-item{
+  display:grid; grid-template-columns:1fr auto; gap:4px 10px; padding:14px 0; border-bottom:1px solid var(--line);
+}
+.line-item .li-name{font-weight:600; font-size:13.5px;}
+.line-item .li-meta{font-size:11.5px; color:rgba(42,36,32,0.55); font-family:'JetBrains Mono',monospace;}
+.line-item .li-price{text-align:right; font-family:'JetBrains Mono',monospace; font-size:13px;}
+.line-item .li-remove{grid-column:1/2; font-size:11px; color:var(--coral); cursor:pointer; background:none; border:none; padding:0; text-align:left; width:fit-content;}
+.li-qty-ctrl{display:flex; align-items:center; gap:6px; margin-top:4px;}
+.drawer-foot{padding:18px 22px 24px; border-top:1px solid var(--line); background:#fff;}
+.foot-row{display:flex; justify-content:space-between; font-size:14px; margin-bottom:6px;}
+.foot-row.total{font-size:19px; font-family:'Fraunces',serif; font-weight:600; margin-top:8px;}
+.warn-box{
+  background:#FBEAE1; border:1px solid #E7B79B; color:var(--cocoa-dark); font-size:12.5px;
+  border-radius:10px; padding:10px 12px; margin:10px 0; line-height:1.5;
+}
+.ok-box{
+  background:#E7F1EA; border:1px solid #B9DAC4; color:#2C5A41; font-size:12.5px;
+  border-radius:10px; padding:10px 12px; margin:10px 0; line-height:1.5;
+}
+.whatsapp-btn{
+  width:100%; background:#1DA851; color:#fff; border:none; border-radius:10px; padding:14px;
+  font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:'Work Sans',sans-serif; transition:background .15s ease;
+}
+.whatsapp-btn:hover{background:#178f45;}
+.whatsapp-btn:disabled{background:#B7B2AA; cursor:not-allowed;}
+.customer-fields{display:flex; flex-direction:column; gap:8px; margin-bottom:10px;}
+.customer-fields input{
+  border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:13px; font-family:'Work Sans',sans-serif;
+}
 
-  /* whatsapp floating */
-  .wa-float{
-    position:fixed;
-    bottom: 22px;
-    right: 22px;
-    background:#25D366;
-    color:#fff;
-    border-radius:50%;
-    width:56px;height:56px;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow: 0 6px 18px rgba(0,0,0,.3);
-    z-index: 90;
-    text-decoration:none;
-    font-size: 26px;
-  }
+footer{
+  text-align:center; padding:30px 20px 50px; color:rgba(42,36,32,0.45); font-size:12px;
+}
 
-  @media (max-width: 600px){
-    .brand-title{font-size:15px;}
-    .nav-btn{width:44px;font-size:20px;}
-    .viewer-controls{gap:8px;}
-    .slider-wrap{max-width: 100%; width:100%; order:3;}
-  }
-
-  /* ===== PRICE LEVEL PANEL ===== */
-  .price-panel{
-    position: static;
-    z-index: 40;
-    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-osc) 100%);
-    border-bottom: 2px solid var(--dorado);
-    box-shadow: 0 4px 14px rgba(0,0,0,.18);
-  }
-  .price-panel-inner{
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 12px 18px;
-    display:flex;
-    align-items:center;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content:center;
-  }
-  .price-panel-label{
-    color: var(--dorado-claro);
-    font-size: 12.5px;
-    font-weight:600;
-    letter-spacing:.3px;
-    white-space:nowrap;
-  }
-  .level-buttons{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-  .level-btn{
-    position:relative;
-    background: rgba(255,255,255,.08);
-    border: 1.5px solid rgba(255,255,255,.25);
-    color:#fff;
-    padding: 7px 14px 6px;
-    border-radius: 12px;
-    cursor:pointer;
-    text-align:center;
-    transition: all .18s;
-    font-family: inherit;
-    line-height:1.25;
-  }
-  .level-btn small{
-    display:block;
-    font-size: 9.5px;
-    font-weight:400;
-    opacity:.8;
-    margin-top:1px;
-  }
-  .level-btn:hover{
-    background: rgba(255,255,255,.18);
-    transform: translateY(-1px);
-  }
-  .level-btn.active{
-    background: var(--dorado);
-    border-color: var(--dorado-claro);
-    color: var(--verde-osc);
-    font-weight:700;
-    box-shadow: 0 3px 10px rgba(0,0,0,.25);
-  }
-  .level-btn.active small{ opacity:.85; }
-  .level-btn .pop-tag{
-    position:absolute;
-    top:-9px; right:-6px;
-    background: var(--dorado-claro);
-    color: var(--verde-osc);
-    font-size: 8.5px;
-    font-weight:800;
-    padding: 1px 6px;
-    border-radius: 8px;
-    letter-spacing:.3px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.3);
-  }
-  .currency-toggle{
-    background: transparent;
-    border: 1.5px solid var(--dorado);
-    color: var(--dorado-claro);
-    padding: 7px 14px;
-    border-radius: 12px;
-    cursor:pointer;
-    font-size: 12px;
-    font-weight:600;
-    transition: all .18s;
-    font-family: inherit;
-  }
-  .currency-toggle:hover{
-    background: var(--dorado);
-    color: var(--verde-osc);
-  }
-
-  /* ===== PRODUCT INFO CARD (under main viewer) ===== */
-  .product-info{
-    background:#fff;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,.10);
-    padding: 16px 22px;
-    margin: 14px auto 0;
-    max-width: 760px;
-    text-align:center;
-    border-top: 3px solid var(--dorado);
-  }
-  .pi-name{
-    font-family:'Georgia',serif;
-    color: var(--verde-osc);
-    font-size: 16px;
-    letter-spacing:.3px;
-    margin-bottom: 8px;
-  }
-  .pi-price-row{
-    font-size: 22px;
-    font-weight:700;
-    color: var(--verde-osc);
-    margin-bottom: 4px;
-  }
-  .price-old{
-    font-size: 14px;
-    color:#999;
-    text-decoration: line-through;
-    font-weight:500;
-    margin-right: 8px;
-  }
-  .price-now{
-    color: var(--verde);
-    font-weight:800;
-  }
-  .ganancia{
-    font-size: 12.5px;
-    color: #8a6d1d;
-    background: #fbf2da;
-    display:inline-block;
-    padding: 3px 12px;
-    border-radius: 20px;
-    margin: 4px 0;
-  }
-  .pi-meta{
-    font-size: 11.5px;
-    color:#888;
-    margin-top: 6px;
-    letter-spacing:.2px;
-  }
-
-  /* price footer inside grid thumbnails */
-  .thumb{
-    display:flex;
-    flex-direction: column;
-  }
-  .thumb img{
-    aspect-ratio: 1755/1300;
-  }
-  .thumb-price{
-    background: var(--crema);
-    padding: 7px 8px 8px;
-    border-top: 1px solid #eee;
-  }
-  .tp-name{
-    font-size: 10.5px;
-    color: var(--verde-osc);
-    font-weight:700;
-    line-height:1.25;
-    margin-bottom:3px;
-    min-height: 24px;
-  }
-  .tp-price{
-    font-size: 12px;
-    font-weight:800;
-    color: var(--verde);
-  }
-  .tp-old{
-    font-size: 10px;
-    color:#aaa;
-    text-decoration:line-through;
-    margin-right: 4px;
-  }
-
-  @media (max-width: 600px){
-    header{ padding: 10px 14px; }
-    .price-panel-inner{ padding: 8px 10px; gap: 6px; }
-    .pi-price-row{ font-size: 19px; }
-    .price-panel-label{ font-size: 11px; }
-    .level-btn{ padding: 6px 10px 5px; font-size: 12px; }
-    .level-btn small{ font-size: 9px; }
-    .currency-toggle{ padding: 6px 10px; font-size: 11px; }
-  }
-
-  /* ===== SYNC MODE ===== */
-  .sync-panel{
-    display:none;
-    background: #fff3cd;
-    border: 2px dashed #c79a3c;
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin: 14px auto 0;
-    max-width: 760px;
-    text-align:center;
-  }
-  .sync-panel.active{ display:block; }
-  .sync-panel .sync-title{
-    font-weight:700;
-    color:#8a6d1d;
-    font-size:13.5px;
-    margin-bottom:8px;
-  }
-  .sync-panel select{
-    width:100%;
-    max-width: 480px;
-    padding: 9px 10px;
-    border-radius: 8px;
-    border: 1.5px solid #c79a3c;
-    font-size: 13.5px;
-    font-family: inherit;
-    background:#fff;
-    color: var(--texto);
-  }
-  .sync-panel .sync-export{
-    margin-top: 12px;
-    background: var(--verde);
-    color:#fff;
-    border:none;
-    padding: 8px 16px;
-    border-radius: 18px;
-    cursor:pointer;
-    font-size: 12.5px;
-    font-weight:600;
-  }
-  .sync-panel .sync-export:hover{ background: var(--verde-osc); }
-  .sync-export-box{
-    display:none;
-    max-width: 760px;
-    margin: 12px auto 0;
-  }
-  .sync-export-box.active{ display:block; }
-  .sync-export-box textarea{
-    width:100%;
-    height: 140px;
-    font-family: monospace;
-    font-size: 11.5px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    resize: vertical;
-  }
-  .sync-export-box .copy-btn{
-    margin-top:6px;
-    background: var(--dorado);
-    color: var(--verde-osc);
-    border:none;
-    padding: 7px 16px;
-    border-radius: 16px;
-    cursor:pointer;
-    font-weight:600;
-    font-size:12.5px;
-  }
-  .sync-panel .sync-status{
-    font-size: 11.5px;
-    color:#666;
-    margin-top:6px;
-  }
+@media(max-width:800px){
+  .hero{grid-template-columns:1fr; padding-top:36px;}
+}
 </style>
 </head>
 <body>
 
-<div id="topBar">
-<header>
-  <div class="brand">
-    <div class="brand-logo">PF</div>
-    <div class="brand-title">PACIFIC FAJAS<small>Catálogo Edición Mundialista 2026</small></div>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <span class="name">PACIFIC FAJAS</span>
+      <span class="tag">Portal de Pedidos</span>
+    </div>
+    <button class="cart-btn" id="openCart">
+      Pedido <span class="cart-count" id="cartCount">0 uds</span>
+    </button>
   </div>
-  <div class="header-actions">
-    <span class="page-indicator" id="pageIndicator">1 / 82</span>
-    <a href="https://wa.me/573172335456" target="_blank">WhatsApp</a>
-    <a href="https://www.pacificfajas.com" target="_blank">Web</a>
-
+  <div class="tide-wrap">
+    <div class="tide-label">
+      <span id="tideMsg">Agrega productos para calcular tu descuento</span>
+      <span id="tideQtyLabel">0 / 100 uds</span>
+    </div>
+    <div class="tide-track"><div class="tide-fill" id="tideFill"></div></div>
+    <div class="tide-marks">
+      <span class="tide-mark" style="left:6%">6</span>
+      <span class="tide-mark" style="left:25%">25</span>
+      <span class="tide-mark" style="left:100%; transform:translateX(-100%)">100</span>
+    </div>
   </div>
 </header>
 
-<div class="price-panel" id="pricePanel">
-  <div class="price-panel-inner">
-    <span class="price-panel-label">💰 ELIGE TU NIVEL PARA VER PRECIOS:</span>
-    <div class="level-buttons" id="levelButtons">
-      <button class="level-btn active" data-level="detal" onclick="setLevel('detal')">Detal<small>Precio público</small></button>
-      <button class="level-btn" data-level="20" onclick="setLevel('20')">20% OFF<small>6–24 und</small></button>
-      <button class="level-btn" data-level="25" onclick="setLevel('25')"><span class="pop-tag">★ POPULAR</span>25% OFF<small>25–99 und</small></button>
-      <button class="level-btn" data-level="28" onclick="setLevel('28')">28% OFF<small>100+ und</small></button>
-    </div>
-    <button class="currency-toggle" id="currencyToggle" onclick="toggleCurrency()">Ver en USD</button>
+<section class="hero">
+  <div>
+    <h1>Pacific Fajas</h1>
+    <h1 style="font-size:clamp(20px,2.6vw,28px); margin-top:-6px; font-weight:500; color:var(--cocoa);">Fajas moldeadoras, postquirúrgicas y deportivas por mayor</h1>
+    <p>Elige tallas, colores y cantidades por producto. El descuento se aplica automáticamente a todo tu pedido según el total de unidades — mientras más ordenas, más bajo el precio unitario.</p>
   </div>
-</div>
-</div>
-
-<section class="intro">
-  <h1>Hechas para mujeres reales como tú</h1>
-  <p>FÁBRICA EN CALI, COLOMBIA · ENVÍOS NACIONALES E INTERNACIONALES · @pacificfajas</p>
-  <div class="line"></div>
+  <div class="tiers-card">
+    <span class="eyebrow">Niveles de descuento</span>
+    <div class="tier-row"><span>Precio detal</span><span class="qty">1–5 uds</span><span class="pct">0%</span></div>
+    <div class="tier-row"><span>Mayorista</span><span class="qty">desde 6 uds</span><span class="pct">20%</span></div>
+    <div class="tier-row"><span>Mayorista +</span><span class="qty">desde 25 uds</span><span class="pct">25%</span></div>
+    <div class="tier-row"><span>Distribuidor</span><span class="qty">desde 100 uds</span><span class="pct">28%</span></div>
+  </div>
 </section>
 
-<div class="toc" id="toc">
-  <!-- se llena con JS -->
+<div class="filters">
+  <input type="search" id="searchBox" placeholder="Buscar por nombre o referencia...">
+  <div id="chipRow" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
 </div>
 
-<div class="viewer-wrap">
-  <div class="viewer" id="viewer">
-    <button class="nav-btn prev" onclick="goPage(-1)">&#10094;</button>
-    <img id="pageImg" src="1.jpg" alt="Página 1" onclick="openLightbox(currentPage)">
-    <button class="nav-btn next" onclick="goPage(1)">&#10095;</button>
+<div class="grid-wrap" id="gridWrap"></div>
+
+<footer>PACIFIC · Lista de precios mayoristas · Pedidos por WhatsApp +57 317 233 5456</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2>Tu pedido</h2>
+    <button class="close-btn" id="closeCart">&times;</button>
   </div>
-  <div class="viewer-controls">
-    <button onclick="goPage(-1)">‹ Anterior</button>
-    <div class="slider-wrap">
-      <input type="range" id="slider" min="1" max="82" value="1" oninput="setPage(this.value)">
+  <div class="drawer-tier">
+    <div class="msg" id="drawerTierMsg">Agrega 6 unidades para desbloquear 20% OFF</div>
+    <div class="mini-track"><div class="mini-fill" id="miniFill"></div></div>
+  </div>
+  <div class="drawer-items" id="drawerItems">
+    <div class="empty-cart">Tu pedido está vacío.<br>Agrega productos desde el catálogo.</div>
+  </div>
+  <div class="drawer-foot">
+    <div id="warnSlot"></div>
+    <div class="foot-row"><span>Unidades totales</span><span id="footUnits" class="mono">0</span></div>
+    <div class="foot-row"><span>Descuento aplicado</span><span id="footTier" class="mono">Detal (0%)</span></div>
+    <div class="foot-row total"><span>Total</span><span id="footTotal" class="mono">$0</span></div>
+    <div class="customer-fields">
+      <input type="text" id="custName" placeholder="Tu nombre">
+      <input type="text" id="custCity" placeholder="Ciudad de envío">
     </div>
-    <button onclick="goPage(1)">Siguiente ›</button>
+    <button class="whatsapp-btn" id="sendBtn">Enviar pedido por WhatsApp</button>
   </div>
-  <div class="product-info" id="productInfo"></div>
-  <div class="sync-panel" id="syncPanel">
-    <div class="sync-title">🔧 MODO SINCRONIZACIÓN — Página <span id="syncPageNum">1</span>: ¿qué producto muestra esta foto?</div>
-    <select id="syncSelect" onchange="onSyncSelect(this.value)"></select>
-    <div class="sync-status" id="syncStatus"></div>
-    <button class="sync-export" onclick="exportPageMap()">📋 Exportar mapeo final</button>
-  </div>
-  <div class="sync-export-box" id="syncExportBox">
-    <textarea id="syncExportText" readonly></textarea>
-    <button class="copy-btn" onclick="copyExport()">Copiar texto</button>
-    <div class="sync-status">Copia este bloque y pégalo en el código reemplazando la línea <code>const PAGE_MAP = {...}</code>, o envíamelo en el chat y yo lo aplico al archivo por ti.</div>
-  </div>
-</div>
-
-<div id="gridSection" style="display:none;"></div>
-
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-  <img id="lightboxImg" src="" alt="">
-  <div class="product-info" id="lightboxInfo" style="margin-top:14px;"></div>
-  <div class="lightbox-nav">
-    <button onclick="lbGo(-1)">‹</button>
-    <span id="lbIndicator">1 / 82</span>
-    <button onclick="lbGo(1)">›</button>
-  </div>
-</div>
-
-<footer>
-  <div class="fbrand">PACIFIC FAJAS</div>
-  Cali, Colombia · Fábrica de fajas moldeadoras, postquirúrgicas y deportivas<br>
-  Instagram <a href="https://instagram.com/pacificfajas" target="_blank">@pacificfajas</a> ·
-  WhatsApp <a href="https://wa.me/573172335456" target="_blank">317 233 5456</a> ·
-  <a href="https://www.pacificfajas.com" target="_blank">www.pacificfajas.com</a>
-</footer>
-
-<a class="wa-float" href="https://wa.me/573172335456" target="_blank" title="Escríbenos">&#128172;</a>
+</aside>
 
 <script>
-  // Ajusta el padding-top del body dinámicamente según la altura real
-  // de la franja fija (header + panel de niveles), para que nunca se
-  // superpongan sin importar el tamaño de pantalla o si el texto se envuelve.
-  function ajustarEspacioTopBar(){
-    const topBar = document.getElementById('topBar');
-    if(topBar){
-      document.body.style.paddingTop = (topBar.offsetHeight + 2) + 'px';
-    }
+/* ============ DATA ============ */
+const COLORS = {
+  BEIGE:"#D9BFA0", COCOA:"#6B4630", NEGRO:"#1C1C1C", BLANCO:"#F5F1EA"
+};
+const SIZES_STD = ["S","M","L","XL","2XL"];
+const SIZES_3XL = ["S","M","L","XL","2XL","3XL"];
+
+function P(id,name,desc,cat,detal,p20,p25,p28,colors,sizes,img){
+  return {id,name,desc,cat,detal,p20,p25,p28,colors,sizes:sizes||SIZES_STD,img:img||null};
+}
+const BCN = ["BEIGE","COCOA","NEGRO"];
+const BC  = ["BEIGE","COCOA"];
+const BCNW= ["BEIGE","COCOA","NEGRO","BLANCO"];
+const N   = ["NEGRO"];
+
+const CATS = [
+  "Línea Reloj de Arena","Fajas Largas","Fajas Media Pierna","Fajas Panty",
+  "Cinturillas y Chalecos","Short Levantacola","Línea Postquirúrgica",
+  "Brassier Postquirúrgico","Fajas para Hombre","Línea Deportiva"
+];
+
+const PRODUCTS = [
+  P(1,"PACIFIC PERLA","Faja Reloj de arena con brassier media pierna",CATS[0],237000,189600,177750,170640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/8.jpeg"),
+  P(2,"PACIFIC PERLA NEGRA","Faja reloj de arena larga con brassier",CATS[0],247000,197600,185250,177840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/9.jpeg"),
+  P(3,"ESMERALDA","Faja reloj de arena media pierna",CATS[0],207000,165600,155250,149040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/10.jpeg"),
+  P(4,"PACIFIC CORAL","Faja reloj de arena 2 en 1 media pierna",CATS[0],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/12.jpeg"),
+  P(5,"PACIFIC MARFIL","Faja reloj de arena larga",CATS[0],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/11.jpeg"),
+
+  P(6,"PACIFIC NACÁR","Faja moldeadora 3/4 · cierre",CATS[1],197000,157600,147750,141840,BCN,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/14.jpeg"),
+  P(7,"PACIFIC NACÁR","Faja moldeadora 3/4 · abrochadura",CATS[1],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/14.jpeg"),
+  P(8,"PACIFIC ZAFIRO","Faja moldeadora larga con brassier · cierre",CATS[1],207000,165600,155250,149040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/15.jpeg"),
+  P(9,"PACIFIC ZAFIRO","Faja moldeadora larga con brassier · abrochadura",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/15.jpeg"),
+  P(10,"PACIFIC JADE","Faja moldeadora larga tira ancha · cierre",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/16.jpeg"),
+  P(11,"PACIFIC JADE","Faja moldeadora larga tira ancha · abrochadura",CATS[1],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/16.jpeg"),
+  P(12,"PACIFIC CRISTAL","Faja moldeadora larga tira removible · cierre",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/17.jpeg"),
+  P(13,"PACIFIC CRISTAL","Faja moldeadora larga tira removible · abrochadura",CATS[1],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/17.jpeg"),
+  P(14,"PACIFIC DIAMANTE","Faja moldeadora larga con mangas · abrochadura",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/18.jpeg"),
+  P(15,"PACIFIC DIAMANTE","Faja moldeadora larga con mangas · cierre",CATS[1],207000,165600,155250,149040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/18.jpeg"),
+  P(16,"PACIFIC MAREA","Faja moldeadora con mangas y brassier · abrochadura",CATS[1],247000,197600,185250,177840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/19.jpeg"),
+  P(17,"PACIFIC MAREA","Faja moldeadora con mangas y brassier · cierre",CATS[1],257000,205600,192750,185040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/19.jpeg"),
+
+  P(18,"PACIFIC BRISA","Faja media pierna tira ancha · cierre",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/20.jpeg"),
+  P(19,"PACIFIC BRISA","Faja media pierna tira ancha · abrochadura",CATS[2],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/20.jpeg"),
+  P(20,"PACIFIC BAHÍA","Faja moldeadora strapless · cierre",CATS[2],167000,133600,125250,120240,BCNW,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/21.jpeg"),
+  P(21,"PACIFIC BAHÍA","Faja moldeadora strapless · abrochadura",CATS[2],157000,125600,117750,113040,BCNW,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/21.jpeg"),
+  P(22,"PACIFIC OLEAJE","Faja tira removible · cierre",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/22.jpeg"),
+  P(23,"PACIFIC OLEAJE","Faja tira removible · abrochadura",CATS[2],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/22.jpeg"),
+  P(24,"PACIFIC AURORA","Faja corta con brassier · cierre",CATS[2],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/23.jpeg"),
+  P(25,"PACIFIC AURORA","Faja corta con brassier · abrochadura",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/23.jpeg"),
+  P(26,"PACIFIC MAREJADA","Faja corta con brassier y mangas · abrochadura",CATS[2],247000,197600,185250,177840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/24.jpeg"),
+  P(27,"PACIFIC OCÉANO","Faja corta con mangas · cierre",CATS[2],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/25.jpeg"),
+  P(28,"PACIFIC OCÉANO","Faja corta con mangas · abrochadura",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/25.jpeg"),
+  P(29,"PACIFIC AMANECER","Faja corta brassier y manga corta · cierre",CATS[2],227000,181600,170250,163440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/26.jpeg"),
+  P(30,"PACIFIC AMANECER","Faja corta brassier y manga corta · abrochadura",CATS[2],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/26.jpeg"),
+  P(31,"PACIFIC NUQUÍ","Faja body cachetera · cierre o abrochadura",CATS[2],157000,125600,117750,113040,BCN,null,null),
+
+  P(32,"PACIFIC EMPERATRIZ","Panty faja control abdomen",CATS[3],137000,109600,102750,98640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/28.jpeg"),
+  P(33,"PACIFIC ESTRELLA","Faja cachetera con brassier",CATS[3],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/29.jpeg"),
+  P(34,"PACIFIC TESORO","Panty faja postquirúrgico",CATS[3],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/30.jpeg"),
+  P(35,"PACIFIC DELFINA","Faja brasilera estraple",CATS[3],107000,85600,80250,77040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/31.jpeg"),
+
+  P(36,"PACIFIC JAGUAR","Cinturilla moldeadora · cierre",CATS[4],107000,85600,80250,77040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/33.jpeg"),
+  P(37,"PACIFIC JAGUAR","Cinturilla moldeadora · abrochadura",CATS[4],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/33.jpeg"),
+  P(38,"PACIFIC COLIBRÍ","Chaleco reloj de arena con brassier",CATS[4],167000,133600,125250,120240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/34.jpeg"),
+  P(39,"PACIFIC MARIPOSA","Chaleco reloj de arena 2 en 1 con brassier",CATS[4],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/35.jpeg"),
+  P(40,"PACIFIC PANTERA","Cinturilla látex",CATS[4],87000,69600,65250,62640,N,null,"VENDE -CATALOGO Edición mundial 2026/36.jpeg"),
+  P(41,"PACIFIC TUCÁN","Chaleco moldeador con mangas",CATS[4],167000,133600,125250,120240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/37.jpeg"),
+  P(42,"PACIFIC GARZA","Chaleco tira removible · cierre",CATS[4],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/38.jpeg"),
+  P(43,"PACIFIC GARZA","Chaleco tira removible · abrochadura",CATS[4],147000,117600,110250,105840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/38.jpeg"),
+  P(44,"PACIFIC QUETZAL","Cinturilla 2 en 1 reloj de arena",CATS[4],167000,133600,125250,120240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/39.jpeg"),
+  P(45,"PACIFIC DANTA","Chaleco corrector de postura · cierre",CATS[4],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/40.jpeg"),
+  P(46,"PACIFIC DANTA","Chaleco corrector de postura · abrochadura",CATS[4],147000,117600,110250,105840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/40.jpeg"),
+  P(47,"PACIFIC TIGRESA","Chaleco moldeador tira ancha",CATS[4],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/41.jpeg"),
+  P(48,"PACIFIC TIGRESA","Chaleco moldeador tira ancha (variante)",CATS[4],147000,117600,110250,105840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/41.jpeg"),
+  P(49,"PACIFIC PUMA","Chaleco 2 en 1 reloj de arena",CATS[4],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/42.jpeg"),
+
+  P(50,"PACIFIC ORQUÍDEA","Short levantacola cachetero",CATS[5],67000,53600,50250,48240,BCNW,null,"VENDE -CATALOGO Edición mundial 2026/44.jpeg"),
+  P(51,"PACIFIC AZUCENA","Short levantacola control abdomen",CATS[5],97000,77600,72750,69840,BCNW,null,"VENDE -CATALOGO Edición mundial 2026/45.jpeg"),
+  P(52,"PACIFIC MAGNOLIA","Short levantacola con abrochadura",CATS[5],107000,85600,80250,77040,BCNW,null,"VENDE -CATALOGO Edición mundial 2026/46.jpeg"),
+  P(53,"PACIFIC CAMELIA","Short levantacola",CATS[5],67000,53600,50250,48240,BCNW,null,"VENDE -CATALOGO Edición mundial 2026/47.jpeg"),
+  P(54,"PACIFIC ROSA","Short levantacola pescador",CATS[5],107000,85600,80250,77040,BCNW,null,"VENDE -CATALOGO Edición mundial 2026/48.jpeg"),
+
+  P(55,"PACIFIC MORPHO","Faja postquirúrgica larga con brassier",CATS[6],207000,165600,155250,149040,BC,null,"VENDE -CATALOGO Edición mundial 2026/50.jpeg"),
+  P(56,"PACIFIC LIBÉLULA","Faja de descanso",CATS[6],117000,93600,87750,84240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/51.jpeg"),
+  P(57,"PACIFIC CEIBA","Faja postquirúrgica corta con brassier",CATS[6],197000,157600,147750,141840,BC,null,"VENDE -CATALOGO Edición mundial 2026/52.jpeg"),
+  P(58,"PACIFIC YARUMO","Faja postquirúrgica larga con brassier y mangas",CATS[6],247000,197600,185250,177840,BC,null,"VENDE -CATALOGO Edición mundial 2026/53.jpeg"),
+  P(59,"PACIFIC TIGRILLO","Faja postquirúrgica larga",CATS[6],197000,157600,147750,141840,BC,null,"VENDE -CATALOGO Edición mundial 2026/54.jpeg"),
+  P(60,"PACIFIC GARCETA","Faja postquirúrgica corta tira ancha",CATS[6],187000,149600,140250,134640,BC,null,"VENDE -CATALOGO Edición mundial 2026/55.jpeg"),
+  P(61,"PACIFIC HALCÓN","Faja postquirúrgica corta tira removible",CATS[6],187000,149600,140250,134640,BC,null,"VENDE -CATALOGO Edición mundial 2026/56.jpeg"),
+  P(62,"PACIFIC TÁNGARA","Faja postquirúrgica larga · cierre atrás",CATS[6],197000,157600,147750,141840,BC,null,"VENDE -CATALOGO Edición mundial 2026/57.jpeg"),
+  P(63,"PACIFIC LUCIÉRNAGA","Faja postquirúrgica larga con mangas",CATS[6],207000,165600,155250,149040,BC,null,"VENDE -CATALOGO Edición mundial 2026/58.jpeg"),
+
+  P(64,"REF 0110","Brassier postquirúrgico tira removible",CATS[7],77000,61600,57750,55440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/60.jpeg"),
+  P(65,"REF 0106","Brassier postquirúrgico",CATS[7],77000,61600,57750,55440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/61.jpeg"),
+  P(66,"REF 01061","Brassier postquirúrgico corrector de postura",CATS[7],87000,69600,65250,62640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/63.jpeg"),
+  P(67,"REF 0107","Brassier postquirúrgico tira removible",CATS[7],77000,61600,57750,55440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/64.jpeg"),
+  P(68,"REF 0108","Brassier postquirúrgico con mangas",CATS[7],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/65.jpeg"),
+
+  P(69,"REF 2018","Cinturilla deportiva hombre",CATS[8],97000,77600,72750,69840,N,null,"VENDE -CATALOGO Edición mundial 2026/67.jpeg"),
+  P(70,"REF 2016","Cinturilla men · cierre",CATS[8],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/68.jpeg"),
+  P(71,"REF 2017","Cinturilla men · abrochadura",CATS[8],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/68.jpeg"),
+  P(72,"PACIFIC OCELOTE","Chaleco moldeador hombre · cierre",CATS[8],137000,109600,102750,98640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/69.jpeg"),
+  P(73,"PACIFIC OCELOTE","Chaleco moldeador hombre · abrochadura",CATS[8],127000,101600,95250,91440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/69.jpeg"),
+  P(74,"REF 2017","Faja postquirúrgica men",CATS[8],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/70.jpeg"),
+  P(75,"REF 2019","Fajón abdominal",CATS[8],87000,69600,65250,62640,N,null,"VENDE -CATALOGO Edición mundial 2026/71.jpeg"),
+  P(76,"REF 1252","Chaleco light men",CATS[8],67000,53600,50250,48240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/74.jpeg"),
+  P(77,"REF 2011","Boxer levantacola",CATS[8],67000,53600,50250,48240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/75.jpeg"),
+  P(78,"REF 1255","Chaleco en neopreno men",CATS[8],77000,61600,57750,55440,N,null,"VENDE -CATALOGO Edición mundial 2026/76.jpeg"),
+
+  P(79,"REF 1257","Chaleco dama en neopreno",CATS[9],77000,61600,57750,55440,N,null,"VENDE -CATALOGO Edición mundial 2026/78.jpeg"),
+  P(80,"REF 0726","Cinturilla deportiva mujer",CATS[9],97000,77600,72750,69840,N,null,"VENDE -CATALOGO Edición mundial 2026/79.jpeg"),
+  P(81,"REF 1253","Short deportivo neopreno",CATS[9],77000,61600,57750,55440,N,null,"VENDE -CATALOGO Edición mundial 2026/80.jpeg"),
+  P(82,"REF 1254","Leggins con faja en neopreno",CATS[9],97000,77600,72750,69840,N,null,"VENDE -CATALOGO Edición mundial 2026/81.jpeg"),
+];
+
+/* ============ STATE ============ */
+const TIERS = [
+  {key:"detal", min:0,   pct:0,  label:"Detal (0%)"},
+  {key:"p20",   min:6,   pct:20, label:"Mayorista (20% OFF)"},
+  {key:"p25",   min:25,  pct:25, label:"Mayorista + (25% OFF)"},
+  {key:"p28",   min:100, pct:28, label:"Distribuidor (28% OFF)"},
+];
+const cardState = {}; // per product: {size, color, qty}
+let cart = []; // {productId, size, color, qty}
+const fmt = n => "$" + Math.round(n).toLocaleString("es-CO");
+
+function currentTier(totalQty){
+  let t = TIERS[0];
+  for(const tier of TIERS){ if(totalQty >= tier.min) t = tier; }
+  return t;
+}
+function nextTier(totalQty){
+  for(const tier of TIERS){ if(totalQty < tier.min) return tier; }
+  return null;
+}
+
+/* ============ RENDER CATALOG ============ */
+const gridWrap = document.getElementById('gridWrap');
+const chipRow = document.getElementById('chipRow');
+let activeCat = "Todos";
+let searchTerm = "";
+
+function initCardState(p){
+  if(!cardState[p.id]){
+    cardState[p.id] = {size:p.sizes[0], color:p.colors[0], qty:1};
   }
-  ajustarEspacioTopBar();
-  window.addEventListener('load', ajustarEspacioTopBar);
-  window.addEventListener('resize', ajustarEspacioTopBar);
+}
+PRODUCTS.forEach(initCardState);
 
-  const TOTAL_PAGES = 82;
-  let currentPage = 1;
+function buildChips(){
+  const allCats = ["Todos", ...CATS];
+  chipRow.innerHTML = allCats.map(c =>
+    `<button class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`
+  ).join("");
+  chipRow.querySelectorAll('.chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeCat = btn.dataset.cat; buildChips(); renderGrid(); });
+  });
+}
 
-  // 👉 AJUSTA AQUÍ si tu carpeta o extensión es diferente
-  const IMG_FOLDER = "";   // las imágenes están sueltas, junto al HTML (sin subcarpeta)
-  const IMG_EXT = "jpg";         // extensión de tus imágenes: jpg, jpeg o png
+function priceForTier(p, tierKey){
+  return p[tierKey];
+}
 
-  // ====================================================================
-  // BASE DE DATOS DE PRECIOS (origen: lista de precios mayoristas Pacific Fajas)
-  // Cada producto está asociado a una página del catálogo (p).
-  // 👉 AJUSTA AQUÍ el campo "p" de cada producto si el orden real de tus
-  //    fotos no coincide exactamente con el listado de precios.
-  // d = precio DETAL (público) en COP. Los niveles 20/25/28% se calculan
-  //    automáticamente aplicando el descuento sobre el precio detal,
-  //    igual que en la lista de precios oficial.
-  // ====================================================================
-  const LEVEL_FACTOR = { detal: 1, "20": 0.80, "25": 0.75, "28": 0.72 };
-  const USD_RATE = 3000; // COP por USD aprox., según la lista de precios
-
-  const products = [
-    {id:1,  n:"PACIFIC PERLA · Faja Reloj de Arena con brassier media pierna", d:237000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:2,  n:"PACIFIC PERLA NEGRA · Faja Reloj de Arena larga con brassier", d:247000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:3,  n:"ESMERALDA · Faja Reloj de Arena media pierna", d:207000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:4,  n:"PACIFIC CORAL · Faja Reloj de Arena 2 en 1 media pierna", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:5,  n:"PACIFIC MARFIL · Faja Reloj de Arena larga", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:6,  n:"PACIFIC NACÁR · Faja moldeadora 3/4 — Cierre", d:197000, s:"S–3XL", c:"Beige, Cocoa, Negro"},
-    {id:7,  n:"PACIFIC NACÁR · Faja moldeadora 3/4 — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:8,  n:"PACIFIC ZAFIRO · Faja moldeadora larga con brassier — Cierre", d:207000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:9,  n:"PACIFIC ZAFIRO · Faja moldeadora larga con brassier — Abrochadura", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:10, n:"PACIFIC JADE · Faja moldeadora larga tira ancha — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:11, n:"PACIFIC JADE · Faja moldeadora larga tira ancha — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:12, n:"PACIFIC CRISTAL · Faja moldeadora larga tira removible — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:13, n:"PACIFIC CRISTAL · Faja moldeadora larga tira removible — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:14, n:"PACIFIC DIAMANTE · Faja moldeadora larga con mangas — Abrochadura", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:15, n:"PACIFIC DIAMANTE · Faja moldeadora larga con mangas — Cierre", d:207000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:16, n:"PACIFIC MAREA · Faja con mangas y brassier — Abrochadura", d:247000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:17, n:"PACIFIC MAREA · Faja con mangas y brassier — Cierre", d:257000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:18, n:"PACIFIC BRISA · Faja media pierna tira ancha — Cierre", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:19, n:"PACIFIC BRISA · Faja media pierna tira ancha — Abrochadura", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:20, n:"PACIFIC BAHÍA · Faja moldeadora strapless — Cierre", d:167000, s:"S–3XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:21, n:"PACIFIC BAHÍA · Faja moldeadora strapless — Abrochadura", d:157000, s:"S–3XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:22, n:"PACIFIC OLEAJE · Faja tira removible — Cierre", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:23, n:"PACIFIC OLEAJE · Faja tira removible — Abrochadura", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:24, n:"PACIFIC AURORA · Faja corta con brassier — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:25, n:"PACIFIC AURORA · Faja corta con brassier — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:26, n:"PACIFIC MAREJADA · Faja corta con brassier y mangas — Abrochadura", d:247000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:27, n:"PACIFIC OCÉANO · Faja corta con mangas — Cierre", d:197000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:28, n:"PACIFIC OCÉANO · Faja corta con mangas — Abrochadura", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:29, n:"PACIFIC AMANECER · Faja con brassier y manga corta — Cierre", d:227000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:30, n:"PACIFIC AMANECER · Faja con brassier y manga corta — Abrochadura", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:31, n:"PACIFIC NUQUÍ · Faja body cachetera — Cierre/Abrochadura", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:32, n:"PACIFIC EMPERATRIZ · Panty faja control abdomen", d:137000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:33, n:"PACIFIC ESTRELLA · Faja cachetera con brassier", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:34, n:"PACIFIC TESORO · Panty faja postquirúrgica", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:35, n:"PACIFIC DELFINA · Faja brasilera estraple", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:36, n:"PACIFIC JAGUAR · Cinturilla moldeadora — Cierre", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:37, n:"PACIFIC JAGUAR · Cinturilla moldeadora — Abrochadura", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:38, n:"PACIFIC COLIBRÍ · Chaleco Reloj de Arena con brassier", d:167000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:39, n:"PACIFIC MARIPOSA · Chaleco 2 en 1 con brassier", d:187000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:40, n:"PACIFIC PANTERA · Cinturilla látex", d:87000,  s:"S–2XL", c:"Negro"},
-    {id:41, n:"PACIFIC TUCÁN · Chaleco moldeador con mangas", d:167000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:42, n:"PACIFIC GARZA · Chaleco tira removible — Cierre", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:43, n:"PACIFIC GARZA · Chaleco tira removible — Abrochadura", d:147000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:44, n:"PACIFIC QUETZAL · Cinturilla 2 en 1 Reloj de Arena", d:167000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:45, n:"PACIFIC DANTA · Chaleco corrector de postura — Cierre", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:46, n:"PACIFIC DANTA · Chaleco corrector de postura — Abrochadura", d:147000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:47, n:"PACIFIC TIGRESA · Chaleco tira ancha", d:157000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:48, n:"PACIFIC TIGRESA · Chaleco tira ancha (variante)", d:147000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:49, n:"PACIFIC PUMA · Chaleco 2 en 1 Reloj de Arena", d:177000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:50, n:"PACIFIC ORQUÍDEA · Short levantacola cachetero", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:51, n:"PACIFIC AZUCENA · Short levantacola control abdomen", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:52, n:"PACIFIC MAGNOLIA · Short levantacola con abrochadura", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:53, n:"PACIFIC CAMELIA · Short levantacola", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:54, n:"PACIFIC ROSA · Short levantacola pescador", d:107000, s:"S–2XL", c:"Beige, Cocoa, Negro, Blanco"},
-    {id:55, n:"PACIFIC MORPHO · Faja postquirúrgica larga con brassier", d:207000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:56, n:"PACIFIC LIBÉLULA · Faja de descanso", d:117000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:57, n:"PACIFIC CEIBA · Faja postquirúrgica corta con brassier", d:197000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:58, n:"PACIFIC YARUMO · Faja postquirúrgica larga con brassier y mangas", d:247000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:59, n:"PACIFIC TIGRILLO · Faja postquirúrgica larga", d:197000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:60, n:"PACIFIC GARCETA · Faja postquirúrgica corta tira ancha", d:187000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:61, n:"PACIFIC HALCÓN · Faja postquirúrgica corta tira removible", d:187000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:62, n:"PACIFIC TÁNGARA · Faja postquirúrgica larga — cierre atrás", d:197000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:63, n:"PACIFIC LUCIÉRNAGA · Faja postquirúrgica larga con mangas", d:207000, s:"S–2XL", c:"Beige, Cocoa"},
-    {id:64, n:"REF 0110 · Brassier postquirúrgico tira removible", d:77000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:65, n:"REF 0106 · Brassier postquirúrgico", d:77000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:66, n:"REF 01061 · Brassier corrector de postura", d:87000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:67, n:"REF 0107 · Brassier postquirúrgico tira removible", d:77000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:68, n:"REF 0108 · Brassier postquirúrgico con mangas", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:69, n:"REF 2018 · Cinturilla deportiva hombre", d:97000,  s:"S–2XL", c:"Negro"},
-    {id:70, n:"REF 2016 · Cinturilla men — Cierre", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:71, n:"REF 2017 · Cinturilla men — Abrochadura", d:97000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:72, n:"PACIFIC OCELOTE · Chaleco hombre — Cierre", d:137000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:73, n:"PACIFIC OCELOTE · Chaleco hombre — Abrochadura", d:127000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:74, n:"REF 2017 · Faja postquirúrgica men", d:217000, s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:75, n:"REF 2019 · Fajón abdominal", d:87000,  s:"S–2XL", c:"Negro"},
-    {id:76, n:"REF 1252 · Chaleco light men", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:77, n:"REF 2011 · Boxer levantacola", d:67000,  s:"S–2XL", c:"Beige, Cocoa, Negro"},
-    {id:78, n:"REF 1255 · Chaleco en neopreno men", d:77000,  s:"S–2XL", c:"Negro"},
-    {id:79, n:"REF 1257 · Chaleco dama en neopreno", d:77000,  s:"S–2XL", c:"Negro"},
-    {id:80, n:"REF 0726 · Cinturilla deportiva mujer", d:97000,  s:"S–2XL", c:"Negro"},
-    {id:81, n:"REF 1253 · Short deportivo neopreno", d:77000,  s:"S–2XL", c:"Negro"},
-    {id:82, n:"REF 1254 · Leggins con faja en neopreno", d:97000,  s:"S–2XL", c:"Negro"},
-  ];
-
-  let currentLevel = 'detal';
-  let currentCurrency = 'COP';
-
-  // ====================================================================
-  // MAPEO PÁGINA → PRODUCTO(S)
-  // Construido cruzando el índice real de las 82 páginas del catálogo
-  // con la lista de precios mayoristas. Cuando una página muestra el
-  // mismo diseño en dos versiones (Cierre / Abrochadura), se listan
-  // ambos ids en un arreglo y se muestran los dos precios juntos.
-  // Valor null = la página no es una foto de producto (portada,
-  // separador de línea, guía de tallas, contraportada, etc.)
-  // ====================================================================
-  const PAGE_MAP = {
-    1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
-    7: null,                 // portada línea Reloj de Arena
-    8: 1,                    // Pacific Perla
-    9: 2,                    // Pacific Perla Negra
-    10: 3,                   // Pacific Esmeralda
-    11: 5,                   // Pacific Marfil
-    12: 4,                   // Pacific Coral
-    13: null,                // portada línea Moldeadora Uso Diario
-    14: [6, 7],              // Pacific Nácar (Cierre / Abrochadura)
-    15: [8, 9],              // Pacific Zafiro
-    16: [10, 11],            // Pacific Jade
-    17: [12, 13],            // Pacific Cristal
-    18: [14, 15],            // Pacific Diamante (pdf: abrochadura, cierre)
-    19: [16, 17],            // Pacific Marea (pdf: abrochadura, cierre)
-    20: [18, 19],            // Pacific Brisa
-    21: [20, 21],            // Pacific Bahía
-    22: [22, 23],            // Pacific Oleaje
-    23: [24, 25],            // Pacific Aurora
-    24: 26,                  // Pacific Marejada (solo abrochadura)
-    25: [27, 28],            // Pacific Océano
-    26: [29, 30],            // Pacific Amanecer
-    27: 31,                  // "Pacific Sirena" = Pacific Nuquí en la lista de precios
-    28: 32,                  // Pacific Emperatriz
-    29: 33,                  // Pacific Estrella
-    30: 34,                  // Pacific Tesoro
-    31: 35,                  // Pacific Delfina
-    32: null,                // portada línea Cinturillas y Chalecos
-    33: [36, 37],            // Pacific Jaguar
-    34: 38,                  // Pacific Colibrí
-    35: 39,                  // Pacific Mariposa
-    36: 40,                  // Pacific Pantera
-    37: 41,                  // Pacific Tucán
-    38: [42, 43],            // Pacific Garza
-    39: 44,                  // Pacific Quetzal
-    40: [45, 46],            // Pacific Danta
-    41: [47, 48],            // Pacific Tigresa
-    42: 49,                  // Pacific Puma
-    43: null,                // portada línea Short Levantacola
-    44: 50,                  // Pacific Orquídea
-    45: 51,                  // Pacific Azucena
-    46: 52,                  // Pacific Magnolia
-    47: 53,                  // Pacific Camelia
-    48: 54,                  // Pacific Rosa
-    49: null,                // portada línea Postquirúrgica
-    50: 55,                  // Pacific Morpho
-    51: 56,                  // Pacific Libélula
-    52: 57,                  // Pacific Ceiba
-    53: 58,                  // Pacific Yarumo
-    54: 59,                  // Pacific Tigrillo
-    55: 60,                  // Pacific Garceta
-    56: 61,                  // Pacific Halcón
-    57: 62,                  // Pacific Tángara
-    58: 63,                  // Pacific Luciérnaga
-    59: null,                // portada línea Brassier Postquirúrgico
-    60: 64,                  // Brassier Ref. 0110
-    61: 65,                  // Brassier Ref. 0106
-    62: 65,                  // Brassier Ref. 0106 (segunda foto, mismo producto)
-    63: 66,                  // Brassier Ref. 01061 Corrector de postura
-    64: 67,                  // Brassier Ref. 0107
-    65: 68,                  // Brassier Ref. 0108
-    66: null,                // portada línea Hombre
-    67: 69,                  // Ref. 2018 Cinturilla Deportiva Hombre
-    68: [70, 71],            // Ref. 2016/2017 Cinturilla Men (Cierre/Abrochadura)
-    69: [72, 73],            // Pacific Ocelote
-    70: 74,                  // Ref. 2017 Faja Postquirúrgica Men
-    71: 75,                  // Ref. 2019 Fajón Abdominal Ancho
-    72: 75,                  // Ref. 2019 Fajón Abdominal Corto (misma referencia/precio)
-    73: 75,                  // Ref. 2019 Fajón Abdominal Corto (otra foto)
-    74: 76,                  // Ref. 1252 Chaleco Light Men
-    75: 77,                  // Ref. 2011 Boxer Levantacola
-    76: 78,                  // Ref. 1255 Chaleco en Neopreno Men
-    77: null,                // portada línea Deportiva
-    78: 79,                  // Ref. 1257 Chaleco Dama en Neopreno
-    79: 80,                  // Ref. 0726 Cinturilla Deportiva
-    80: 81,                  // Ref. 1253 Short Deportivo Neopreno
-    81: 82,                  // Ref. 1254 Leggings con Faja en Neopreno
-    82: null                 // contraportada
-  };
-
-  function productById(id){ return products.find(pr => pr.id === id); }
-
-  // Devuelve SIEMPRE un arreglo de productos (puede tener 0, 1 ó 2 elementos)
-  function getPageProducts(n){
-    const v = PAGE_MAP[n];
-    if(v === null || v === undefined) return [];
-    const ids = Array.isArray(v) ? v : [v];
-    return ids.map(id => productById(id)).filter(Boolean);
+/* ============ IMAGE FALLBACK SYSTEM ============ */
+// Intenta varias combinaciones de carpeta/extensión automáticamente
+// antes de mostrar el color de respaldo. Así no depende de adivinar
+// el nombre exacto de la carpeta o la extensión del archivo.
+function buildCandidates(imgPath){
+  if(!imgPath) return [];
+  const m = imgPath.match(/^(.*)\/(\d+)\.[a-zA-Z]+$/);
+  if(!m) return [imgPath];
+  const folder = m[1], num = m[2];
+  const exts = ['jpeg','jpg','JPEG','JPG','png','PNG','webp'];
+  const cands = [];
+  exts.forEach(e=> cands.push(`${folder}/${num}.${e}`));   // dentro de la carpeta
+  exts.forEach(e=> cands.push(`${num}.${e}`));              // junto al HTML, sin carpeta
+  return cands;
+}
+window.imgFallback = function(img){
+  let candidates;
+  try{ candidates = JSON.parse(img.dataset.candidates); }catch(e){ img.remove(); return; }
+  let idx = parseInt(img.dataset.idx || "0") + 1;
+  if(idx < candidates.length){
+    img.dataset.idx = idx;
+    img.src = candidates[idx];
+  } else {
+    img.remove();
   }
+};
 
-  // Para compatibilidad: producto "principal" de una página (el primero)
-  function productByPage(n){
-    const list = getPageProducts(n);
-    return list.length ? list[0] : undefined;
-  }
+function renderGrid(){
+  const term = searchTerm.trim().toLowerCase();
+  const filtered = PRODUCTS.filter(p=>{
+    const matchCat = activeCat==="Todos" || p.cat===activeCat;
+    const matchTerm = !term || p.name.toLowerCase().includes(term) || p.desc.toLowerCase().includes(term);
+    return matchCat && matchTerm;
+  });
 
-  // Separa "PACIFIC NACÁR · Faja moldeadora 3/4 — Cierre" en
-  // base = "PACIFIC NACÁR · Faja moldeadora 3/4", variante = "Cierre"
-  function splitNameVariant(fullName){
-    const idx = fullName.lastIndexOf('—');
-    if(idx === -1) return { base: fullName, variant: null };
-    return { base: fullName.slice(0, idx).trim(), variant: fullName.slice(idx + 1).trim() };
-  }
+  const groups = {};
+  filtered.forEach(p=>{ (groups[p.cat] = groups[p.cat]||[]).push(p); });
 
-  // ===== MODO SINCRONIZACIÓN =====
-  let syncMode = false;
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  const tier = currentTier(totalQty);
 
-  function buildSyncSelect(){
-    const sel = document.getElementById('syncSelect');
-    if(sel.options.length) return; // ya construido
-    const noneOpt = document.createElement('option');
-    noneOpt.value = "";
-    noneOpt.textContent = "— Esta página NO es un producto (portada, separador, etc.) —";
-    sel.appendChild(noneOpt);
-    products.forEach(pr=>{
-      const opt = document.createElement('option');
-      opt.value = pr.id;
-      opt.textContent = `${pr.id} — ${pr.n} — ${formatCOP(pr.d)}`;
-      sel.appendChild(opt);
-    });
-  }
+  let html = "";
+  const catsInOrder = CATS.filter(c=>groups[c]);
+  if(catsInOrder.length===0){ html = `<p style="padding:40px 0; text-align:center; color:rgba(42,36,32,0.5);">Sin resultados para tu búsqueda.</p>`; }
 
-  function toggleSyncMode(){
-    syncMode = !syncMode;
-    const panel = document.getElementById('syncPanel');
-    const btn = document.getElementById('syncToggleBtn');
-    panel.classList.toggle('active', syncMode);
-    btn.style.background = syncMode ? 'var(--dorado)' : '#fff';
-    if(syncMode){
-      buildSyncSelect();
-      refreshSyncPanel();
-    }
-  }
-
-  function refreshSyncPanel(){
-    if(!syncMode) return;
-    document.getElementById('syncPageNum').textContent = currentPage;
-    const sel = document.getElementById('syncSelect');
-    const v = PAGE_MAP[currentPage];
-    const firstId = Array.isArray(v) ? v[0] : v;
-    sel.value = (firstId === null || firstId === undefined) ? "" : firstId;
-    const status = document.getElementById('syncStatus');
-    const list = getPageProducts(currentPage);
-    status.textContent = list.length
-      ? `Asignado: ${list.map(p=>p.n).join('  +  ')}${list.length>1 ? ' (nota: el selector solo permite elegir 1; para variantes Cierre/Abrochadura edita el PAGE_MAP directamente)' : ''}`
-      : "Sin producto asignado todavía.";
-  }
-
-  function onSyncSelect(value){
-    PAGE_MAP[currentPage] = value === "" ? null : parseInt(value);
-    renderProductInfo(currentPage);
-    refreshGridPrices();
-    refreshSyncPanel();
-  }
-
-  function exportPageMap(){
-    const lines = [];
-    for(let i=1;i<=TOTAL_PAGES;i++){
-      const v = PAGE_MAP[i];
-      let vStr;
-      if(v === null || v === undefined) vStr = 'null';
-      else if(Array.isArray(v)) vStr = '[' + v.join(', ') + ']';
-      else vStr = v;
-      lines.push(`    ${i}: ${vStr}` + (i<TOTAL_PAGES ? ',' : ''));
-    }
-    const text = "  const PAGE_MAP = {\n" + lines.join("\n") + "\n  };";
-    document.getElementById('syncExportText').value = text;
-    document.getElementById('syncExportBox').classList.add('active');
-    document.getElementById('syncExportBox').scrollIntoView({behavior:'smooth', block:'center'});
-  }
-
-  function copyExport(){
-    const ta = document.getElementById('syncExportText');
-    ta.select();
-    document.execCommand('copy');
-    const btn = document.querySelector('.copy-btn');
-    const old = btn.textContent;
-    btn.textContent = "¡Copiado!";
-    setTimeout(()=>{ btn.textContent = old; }, 1500);
-  }
-
-  function formatCOP(n){ return "$" + Math.round(n).toLocaleString('es-CO'); }
-  function formatUSD(n){ return "$" + n.toFixed(2); }
-
-  function levelPriceCOP(detalCOP, level){ return detalCOP * LEVEL_FACTOR[level]; }
-
-  function priceLabel(detalCOP, level, currency){
-    const levelCOP = levelPriceCOP(detalCOP, level);
-    if(currency === 'USD'){
-      return { detal: formatUSD(detalCOP/USD_RATE), nivel: formatUSD(levelCOP/USD_RATE), ahorro: formatUSD((detalCOP-levelCOP)/USD_RATE) };
-    }
-    return { detal: formatCOP(detalCOP), nivel: formatCOP(levelCOP), ahorro: formatCOP(detalCOP-levelCOP) };
-  }
-
-  function renderInfoInto(elId, pageNum){
-    const box = document.getElementById(elId);
-    if(!box) return;
-    const list = getPageProducts(pageNum);
-    if(!list.length){ box.innerHTML = ""; return; }
-
-    const isReseller = currentLevel !== 'detal';
-
-    if(list.length === 1){
-      const prod = list[0];
-      const lp = priceLabel(prod.d, currentLevel, currentCurrency);
-      box.innerHTML = `
-        <div class="pi-name">${prod.n}</div>
-        <div class="pi-price-row">
-          ${isReseller ? `<span class="price-old">${lp.detal}</span><span class="price-now">${lp.nivel}</span>` : `<span class="price-now">${lp.detal}</span>`}
+  catsInOrder.forEach(cat=>{
+    html += `<div class="section-title">${cat}</div><div class="grid">`;
+    groups[cat].forEach(p=>{
+      const st = cardState[p.id];
+      const now = priceForTier(p, tier.key);
+      const was = p.detal;
+      const showSave = tier.pct>0;
+      html += `
+      <div class="card" data-id="${p.id}">
+        <div class="card-swatch" style="background-image:linear-gradient(135deg, ${COLORS[st.color]}, ${COLORS[st.color]}CC);">
+          ${p.img ? `<img src="${buildCandidates(p.img)[0]}" data-candidates='${JSON.stringify(buildCandidates(p.img)).replace(/'/g,"&#39;")}' data-idx="0" alt="${p.name}" loading="lazy" onerror="imgFallback(this)">` : ``}
+          <span class="id">#${String(p.id).padStart(2,'0')}</span>
         </div>
-        ${isReseller ? `<div class="ganancia">Tu ganancia estimada: <strong>${lp.ahorro}</strong> por unidad si revendes al precio detal</div>` : ``}
-        <div class="pi-meta">Tallas: ${prod.s} &nbsp;·&nbsp; Colores: ${prod.c}</div>
-      `;
-      return;
-    }
+        <div class="card-body">
+          <h3>${p.name}</h3>
+          <p class="desc">${p.desc}</p>
+          <div class="price-line">
+            <span class="now mono">${fmt(now)}</span>
+            ${showSave ? `<span class="was mono">${fmt(was)}</span><span class="save">-${tier.pct}%</span>` : ``}
+          </div>
 
-    // Página con 2 variantes (ej. Cierre / Abrochadura)
-    const base = splitNameVariant(list[0].n).base;
-    const rows = list.map(prod=>{
-      const { variant } = splitNameVariant(prod.n);
-      const lp = priceLabel(prod.d, currentLevel, currentCurrency);
+          <div class="tier-table">
+            <div class="trow ${tier.key==='detal'?'active':''}">
+              <span class="tname">Precio detal <span class="trange">1–5</span></span>
+              <span class="tprice">${fmt(p.detal)}</span>
+            </div>
+            <div class="trow ${tier.key==='p20'?'active':''}">
+              <span class="tname">Mayorista <span class="trange">6–24</span></span>
+              <span class="tprice">${fmt(p.p20)}</span>
+            </div>
+            <div class="trow ${tier.key==='p25'?'active':''}">
+              <span class="tname">Mayorista + <span class="trange">25–99</span></span>
+              <span class="tprice">${fmt(p.p25)}</span>
+            </div>
+            <div class="trow ${tier.key==='p28'?'active':''}">
+              <span class="tname">Distribuidor <span class="trange">+100</span></span>
+              <span class="tprice">${fmt(p.p28)}</span>
+            </div>
+          </div>
+
+          <div class="opt-label">Talla</div>
+          <div class="opt-row size-row">
+            ${p.sizes.map(s=>`<button class="opt-btn ${st.size===s?'sel':''}" data-type="size" data-val="${s}">${s}</button>`).join("")}
+          </div>
+
+          <div class="opt-label">Color</div>
+          <div class="opt-row color-row">
+            ${p.colors.map(c=>`<button class="swatch-btn ${st.color===c?'sel':''}" data-type="color" data-val="${c}" style="background:${COLORS[c]}" title="${c}"></button>`).join("")}
+          </div>
+
+          <div class="qty-row">
+            <div class="stepper">
+              <button data-step="-1">−</button>
+              <span class="qty-display">${st.qty}</span>
+              <button data-step="1">+</button>
+            </div>
+            <button class="add-btn">Agregar</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  gridWrap.innerHTML = html;
+
+  gridWrap.querySelectorAll('.card').forEach(cardEl=>{
+    const id = Number(cardEl.dataset.id);
+    const p = PRODUCTS.find(x=>x.id===id);
+    const st = cardState[id];
+
+    cardEl.querySelectorAll('[data-type="size"]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ st.size = btn.dataset.val; renderGrid(); });
+    });
+    cardEl.querySelectorAll('[data-type="color"]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ st.color = btn.dataset.val; renderGrid(); });
+    });
+    cardEl.querySelectorAll('[data-step]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const delta = Number(btn.dataset.step);
+        st.qty = Math.max(1, st.qty + delta);
+        cardEl.querySelector('.qty-display').textContent = st.qty;
+      });
+    });
+    cardEl.querySelector('.add-btn').addEventListener('click', (e)=>{
+      addToCart(p, st.size, st.color, st.qty);
+      e.target.textContent = "Agregado ✓";
+      e.target.classList.add('added');
+      setTimeout(()=>{ e.target.textContent="Agregar"; e.target.classList.remove('added'); }, 900);
+    });
+  });
+}
+
+/* ============ CART LOGIC ============ */
+function addToCart(p, size, color, qty){
+  const existing = cart.find(i=>i.productId===p.id && i.size===size && i.color===color);
+  if(existing){ existing.qty += qty; }
+  else{ cart.push({productId:p.id, size, color, qty}); }
+  renderAll();
+}
+function removeFromCart(idx){ cart.splice(idx,1); renderAll(); }
+function changeQty(idx, delta){
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  renderAll();
+}
+
+function renderAll(){
+  renderGrid();
+  renderCart();
+  renderTideBar();
+}
+
+function renderTideBar(){
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  const tier = currentTier(totalQty);
+  const nt = nextTier(totalQty);
+  const pct = Math.min(100, (totalQty/100)*100);
+  document.getElementById('tideFill').style.width = pct + "%";
+  document.getElementById('tideQtyLabel').textContent = `${totalQty} / 100 uds`;
+  document.getElementById('cartCount').textContent = `${totalQty} uds`;
+
+  let msg;
+  if(totalQty===0) msg = "Agrega productos para calcular tu descuento";
+  else if(nt) msg = `Estás en ${tier.label} · agrega ${nt.min-totalQty} uds más para ${nt.pct}% OFF`;
+  else msg = `¡Nivel máximo desbloqueado! ${tier.label}`;
+  document.getElementById('tideMsg').textContent = msg;
+}
+
+function renderCart(){
+  const itemsWrap = document.getElementById('drawerItems');
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  const tier = currentTier(totalQty);
+  const nt = nextTier(totalQty);
+
+  if(cart.length===0){
+    itemsWrap.innerHTML = `<div class="empty-cart">Tu pedido está vacío.<br>Agrega productos desde el catálogo.</div>`;
+  } else {
+    itemsWrap.innerHTML = cart.map((item, idx)=>{
+      const p = PRODUCTS.find(x=>x.id===item.productId);
+      const unit = priceForTier(p, tier.key);
       return `
-        <div class="pi-price-row" style="font-size:18px;">
-          <span style="font-weight:600;color:var(--verde-osc);margin-right:6px;">${variant || prod.n}:</span>
-          ${isReseller ? `<span class="price-old">${lp.detal}</span><span class="price-now">${lp.nivel}</span>` : `<span class="price-now">${lp.detal}</span>`}
-          ${isReseller ? `<span class="ganancia" style="margin-left:6px;">+${lp.ahorro} de ganancia</span>` : ``}
+      <div class="line-item">
+        <div>
+          <div class="li-name">${p.name}</div>
+          <div class="li-meta">Talla ${item.size} · ${item.color}</div>
+          <div class="li-qty-ctrl">
+            <div class="stepper">
+              <button data-idx="${idx}" data-d="-1">−</button>
+              <span>${item.qty}</span>
+              <button data-idx="${idx}" data-d="1">+</button>
+            </div>
+          </div>
         </div>
-      `;
-    }).join('');
+        <div class="li-price">${fmt(unit*item.qty)}<br><span style="opacity:0.5; font-size:11px;">${fmt(unit)} c/u</span></div>
+        <button class="li-remove" data-remove="${idx}">Quitar</button>
+      </div>`;
+    }).join("");
 
-    box.innerHTML = `
-      <div class="pi-name">${base}</div>
-      ${rows}
-      <div class="pi-meta">Tallas: ${list[0].s} &nbsp;·&nbsp; Colores: ${list[0].c}</div>
-    `;
-  }
-
-  function renderProductInfo(pageNum){
-    renderInfoInto('productInfo', pageNum);
-    if(document.getElementById('lightbox').classList.contains('open')){
-      renderInfoInto('lightboxInfo', lbPage);
-    }
-  }
-
-  function tpPriceHTML(list){
-    const isReseller = currentLevel !== 'detal';
-    if(list.length === 1){
-      const lp = priceLabel(list[0].d, currentLevel, currentCurrency);
-      return isReseller
-        ? `<span class="tp-old">${lp.detal}</span><span class="tp-price">${lp.nivel}</span>`
-        : `<span class="tp-price">${lp.detal}</span>`;
-    }
-    // varias variantes: mostrar el precio más bajo como "Desde"
-    const cheapest = list.reduce((min, p) => p.d < min.d ? p : min, list[0]);
-    const lp = priceLabel(cheapest.d, currentLevel, currentCurrency);
-    const prefix = `<span style="font-size:9.5px;color:#888;">Desde&nbsp;</span>`;
-    return isReseller
-      ? `${prefix}<span class="tp-old">${lp.detal}</span><span class="tp-price">${lp.nivel}</span>`
-      : `${prefix}<span class="tp-price">${lp.detal}</span>`;
-  }
-
-  function refreshGridPrices(){
-    document.querySelectorAll('.thumb-price').forEach(el=>{
-      const pageNum = parseInt(el.dataset.page);
-      const list = getPageProducts(pageNum);
-      if(!list.length) return;
-      const base = splitNameVariant(list[0].n).base;
-      el.innerHTML = `<div class="tp-name">${base}</div><div>${tpPriceHTML(list)}</div>`;
+    itemsWrap.querySelectorAll('[data-d]').forEach(btn=>{
+      btn.addEventListener('click', ()=>changeQty(Number(btn.dataset.idx), Number(btn.dataset.d)));
+    });
+    itemsWrap.querySelectorAll('[data-remove]').forEach(btn=>{
+      btn.addEventListener('click', ()=>removeFromCart(Number(btn.dataset.remove)));
     });
   }
 
-  function setLevel(level){
-    currentLevel = level;
-    document.querySelectorAll('.level-btn').forEach(btn=>{
-      btn.classList.toggle('active', btn.dataset.level === level);
-    });
-    renderProductInfo(currentPage);
-    refreshGridPrices();
+  // tier progress in drawer
+  const pct = Math.min(100, (totalQty/100)*100);
+  document.getElementById('miniFill').style.width = pct + "%";
+  document.getElementById('drawerTierMsg').textContent = nt
+    ? `Agrega ${nt.min-totalQty} unidades más para ${nt.pct}% OFF`
+    : (totalQty>0 ? `Nivel máximo: ${tier.label}` : "Agrega 6 unidades para desbloquear 20% OFF");
+
+  // totals
+  const total = cart.reduce((s,i)=>{
+    const p = PRODUCTS.find(x=>x.id===i.productId);
+    return s + priceForTier(p, tier.key)*i.qty;
+  },0);
+
+  document.getElementById('footUnits').textContent = totalQty;
+  document.getElementById('footTier').textContent = tier.label;
+  document.getElementById('footTotal').textContent = fmt(total);
+
+  // warning if below minimum wholesale tier
+  const warnSlot = document.getElementById('warnSlot');
+  if(cart.length===0){
+    warnSlot.innerHTML = "";
+  } else if(totalQty < 6){
+    warnSlot.innerHTML = `<div class="warn-box">⚠️ Tu pedido no cumple la cantidad mínima mayorista (6 unidades). Se está aplicando <strong>precio detal</strong>. Agrega ${6-totalQty} unidad(es) más para acceder al 20% OFF.</div>`;
+  } else {
+    warnSlot.innerHTML = `<div class="ok-box">✓ Tu pedido cumple las condiciones mayoristas: <strong>${tier.label}</strong> aplicado sobre ${totalQty} unidades.</div>`;
   }
 
-  function toggleCurrency(){
-    currentCurrency = currentCurrency === 'COP' ? 'USD' : 'COP';
-    document.getElementById('currencyToggle').textContent = currentCurrency === 'COP' ? 'Ver en USD' : 'Ver en COP';
-    renderProductInfo(currentPage);
-    refreshGridPrices();
-  }
+  document.getElementById('sendBtn').disabled = cart.length===0;
+}
 
-  // Capítulos / secciones según el contenido del catálogo
-  const chapters = [
-    {title:"Portada y empresa", start:1, end:6},
-    {title:"Línea Reloj de Arena", start:7, end:12},
-    {title:"Línea Moldeadora — Uso diario", start:13, end:31},
-    {title:"Cinturillas y Chalecos", start:32, end:42},
-    {title:"Short Levantacola", start:43, end:48},
-    {title:"Línea Postquirúrgica", start:49, end:58},
-    {title:"Brassier Postquirúrgico", start:59, end:65},
-    {title:"Fajas para Hombre", start:66, end:76},
-    {title:"Línea Deportiva", start:77, end:81},
-    {title:"Cierre", start:82, end:82},
-  ];
+/* ============ WHATSAPP ============ */
+document.getElementById('sendBtn').addEventListener('click', ()=>{
+  if(cart.length===0) return;
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  const tier = currentTier(totalQty);
+  const name = document.getElementById('custName').value.trim();
+  const city = document.getElementById('custCity').value.trim();
 
-  function imgPath(n){ return IMG_FOLDER ? `${IMG_FOLDER}/${n}.${IMG_EXT}` : `${n}.${IMG_EXT}`; }
-
-  function setPage(n){
-    n = Math.max(1, Math.min(TOTAL_PAGES, parseInt(n)));
-    currentPage = n;
-    const img = document.getElementById('pageImg');
-    img.style.opacity = 0;
-    img.src = imgPath(n);
-    img.alt = "Página " + n;
-    img.onload = () => { img.style.animation='none'; requestAnimationFrame(()=>{img.style.animation='fadeIn .35s ease forwards';}); };
-    document.getElementById('slider').value = n;
-    document.getElementById('pageIndicator').textContent = n + " / " + TOTAL_PAGES;
-    document.getElementById('viewer').scrollIntoView({behavior:'smooth', block:'center'});
-    renderProductInfo(n);
-    refreshSyncPanel();
-  }
-  function goPage(delta){ setPage(currentPage + delta); }
-
-  // Build TOC
-  const tocEl = document.getElementById('toc');
-  chapters.forEach(ch=>{
-    const btn = document.createElement('button');
-    btn.textContent = ch.title;
-    btn.onclick = ()=> setPage(ch.start);
-    tocEl.appendChild(btn);
+  let lines = [];
+  lines.push("🛍️ *NUEVO PEDIDO MAYORISTA — PACIFIC*");
+  if(name) lines.push(`Cliente: ${name}`);
+  if(city) lines.push(`Ciudad: ${city}`);
+  lines.push("");
+  let total = 0;
+  cart.forEach(item=>{
+    const p = PRODUCTS.find(x=>x.id===item.productId);
+    const unit = priceForTier(p, tier.key);
+    const sub = unit*item.qty;
+    total += sub;
+    lines.push(`• ${p.name} (${p.desc})`);
+    lines.push(`   Talla: ${item.size} | Color: ${item.color} | Cant: ${item.qty} | ${fmt(unit)} c/u = ${fmt(sub)}`);
   });
-
-  // Build grid (lazy, built once toggled)
-  let gridBuilt = false;
-  function buildGrid(){
-    const gridSection = document.getElementById('gridSection');
-    chapters.forEach(ch=>{
-      const chDiv = document.createElement('div');
-      chDiv.className = 'chapter';
-      const h = document.createElement('div');
-      h.className = 'chapter-title';
-      h.textContent = ch.title;
-      chDiv.appendChild(h);
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      for(let i=ch.start; i<=ch.end; i++){
-        const thumb = document.createElement('div');
-        thumb.className = 'thumb';
-        thumb.onclick = ()=> { openLightbox(i); };
-        const im = document.createElement('img');
-        im.src = imgPath(i);
-        im.loading = 'lazy';
-        im.alt = 'Página ' + i;
-        const num = document.createElement('div');
-        num.className = 'num';
-        num.textContent = i;
-        thumb.appendChild(im);
-        thumb.appendChild(num);
-        const priceFooter = document.createElement('div');
-        priceFooter.className = 'thumb-price';
-        priceFooter.dataset.page = i;
-        const prod = productByPage(i);
-        if(prod){
-          priceFooter.innerHTML = `<div class="tp-name">${prod.n}</div><div>${tpPriceHTML(prod)}</div>`;
-        }
-        thumb.appendChild(priceFooter);
-        grid.appendChild(thumb);
-      }
-      chDiv.appendChild(grid);
-      gridSection.appendChild(chDiv);
-    });
-    gridBuilt = true;
+  lines.push("");
+  lines.push(`Unidades totales: ${totalQty}`);
+  lines.push(`Nivel de descuento: ${tier.label}`);
+  if(totalQty < 6){
+    lines.push(`⚠️ No cumple mínimo mayorista (6 uds) — se aplicó precio detal.`);
   }
+  lines.push(`*TOTAL: ${fmt(total)} COP*`);
 
-  function toggleGrid(){
-    const gridSection = document.getElementById('gridSection');
-    const viewerWrap = document.querySelector('.viewer-wrap');
-    const toc = document.getElementById('toc');
-    if(!gridBuilt) buildGrid();
-    const showing = gridSection.style.display === 'block';
-    if(showing){
-      gridSection.style.display = 'none';
-      viewerWrap.style.display = 'block';
-      toc.style.display = 'flex';
-    } else {
-      gridSection.style.display = 'block';
-      viewerWrap.style.display = 'none';
-      toc.style.display = 'none';
-    }
-  }
+  const text = encodeURIComponent(lines.join("\n"));
+  window.open(`https://wa.me/573172335456?text=${text}`, "_blank");
+});
 
-  // Lightbox
-  let lbPage = 1;
-  function openLightbox(n){
-    lbPage = n;
-    document.getElementById('lightboxImg').src = imgPath(n);
-    document.getElementById('lbIndicator').textContent = n + " / " + TOTAL_PAGES;
-    document.getElementById('lightbox').classList.add('open');
-    renderInfoInto('lightboxInfo', n);
-  }
-  function closeLightbox(){
-    document.getElementById('lightbox').classList.remove('open');
-  }
-  function lbGo(delta){
-    lbPage = Math.max(1, Math.min(TOTAL_PAGES, lbPage+delta));
-    openLightbox(lbPage);
-  }
-  document.getElementById('lightbox').addEventListener('click', (e)=>{
-    if(e.target.id === 'lightbox') closeLightbox();
-  });
+/* ============ DRAWER TOGGLE ============ */
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('overlay');
+function openDrawer(){ drawer.classList.add('show'); overlay.classList.add('show'); }
+function closeDrawer(){ drawer.classList.remove('show'); overlay.classList.remove('show'); }
+document.getElementById('openCart').addEventListener('click', openDrawer);
+document.getElementById('closeCart').addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
 
-  // Keyboard navigation
-  document.addEventListener('keydown', (e)=>{
-    if(document.getElementById('lightbox').classList.contains('open')){
-      if(e.key === 'ArrowRight') lbGo(1);
-      if(e.key === 'ArrowLeft') lbGo(-1);
-      if(e.key === 'Escape') closeLightbox();
-    } else {
-      if(e.key === 'ArrowRight') goPage(1);
-      if(e.key === 'ArrowLeft') goPage(-1);
-    }
-  });
+/* ============ SEARCH ============ */
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  searchTerm = e.target.value; renderGrid();
+});
 
-  // preload first page
-  setPage(1);
+/* ============ INIT ============ */
+buildChips();
+renderAll();
 </script>
-
 </body>
 </html>
