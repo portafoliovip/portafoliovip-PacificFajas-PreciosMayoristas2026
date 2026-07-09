@@ -148,6 +148,13 @@ header.top{
 .price-line .was{font-family:'JetBrains Mono',monospace; font-size:12px; text-decoration:line-through; opacity:0.4;}
 .price-line .save{font-size:11px; color:var(--ok); font-weight:600;}
 
+.tier-divider{
+  display:flex; align-items:center; gap:8px;
+  font-size:10px; letter-spacing:1.2px; text-transform:uppercase;
+  color:rgba(42,36,32,0.55); font-weight:700; margin-top:6px;
+}
+.tier-divider::after{content:""; flex:1; height:1px; background:var(--line);}
+
 .tier-table{
   border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:2px;
 }
@@ -341,7 +348,16 @@ const SIZES_STD = ["S","M","L","XL","2XL"];
 const SIZES_3XL = ["S","M","L","XL","2XL","3XL"];
 
 function P(id,name,desc,cat,detal,p20,p25,p28,colors,sizes,img){
-  return {id,name,desc,cat,detal,p20,p25,p28,colors,sizes:sizes||SIZES_STD,img:img||null};
+  return {id,name,desc,cat,colors,sizes:sizes||SIZES_STD,img:img||null,hasVariant:false,
+    variants:[{key:"unico",label:null,detal,p20,p25,p28}]};
+}
+// Producto con dos opciones de cierre (cierre / abrochadura), cada una con su propio precio
+function PV(id,name,desc,cat,cierre,abrochadura,colors,sizes,img){
+  return {id,name,desc,cat,colors,sizes:sizes||SIZES_STD,img:img||null,hasVariant:true,
+    variants:[
+      {key:"cierre",label:"Cierre",detal:cierre[0],p20:cierre[1],p25:cierre[2],p28:cierre[3]},
+      {key:"abrochadura",label:"Abrochadura",detal:abrochadura[0],p20:abrochadura[1],p25:abrochadura[2],p28:abrochadura[3]}
+    ]};
 }
 const BCN = ["BEIGE","COCOA","NEGRO"];
 const BC  = ["BEIGE","COCOA"];
@@ -361,32 +377,20 @@ const PRODUCTS = [
   P(4,"PACIFIC CORAL","Faja reloj de arena 2 en 1 media pierna",CATS[0],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/12.jpeg"),
   P(5,"PACIFIC MARFIL","Faja reloj de arena larga",CATS[0],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/11.jpeg"),
 
-  P(6,"PACIFIC NACÁR","Faja moldeadora 3/4 · cierre",CATS[1],197000,157600,147750,141840,BCN,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/14.jpeg"),
-  P(7,"PACIFIC NACÁR","Faja moldeadora 3/4 · abrochadura",CATS[1],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/14.jpeg"),
-  P(8,"PACIFIC ZAFIRO","Faja moldeadora larga con brassier · cierre",CATS[1],207000,165600,155250,149040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/15.jpeg"),
-  P(9,"PACIFIC ZAFIRO","Faja moldeadora larga con brassier · abrochadura",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/15.jpeg"),
-  P(10,"PACIFIC JADE","Faja moldeadora larga tira ancha · cierre",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/16.jpeg"),
-  P(11,"PACIFIC JADE","Faja moldeadora larga tira ancha · abrochadura",CATS[1],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/16.jpeg"),
-  P(12,"PACIFIC CRISTAL","Faja moldeadora larga tira removible · cierre",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/17.jpeg"),
-  P(13,"PACIFIC CRISTAL","Faja moldeadora larga tira removible · abrochadura",CATS[1],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/17.jpeg"),
-  P(14,"PACIFIC DIAMANTE","Faja moldeadora larga con mangas · abrochadura",CATS[1],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/18.jpeg"),
-  P(15,"PACIFIC DIAMANTE","Faja moldeadora larga con mangas · cierre",CATS[1],207000,165600,155250,149040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/18.jpeg"),
-  P(16,"PACIFIC MAREA","Faja moldeadora con mangas y brassier · abrochadura",CATS[1],247000,197600,185250,177840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/19.jpeg"),
-  P(17,"PACIFIC MAREA","Faja moldeadora con mangas y brassier · cierre",CATS[1],257000,205600,192750,185040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/19.jpeg"),
+  PV(6,"PACIFIC NACÁR","Faja moldeadora 3/4",CATS[1],[197000,157600,147750,141840],[187000,149600,140250,134640],BCN,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/14.jpeg"),
+  PV(8,"PACIFIC ZAFIRO","Faja moldeadora larga con brassier",CATS[1],[207000,165600,155250,149040],[197000,157600,147750,141840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/15.jpeg"),
+  PV(10,"PACIFIC JADE","Faja moldeadora larga tira ancha",CATS[1],[197000,157600,147750,141840],[187000,149600,140250,134640],BCN,null,"VENDE -CATALOGO Edición mundial 2026/16.jpeg"),
+  PV(12,"PACIFIC CRISTAL","Faja moldeadora larga tira removible",CATS[1],[197000,157600,147750,141840],[187000,149600,140250,134640],BCN,null,"VENDE -CATALOGO Edición mundial 2026/17.jpeg"),
+  PV(14,"PACIFIC DIAMANTE","Faja moldeadora larga con mangas",CATS[1],[207000,165600,155250,149040],[197000,157600,147750,141840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/18.jpeg"),
+  PV(16,"PACIFIC MAREA","Faja moldeadora con mangas y brassier",CATS[1],[257000,205600,192750,185040],[247000,197600,185250,177840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/19.jpeg"),
 
-  P(18,"PACIFIC BRISA","Faja media pierna tira ancha · cierre",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/20.jpeg"),
-  P(19,"PACIFIC BRISA","Faja media pierna tira ancha · abrochadura",CATS[2],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/20.jpeg"),
-  P(20,"PACIFIC BAHÍA","Faja moldeadora strapless · cierre",CATS[2],167000,133600,125250,120240,BCNW,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/21.jpeg"),
-  P(21,"PACIFIC BAHÍA","Faja moldeadora strapless · abrochadura",CATS[2],157000,125600,117750,113040,BCNW,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/21.jpeg"),
-  P(22,"PACIFIC OLEAJE","Faja tira removible · cierre",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/22.jpeg"),
-  P(23,"PACIFIC OLEAJE","Faja tira removible · abrochadura",CATS[2],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/22.jpeg"),
-  P(24,"PACIFIC AURORA","Faja corta con brassier · cierre",CATS[2],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/23.jpeg"),
-  P(25,"PACIFIC AURORA","Faja corta con brassier · abrochadura",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/23.jpeg"),
+  PV(18,"PACIFIC BRISA","Faja media pierna tira ancha",CATS[2],[187000,149600,140250,134640],[177000,141600,132750,127440],BCN,null,"VENDE -CATALOGO Edición mundial 2026/20.jpeg"),
+  PV(20,"PACIFIC BAHÍA","Faja moldeadora strapless",CATS[2],[167000,133600,125250,120240],[157000,125600,117750,113040],BCNW,SIZES_3XL,"VENDE -CATALOGO Edición mundial 2026/21.jpeg"),
+  PV(22,"PACIFIC OLEAJE","Faja tira removible",CATS[2],[187000,149600,140250,134640],[177000,141600,132750,127440],BCN,null,"VENDE -CATALOGO Edición mundial 2026/22.jpeg"),
+  PV(24,"PACIFIC AURORA","Faja corta con brassier",CATS[2],[197000,157600,147750,141840],[187000,149600,140250,134640],BCN,null,"VENDE -CATALOGO Edición mundial 2026/23.jpeg"),
   P(26,"PACIFIC MAREJADA","Faja corta con brassier y mangas · abrochadura",CATS[2],247000,197600,185250,177840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/24.jpeg"),
-  P(27,"PACIFIC OCÉANO","Faja corta con mangas · cierre",CATS[2],197000,157600,147750,141840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/25.jpeg"),
-  P(28,"PACIFIC OCÉANO","Faja corta con mangas · abrochadura",CATS[2],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/25.jpeg"),
-  P(29,"PACIFIC AMANECER","Faja corta brassier y manga corta · cierre",CATS[2],227000,181600,170250,163440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/26.jpeg"),
-  P(30,"PACIFIC AMANECER","Faja corta brassier y manga corta · abrochadura",CATS[2],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/26.jpeg"),
+  PV(27,"PACIFIC OCÉANO","Faja corta con mangas",CATS[2],[197000,157600,147750,141840],[187000,149600,140250,134640],BCN,null,"VENDE -CATALOGO Edición mundial 2026/25.jpeg"),
+  PV(29,"PACIFIC AMANECER","Faja corta brassier y manga corta",CATS[2],[227000,181600,170250,163440],[217000,173600,162750,156240],BCN,null,"VENDE -CATALOGO Edición mundial 2026/26.jpeg"),
   P(31,"PACIFIC NUQUÍ","Faja body cachetera · cierre o abrochadura",CATS[2],157000,125600,117750,113040,BCN,null,null),
 
   P(32,"PACIFIC EMPERATRIZ","Panty faja control abdomen",CATS[3],137000,109600,102750,98640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/28.jpeg"),
@@ -394,17 +398,14 @@ const PRODUCTS = [
   P(34,"PACIFIC TESORO","Panty faja postquirúrgico",CATS[3],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/30.jpeg"),
   P(35,"PACIFIC DELFINA","Faja brasilera estraple",CATS[3],107000,85600,80250,77040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/31.jpeg"),
 
-  P(36,"PACIFIC JAGUAR","Cinturilla moldeadora · cierre",CATS[4],107000,85600,80250,77040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/33.jpeg"),
-  P(37,"PACIFIC JAGUAR","Cinturilla moldeadora · abrochadura",CATS[4],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/33.jpeg"),
+  PV(36,"PACIFIC JAGUAR","Cinturilla moldeadora",CATS[4],[107000,85600,80250,77040],[97000,77600,72750,69840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/33.jpeg"),
   P(38,"PACIFIC COLIBRÍ","Chaleco reloj de arena con brassier",CATS[4],167000,133600,125250,120240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/34.jpeg"),
   P(39,"PACIFIC MARIPOSA","Chaleco reloj de arena 2 en 1 con brassier",CATS[4],187000,149600,140250,134640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/35.jpeg"),
   P(40,"PACIFIC PANTERA","Cinturilla látex",CATS[4],87000,69600,65250,62640,N,null,"VENDE -CATALOGO Edición mundial 2026/36.jpeg"),
   P(41,"PACIFIC TUCÁN","Chaleco moldeador con mangas",CATS[4],167000,133600,125250,120240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/37.jpeg"),
-  P(42,"PACIFIC GARZA","Chaleco tira removible · cierre",CATS[4],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/38.jpeg"),
-  P(43,"PACIFIC GARZA","Chaleco tira removible · abrochadura",CATS[4],147000,117600,110250,105840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/38.jpeg"),
+  PV(42,"PACIFIC GARZA","Chaleco tira removible",CATS[4],[157000,125600,117750,113040],[147000,117600,110250,105840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/38.jpeg"),
   P(44,"PACIFIC QUETZAL","Cinturilla 2 en 1 reloj de arena",CATS[4],167000,133600,125250,120240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/39.jpeg"),
-  P(45,"PACIFIC DANTA","Chaleco corrector de postura · cierre",CATS[4],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/40.jpeg"),
-  P(46,"PACIFIC DANTA","Chaleco corrector de postura · abrochadura",CATS[4],147000,117600,110250,105840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/40.jpeg"),
+  PV(45,"PACIFIC DANTA","Chaleco corrector de postura",CATS[4],[157000,125600,117750,113040],[147000,117600,110250,105840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/40.jpeg"),
   P(47,"PACIFIC TIGRESA","Chaleco moldeador tira ancha",CATS[4],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/41.jpeg"),
   P(48,"PACIFIC TIGRESA","Chaleco moldeador tira ancha (variante)",CATS[4],147000,117600,110250,105840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/41.jpeg"),
   P(49,"PACIFIC PUMA","Chaleco 2 en 1 reloj de arena",CATS[4],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/42.jpeg"),
@@ -432,10 +433,8 @@ const PRODUCTS = [
   P(68,"REF 0108","Brassier postquirúrgico con mangas",CATS[7],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/65.jpeg"),
 
   P(69,"REF 2018","Cinturilla deportiva hombre",CATS[8],97000,77600,72750,69840,N,null,"VENDE -CATALOGO Edición mundial 2026/67.jpeg"),
-  P(70,"REF 2016","Cinturilla men · cierre",CATS[8],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/68.jpeg"),
-  P(71,"REF 2017","Cinturilla men · abrochadura",CATS[8],97000,77600,72750,69840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/68.jpeg"),
-  P(72,"PACIFIC OCELOTE","Chaleco moldeador hombre · cierre",CATS[8],137000,109600,102750,98640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/69.jpeg"),
-  P(73,"PACIFIC OCELOTE","Chaleco moldeador hombre · abrochadura",CATS[8],127000,101600,95250,91440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/69.jpeg"),
+  PV(70,"REF 2016 / 2017","Cinturilla men",CATS[8],[97000,77600,72750,69840],[97000,77600,72750,69840],BCN,null,"VENDE -CATALOGO Edición mundial 2026/68.jpeg"),
+  PV(72,"PACIFIC OCELOTE","Chaleco moldeador hombre",CATS[8],[137000,109600,102750,98640],[127000,101600,95250,91440],BCN,null,"VENDE -CATALOGO Edición mundial 2026/69.jpeg"),
   P(74,"REF 2017","Faja postquirúrgica men",CATS[8],217000,173600,162750,156240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/70.jpeg"),
   P(75,"REF 2019","Fajón abdominal",CATS[8],87000,69600,65250,62640,N,null,"VENDE -CATALOGO Edición mundial 2026/71.jpeg"),
   P(76,"REF 1252","Chaleco light men",CATS[8],67000,53600,50250,48240,BCN,null,"VENDE -CATALOGO Edición mundial 2026/74.jpeg"),
@@ -477,8 +476,11 @@ let searchTerm = "";
 
 function initCardState(p){
   if(!cardState[p.id]){
-    cardState[p.id] = {size:p.sizes[0], color:p.colors[0], qty:1};
+    cardState[p.id] = {size:p.sizes[0], color:p.colors[0], qty:1, variant:p.variants[0].key};
   }
+}
+function getVariant(p, variantKey){
+  return p.variants.find(v=>v.key===variantKey) || p.variants[0];
 }
 PRODUCTS.forEach(initCardState);
 
@@ -492,8 +494,13 @@ function buildChips(){
   });
 }
 
-function priceForTier(p, tierKey){
-  return p[tierKey];
+function priceForTier(p, tierKey, variantKey){
+  const v = getVariant(p, variantKey || (cardState[p.id] && cardState[p.id].variant));
+  return v[tierKey];
+}
+// Ganancia = precio mostrado × el % de descuento propio de ese nivel (0/20/25/28)
+function gananciaFor(price, pct){
+  return price * (pct/100);
 }
 
 /* ============ IMAGE FALLBACK SYSTEM ============ */
@@ -545,9 +552,12 @@ function renderGrid(){
     html += `<div class="section-title">${cat}</div><div class="grid">`;
     groups[cat].forEach(p=>{
       const st = cardState[p.id];
-      const now = priceForTier(p, tier.key);
-      const was = p.detal;
+      const v = getVariant(p, st.variant);
+      const now = v[tier.key];
+      const was = v.detal;
       const showSave = tier.pct>0;
+      const nowGain = gananciaFor(now, tier.pct);
+
       html += `
       <div class="card" data-id="${p.id}">
         <div class="card-swatch" style="background-image:linear-gradient(135deg, ${COLORS[st.color]}, ${COLORS[st.color]}CC);">
@@ -561,23 +571,28 @@ function renderGrid(){
             <span class="now mono">${fmt(now)}</span>
             ${showSave ? `<span class="was mono">${fmt(was)}</span><span class="save">-${tier.pct}%</span>` : ``}
           </div>
+          ${tier.pct>0
+            ? `<div class="gain-line mono" style="font-size:11px; opacity:0.6;">(ganancia ${fmt(nowGain)})</div>`
+            : `<div class="gain-line mono" style="font-size:11px; opacity:0.6; letter-spacing:1px;">DETAL</div>`}
 
+          ${p.hasVariant ? `
+          <div class="opt-row variant-row">
+            ${p.variants.map(vr=>`<button class="opt-btn ${st.variant===vr.key?'sel':''}" data-type="variant" data-val="${vr.key}">${vr.label}</button>`).join("")}
+          </div>` : ``}
+
+          <div class="tier-divider">Niveles de descuento</div>
           <div class="tier-table">
-            <div class="trow ${tier.key==='detal'?'active':''}">
-              <span class="tname">Precio detal <span class="trange">1–5</span></span>
-              <span class="tprice">${fmt(p.detal)}</span>
-            </div>
             <div class="trow ${tier.key==='p20'?'active':''}">
               <span class="tname">Mayorista <span class="trange">6–24</span></span>
-              <span class="tprice">${fmt(p.p20)}</span>
+              <span class="tprice">${fmt(v.p20)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p20,20))})</span></span>
             </div>
             <div class="trow ${tier.key==='p25'?'active':''}">
               <span class="tname">Mayorista + <span class="trange">25–99</span></span>
-              <span class="tprice">${fmt(p.p25)}</span>
+              <span class="tprice">${fmt(v.p25)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p25,25))})</span></span>
             </div>
             <div class="trow ${tier.key==='p28'?'active':''}">
               <span class="tname">Distribuidor <span class="trange">+100</span></span>
-              <span class="tprice">${fmt(p.p28)}</span>
+              <span class="tprice">${fmt(v.p28)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p28,28))})</span></span>
             </div>
           </div>
 
@@ -612,6 +627,9 @@ function renderGrid(){
     const p = PRODUCTS.find(x=>x.id===id);
     const st = cardState[id];
 
+    cardEl.querySelectorAll('[data-type="variant"]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ st.variant = btn.dataset.val; renderGrid(); });
+    });
     cardEl.querySelectorAll('[data-type="size"]').forEach(btn=>{
       btn.addEventListener('click', ()=>{ st.size = btn.dataset.val; renderGrid(); });
     });
@@ -626,7 +644,7 @@ function renderGrid(){
       });
     });
     cardEl.querySelector('.add-btn').addEventListener('click', (e)=>{
-      addToCart(p, st.size, st.color, st.qty);
+      addToCart(p, st.size, st.color, st.qty, st.variant);
       e.target.textContent = "Agregado ✓";
       e.target.classList.add('added');
       setTimeout(()=>{ e.target.textContent="Agregar"; e.target.classList.remove('added'); }, 900);
@@ -635,10 +653,10 @@ function renderGrid(){
 }
 
 /* ============ CART LOGIC ============ */
-function addToCart(p, size, color, qty){
-  const existing = cart.find(i=>i.productId===p.id && i.size===size && i.color===color);
+function addToCart(p, size, color, qty, variant){
+  const existing = cart.find(i=>i.productId===p.id && i.size===size && i.color===color && i.variant===variant);
   if(existing){ existing.qty += qty; }
-  else{ cart.push({productId:p.id, size, color, qty}); }
+  else{ cart.push({productId:p.id, size, color, qty, variant}); }
   renderAll();
 }
 function removeFromCart(idx){ cart.splice(idx,1); renderAll(); }
@@ -680,12 +698,14 @@ function renderCart(){
   } else {
     itemsWrap.innerHTML = cart.map((item, idx)=>{
       const p = PRODUCTS.find(x=>x.id===item.productId);
-      const unit = priceForTier(p, tier.key);
+      const unit = priceForTier(p, tier.key, item.variant);
+      const vLabel = p.hasVariant ? ` · ${getVariant(p, item.variant).label}` : "";
+      const gain = gananciaFor(unit, tier.pct)*item.qty;
       return `
       <div class="line-item">
         <div>
           <div class="li-name">${p.name}</div>
-          <div class="li-meta">Talla ${item.size} · ${item.color}</div>
+          <div class="li-meta">Talla ${item.size} · ${item.color}${vLabel}</div>
           <div class="li-qty-ctrl">
             <div class="stepper">
               <button data-idx="${idx}" data-d="-1">−</button>
@@ -694,7 +714,7 @@ function renderCart(){
             </div>
           </div>
         </div>
-        <div class="li-price">${fmt(unit*item.qty)}<br><span style="opacity:0.5; font-size:11px;">${fmt(unit)} c/u</span></div>
+        <div class="li-price">${fmt(unit*item.qty)}<br><span style="opacity:0.5; font-size:11px;">${fmt(unit)} c/u (ganancia ${fmt(gain)})</span></div>
         <button class="li-remove" data-remove="${idx}">Quitar</button>
       </div>`;
     }).join("");
@@ -717,7 +737,7 @@ function renderCart(){
   // totals
   const total = cart.reduce((s,i)=>{
     const p = PRODUCTS.find(x=>x.id===i.productId);
-    return s + priceForTier(p, tier.key)*i.qty;
+    return s + priceForTier(p, tier.key, i.variant)*i.qty;
   },0);
 
   document.getElementById('footUnits').textContent = totalQty;
@@ -753,11 +773,12 @@ document.getElementById('sendBtn').addEventListener('click', ()=>{
   let total = 0;
   cart.forEach(item=>{
     const p = PRODUCTS.find(x=>x.id===item.productId);
-    const unit = priceForTier(p, tier.key);
+    const unit = priceForTier(p, tier.key, item.variant);
     const sub = unit*item.qty;
     total += sub;
+    const vTxt = p.hasVariant ? ` | Opción: ${getVariant(p, item.variant).label}` : "";
     lines.push(`• ${p.name} (${p.desc})`);
-    lines.push(`   Talla: ${item.size} | Color: ${item.color} | Cant: ${item.qty} | ${fmt(unit)} c/u = ${fmt(sub)}`);
+    lines.push(`   Talla: ${item.size} | Color: ${item.color}${vTxt} | Cant: ${item.qty} | ${fmt(unit)} c/u = ${fmt(sub)}`);
   });
   lines.push("");
   lines.push(`Unidades totales: ${totalQty}`);
