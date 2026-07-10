@@ -391,7 +391,7 @@ const PRODUCTS = [
   P(26,"PACIFIC MAREJADA","Faja corta con brassier y mangas · abrochadura",CATS[2],247000,197600,185250,177840,BCN,null,"VENDE -CATALOGO Edición mundial 2026/24.jpeg"),
   PV(27,"PACIFIC OCÉANO","Faja corta con mangas",CATS[2],[197000,157600,147750,141840],[187000,149600,140250,134640],BCN,null,"VENDE -CATALOGO Edición mundial 2026/25.jpeg"),
   PV(29,"PACIFIC AMANECER","Faja corta brassier y manga corta",CATS[2],[227000,181600,170250,163440],[217000,173600,162750,156240],BCN,null,"VENDE -CATALOGO Edición mundial 2026/26.jpeg"),
-  P(31,"PACIFIC NUQUÍ","Faja body cachetera · cierre o abrochadura",CATS[2],157000,125600,117750,113040,BCN,null,null),
+  P(31,"PACIFIC SIRENA","Faja body cachetera · cierre o abrochadura",CATS[2],157000,125600,117750,113040,BCN,null,"VENDE -CATALOGO Edición mundial 2026/27.jpeg"),
 
   P(32,"PACIFIC EMPERATRIZ","Panty faja control abdomen",CATS[3],137000,109600,102750,98640,BCN,null,"VENDE -CATALOGO Edición mundial 2026/28.jpeg"),
   P(33,"PACIFIC ESTRELLA","Faja cachetera con brassier",CATS[3],177000,141600,132750,127440,BCN,null,"VENDE -CATALOGO Edición mundial 2026/29.jpeg"),
@@ -628,13 +628,13 @@ function renderGrid(){
     const st = cardState[id];
 
     cardEl.querySelectorAll('[data-type="variant"]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{ st.variant = btn.dataset.val; renderGrid(); });
+      btn.addEventListener('click', ()=>{ st.variant = btn.dataset.val; updateCardBody(id); });
     });
     cardEl.querySelectorAll('[data-type="size"]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{ st.size = btn.dataset.val; renderGrid(); });
+      btn.addEventListener('click', ()=>{ st.size = btn.dataset.val; updateCardBody(id); });
     });
     cardEl.querySelectorAll('[data-type="color"]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{ st.color = btn.dataset.val; renderGrid(); });
+      btn.addEventListener('click', ()=>{ st.color = btn.dataset.val; updateCardBody(id); });
     });
     cardEl.querySelectorAll('[data-step]').forEach(btn=>{
       btn.addEventListener('click', ()=>{
@@ -652,6 +652,65 @@ function renderGrid(){
   });
 }
 
+// Actualiza SOLO el precio/variante/talla/color de una tarjeta puntual,
+// sin reconstruir el grid completo (evita el parpadeo de las imágenes).
+function updateCardBody(id){
+  const cardEl = gridWrap.querySelector(`.card[data-id="${id}"]`);
+  if(!cardEl) return;
+  const p = PRODUCTS.find(x=>x.id===id);
+  const st = cardState[id];
+  const v = getVariant(p, st.variant);
+
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  const tier = currentTier(totalQty);
+  const now = v[tier.key];
+  const was = v.detal;
+  const showSave = tier.pct>0;
+  const nowGain = gananciaFor(now, tier.pct);
+
+  const swatchEl = cardEl.querySelector('.card-swatch');
+  if(swatchEl) swatchEl.style.backgroundImage = `linear-gradient(135deg, ${COLORS[st.color]}, ${COLORS[st.color]}CC)`;
+
+  cardEl.querySelector('.price-line').innerHTML = `
+    <span class="now mono">${fmt(now)}</span>
+    ${showSave ? `<span class="was mono">${fmt(was)}</span><span class="save">-${tier.pct}%</span>` : ``}
+  `;
+
+  cardEl.querySelector('.gain-line').outerHTML = tier.pct>0
+    ? `<div class="gain-line mono" style="font-size:11px; opacity:0.6;">(ganancia ${fmt(nowGain)})</div>`
+    : `<div class="gain-line mono" style="font-size:11px; opacity:0.6; letter-spacing:1px;">DETAL</div>`;
+
+  cardEl.querySelectorAll('[data-type="variant"]').forEach(btn=>{
+    btn.classList.toggle('sel', btn.dataset.val===st.variant);
+  });
+  cardEl.querySelectorAll('[data-type="size"]').forEach(btn=>{
+    btn.classList.toggle('sel', btn.dataset.val===st.size);
+  });
+  cardEl.querySelectorAll('[data-type="color"]').forEach(btn=>{
+    btn.classList.toggle('sel', btn.dataset.val===st.color);
+  });
+
+  const tierDefs = [["p20",20],["p25",25],["p28",28]];
+  const trows = cardEl.querySelectorAll('.tier-table .trow');
+  trows.forEach((row,i)=>{
+    const [key,pct] = tierDefs[i];
+    row.classList.toggle('active', tier.key===key);
+    const priceSpan = row.querySelector('.tprice');
+    if(priceSpan) priceSpan.innerHTML = `${fmt(v[key])} <span style="opacity:0.55;">(${fmt(gananciaFor(v[key],pct))})</span>`;
+  });
+
+  const qtyDisplay = cardEl.querySelector('.qty-display');
+  if(qtyDisplay) qtyDisplay.textContent = st.qty;
+}
+
+// Actualiza todas las tarjetas visibles (usado cuando cambia el nivel de
+// descuento por el carrito) sin reconstruir el grid ni las imágenes.
+function updateAllCardBodies(){
+  PRODUCTS.forEach(p=>{
+    if(gridWrap.querySelector(`.card[data-id="${p.id}"]`)) updateCardBody(p.id);
+  });
+}
+
 /* ============ CART LOGIC ============ */
 function addToCart(p, size, color, qty, variant){
   const existing = cart.find(i=>i.productId===p.id && i.size===size && i.color===color && i.variant===variant);
@@ -666,7 +725,7 @@ function changeQty(idx, delta){
 }
 
 function renderAll(){
-  renderGrid();
+  updateAllCardBodies();
   renderCart();
   renderTideBar();
 }
@@ -808,7 +867,9 @@ document.getElementById('searchBox').addEventListener('input', (e)=>{
 
 /* ============ INIT ============ */
 buildChips();
-renderAll();
+renderGrid();
+renderCart();
+renderTideBar();
 </script>
 </body>
 </html>
