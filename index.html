@@ -5,21 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal de Pedidos — Pacific Fajas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --sand:#EAE0CC;
-  --sand-deep:#DCCBA8;
-  --cocoa:#6B4630;
-  --cocoa-dark:#4A3020;
-  --tide:#1B3A45;
-  --tide-deep:#0F252E;
-  --pearl:#FBF8F2;
-  --coral:#D9704F;
-  --coral-dark:#B4573A;
-  --ink:#2A2420;
-  --line:rgba(42,36,32,0.14);
-  --ok:#3F7A5C;
+  /* Paleta de marca — Pacific Fajas */
+  --sand:#ECECEC;        /* gris claro — fondos neutros para foto de producto */
+  --sand-deep:#E0DED9;   /* gris cálido, un tono más profundo */
+  --cocoa:#3F5957;       /* verde petróleo atenuado — texto secundario/eyebrows */
+  --cocoa-dark:#17302F;  /* verde petróleo casi negro — texto de énfasis */
+  --tide:#173C3B;        /* verde petróleo elegante — color primario de marca */
+  --tide-deep:#0F2B2A;   /* verde petróleo profundo — fondos oscuros (header, drawer) */
+  --pearl:#F7F5F1;       /* marfil suave — fondo general del sitio */
+  --coral:#C7A86B;       /* dorado satinado — acentos, CTA, hover */
+  --coral-dark:#A98A54;  /* dorado profundo — estados hover/activos */
+  --ink:#222222;         /* negro suave — texto principal */
+  --line:rgba(34,34,34,0.12);
+  --ok:#4B7A63;          /* verde salvia, armónico con el petróleo, para estados de éxito */
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -27,11 +28,11 @@ body{
   margin:0;
   background:var(--pearl);
   color:var(--ink);
-  font-family:'Work Sans',sans-serif;
+  font-family:'Poppins',sans-serif;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,.display{font-family:'Fraunces',serif;}
-.mono{font-family:'JetBrains Mono',monospace;}
+h1,h2,h3,.display{font-family:'Playfair Display',serif;}
+.mono{font-family:'Poppins',sans-serif;}
 
 /* ===== HEADER ===== */
 header.top{
@@ -45,38 +46,38 @@ header.top{
   display:flex; align-items:center; justify-content:space-between; gap:20px;
 }
 .brand{display:flex; align-items:baseline; gap:10px;}
-.brand .name{font-family:'Fraunces',serif; font-weight:700; font-size:22px; letter-spacing:0.5px;}
+.brand .name{font-family:'Playfair Display',serif; font-weight:700; font-size:22px; letter-spacing:0.5px;}
 .brand .tag{font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.55;}
 .cart-btn{
   display:flex; align-items:center; gap:8px;
   background:var(--coral); color:#fff; border:none; border-radius:999px;
-  padding:10px 18px; font-family:'Work Sans',sans-serif; font-weight:600; font-size:14px;
+  padding:10px 18px; font-family:'Poppins',sans-serif; font-weight:600; font-size:14px;
   cursor:pointer; transition:transform .15s ease, background .15s ease;
 }
 .cart-btn:hover{background:var(--coral-dark); transform:translateY(-1px);}
 .cart-count{
-  background:rgba(0,0,0,0.25); border-radius:999px; padding:1px 8px; font-size:12px; font-family:'JetBrains Mono',monospace;
+  background:rgba(0,0,0,0.25); border-radius:999px; padding:1px 8px; font-size:12px; font-family:'Poppins',sans-serif;
 }
 
 /* Tide progress bar */
 .tide-wrap{max-width:1240px; margin:0 auto; padding:0 24px 14px;}
 .tide-label{
   display:flex; justify-content:space-between; font-size:12px; letter-spacing:0.5px;
-  color:rgba(251,248,242,0.65); margin-bottom:6px; font-family:'JetBrains Mono',monospace;
+  color:rgba(247,245,241,0.65); margin-bottom:6px; font-family:'Poppins',sans-serif;
 }
 .tide-track{
   position:relative; height:10px; border-radius:999px; background:rgba(255,255,255,0.1); overflow:hidden;
 }
 .tide-fill{
   position:absolute; left:0; top:0; height:100%; border-radius:999px;
-  background:linear-gradient(90deg,#3A6B7A,#5FA3A8,#E8C77E);
+  background:linear-gradient(90deg,var(--tide),var(--coral));
   transition:width .4s ease;
   width:0%;
 }
 .tide-marks{position:relative; height:16px; margin-top:2px;}
 .tide-mark{
   position:absolute; top:0; transform:translateX(-50%);
-  font-size:10px; color:rgba(251,248,242,0.5); font-family:'JetBrains Mono',monospace; white-space:nowrap;
+  font-size:10px; color:rgba(247,245,241,0.5); font-family:'Poppins',sans-serif; white-space:nowrap;
 }
 
 /* ===== HERO ===== */
@@ -86,7 +87,7 @@ header.top{
 }
 .hero h1{font-size:clamp(34px,5vw,58px); line-height:1.02; margin:0 0 14px; font-weight:600; letter-spacing:-0.5px;}
 .hero h1 em{font-style:italic; color:var(--coral);}
-.hero p{font-size:16px; line-height:1.6; color:rgba(42,36,32,0.72); max-width:480px; margin:0;}
+.hero p{font-size:16px; line-height:1.6; color:rgba(34,34,34,0.72); max-width:480px; margin:0;}
 .tiers-card{
   background:var(--tide); color:var(--pearl); border-radius:18px; padding:22px 24px;
   display:flex; flex-direction:column; gap:10px;
@@ -94,8 +95,8 @@ header.top{
 .tiers-card .eyebrow{font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.6;}
 .tier-row{display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; border-bottom:1px dashed rgba(255,255,255,0.15);}
 .tier-row:last-child{border-bottom:none;}
-.tier-row .qty{font-family:'JetBrains Mono',monospace; font-size:13px; opacity:0.75;}
-.tier-row .pct{font-family:'Fraunces',serif; font-size:22px; font-weight:600;}
+.tier-row .qty{font-family:'Poppins',sans-serif; font-size:13px; opacity:0.75;}
+.tier-row .pct{font-family:'Playfair Display',serif; font-size:22px; font-weight:600;}
 
 /* ===== FILTER BAR ===== */
 .filters{
@@ -104,14 +105,14 @@ header.top{
 }
 .filters input[type="search"]{
   flex:1; min-width:200px; border:1px solid var(--line); background:#fff;
-  border-radius:999px; padding:10px 18px; font-size:14px; font-family:'Work Sans',sans-serif;
+  border-radius:999px; padding:10px 18px; font-size:14px; font-family:'Poppins',sans-serif;
   outline:none;
 }
 .filters input[type="search"]:focus{border-color:var(--coral);}
 .chip{
   border:1px solid var(--line); background:#fff; color:var(--ink);
   border-radius:999px; padding:8px 16px; font-size:13px; cursor:pointer;
-  font-family:'Work Sans',sans-serif; transition:all .15s ease; white-space:nowrap;
+  font-family:'Poppins',sans-serif; transition:all .15s ease; white-space:nowrap;
 }
 .chip.active{background:var(--tide); color:var(--pearl); border-color:var(--tide);}
 .chip:hover{border-color:var(--tide);}
@@ -139,19 +140,19 @@ header.top{
 .card-swatch img{
   width:100%; height:auto; display:block; object-fit:contain;
 }
-.card-swatch .id{position:absolute; top:10px; left:14px; z-index:2; font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(255,255,255,0.9); background:rgba(0,0,0,0.4); padding:2px 8px; border-radius:999px;}
+.card-swatch .id{position:absolute; top:10px; left:14px; z-index:2; font-family:'Poppins',sans-serif; font-size:11px; color:rgba(255,255,255,0.9); background:rgba(0,0,0,0.4); padding:2px 8px; border-radius:999px;}
 .card-body{padding:16px; display:flex; flex-direction:column; gap:10px; flex:1;}
 .card-body h3{font-size:16px; margin:0; font-weight:600; line-height:1.25;}
-.card-body .desc{font-size:12.5px; color:rgba(42,36,32,0.65); line-height:1.4; margin:0;}
+.card-body .desc{font-size:12.5px; color:rgba(34,34,34,0.65); line-height:1.4; margin:0;}
 .price-line{display:flex; align-items:baseline; gap:8px; margin-top:2px;}
-.price-line .now{font-family:'Fraunces',serif; font-weight:600; font-size:19px;}
-.price-line .was{font-family:'JetBrains Mono',monospace; font-size:12px; text-decoration:line-through; opacity:0.4;}
+.price-line .now{font-family:'Playfair Display',serif; font-weight:600; font-size:19px;}
+.price-line .was{font-family:'Poppins',sans-serif; font-size:12px; text-decoration:line-through; opacity:0.4;}
 .price-line .save{font-size:11px; color:var(--ok); font-weight:600;}
 
 .tier-divider{
   display:flex; align-items:center; gap:8px;
   font-size:10px; letter-spacing:1.2px; text-transform:uppercase;
-  color:rgba(42,36,32,0.55); font-weight:700; margin-top:6px;
+  color:rgba(34,34,34,0.55); font-weight:700; margin-top:6px;
 }
 .tier-divider::after{content:""; flex:1; height:1px; background:var(--line);}
 
@@ -165,15 +166,15 @@ header.top{
 }
 .tier-table .trow:last-child{border-bottom:none;}
 .tier-table .trow.active{background:var(--sand); font-weight:600;}
-.tier-table .trow .tname{color:rgba(42,36,32,0.7);}
-.tier-table .trow .trange{font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(42,36,32,0.45); margin-left:4px;}
-.tier-table .trow .tprice{font-family:'JetBrains Mono',monospace; font-size:12.5px;}
+.tier-table .trow .tname{color:rgba(34,34,34,0.7);}
+.tier-table .trow .trange{font-family:'Poppins',sans-serif; font-size:10px; color:rgba(34,34,34,0.45); margin-left:4px;}
+.tier-table .trow .tprice{font-family:'Poppins',sans-serif; font-size:12.5px;}
 
-.opt-label{font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:rgba(42,36,32,0.5); margin-top:4px;}
+.opt-label{font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:rgba(34,34,34,0.5); margin-top:4px;}
 .opt-row{display:flex; gap:6px; flex-wrap:wrap;}
 .opt-btn{
   border:1px solid var(--line); background:var(--pearl); border-radius:8px; padding:5px 9px;
-  font-size:12px; cursor:pointer; font-family:'Work Sans',sans-serif; color:var(--ink);
+  font-size:12px; cursor:pointer; font-family:'Poppins',sans-serif; color:var(--ink);
 }
 .opt-btn.sel{background:var(--tide); color:var(--pearl); border-color:var(--tide);}
 .swatch-btn{
@@ -185,11 +186,11 @@ header.top{
 
 .qty-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; padding-top:8px;}
 .stepper{display:flex; align-items:center; border:1px solid var(--line); border-radius:8px; overflow:hidden;}
-.stepper button{border:none; background:var(--pearl); width:28px; height:30px; cursor:pointer; font-size:15px; font-family:'Work Sans',sans-serif;}
-.stepper span{width:32px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:13px;}
+.stepper button{border:none; background:var(--pearl); width:28px; height:30px; cursor:pointer; font-size:15px; font-family:'Poppins',sans-serif;}
+.stepper span{width:32px; text-align:center; font-family:'Poppins',sans-serif; font-size:13px;}
 .add-btn{
   background:var(--ink); color:#fff; border:none; border-radius:8px; padding:8px 14px;
-  font-size:13px; font-weight:600; cursor:pointer; font-family:'Work Sans',sans-serif;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif;
   transition:background .15s ease;
 }
 .add-btn:hover{background:var(--coral);}
@@ -219,21 +220,21 @@ header.top{
   border-bottom:1px solid var(--line);
 }
 .drawer-tier .msg{font-weight:600;}
-.mini-track{height:6px; border-radius:999px; background:rgba(42,36,32,0.12); overflow:hidden;}
+.mini-track{height:6px; border-radius:999px; background:rgba(34,34,34,0.12); overflow:hidden;}
 .mini-fill{height:100%; background:var(--coral); transition:width .3s ease;}
 .drawer-items{flex:1; overflow-y:auto; padding:10px 22px;}
-.empty-cart{padding:40px 10px; text-align:center; color:rgba(42,36,32,0.5); font-size:14px;}
+.empty-cart{padding:40px 10px; text-align:center; color:rgba(34,34,34,0.5); font-size:14px;}
 .line-item{
   display:grid; grid-template-columns:1fr auto; gap:4px 10px; padding:14px 0; border-bottom:1px solid var(--line);
 }
 .line-item .li-name{font-weight:600; font-size:13.5px;}
-.line-item .li-meta{font-size:11.5px; color:rgba(42,36,32,0.55); font-family:'JetBrains Mono',monospace;}
-.line-item .li-price{text-align:right; font-family:'JetBrains Mono',monospace; font-size:13px;}
+.line-item .li-meta{font-size:11.5px; color:rgba(34,34,34,0.55); font-family:'Poppins',sans-serif;}
+.line-item .li-price{text-align:right; font-family:'Poppins',sans-serif; font-size:13px;}
 .line-item .li-remove{grid-column:1/2; font-size:11px; color:var(--coral); cursor:pointer; background:none; border:none; padding:0; text-align:left; width:fit-content;}
 .li-qty-ctrl{display:flex; align-items:center; gap:6px; margin-top:4px;}
 .drawer-foot{padding:18px 22px 24px; border-top:1px solid var(--line); background:#fff;}
 .foot-row{display:flex; justify-content:space-between; font-size:14px; margin-bottom:6px;}
-.foot-row.total{font-size:19px; font-family:'Fraunces',serif; font-weight:600; margin-top:8px;}
+.foot-row.total{font-size:19px; font-family:'Playfair Display',serif; font-weight:600; margin-top:8px;}
 .warn-box{
   background:#FBEAE1; border:1px solid #E7B79B; color:var(--cocoa-dark); font-size:12.5px;
   border-radius:10px; padding:10px 12px; margin:10px 0; line-height:1.5;
@@ -245,17 +246,17 @@ header.top{
 .whatsapp-btn{
   width:100%; background:#1DA851; color:#fff; border:none; border-radius:10px; padding:14px;
   font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
-  font-family:'Work Sans',sans-serif; transition:background .15s ease;
+  font-family:'Poppins',sans-serif; transition:background .15s ease;
 }
 .whatsapp-btn:hover{background:#178f45;}
 .whatsapp-btn:disabled{background:#B7B2AA; cursor:not-allowed;}
 .customer-fields{display:flex; flex-direction:column; gap:8px; margin-bottom:10px;}
 .customer-fields input{
-  border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:13px; font-family:'Work Sans',sans-serif;
+  border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:13px; font-family:'Poppins',sans-serif;
 }
 
 footer{
-  text-align:center; padding:30px 20px 50px; color:rgba(42,36,32,0.45); font-size:12px;
+  text-align:center; padding:30px 20px 50px; color:rgba(34,34,34,0.45); font-size:12px;
 }
 
 @media(max-width:800px){
@@ -282,9 +283,10 @@ footer{
     </div>
     <div class="tide-track"><div class="tide-fill" id="tideFill"></div></div>
     <div class="tide-marks">
-      <span class="tide-mark" style="left:6%">6</span>
-      <span class="tide-mark" style="left:25%">25</span>
-      <span class="tide-mark" style="left:100%; transform:translateX(-100%)">100</span>
+      <span class="tide-mark" style="left:1.5%">6</span>
+      <span class="tide-mark" style="left:3%">12</span>
+      <span class="tide-mark" style="left:12.5%">50</span>
+      <span class="tide-mark" style="left:100%; transform:translateX(-100%)">400</span>
     </div>
   </div>
 </header>
@@ -297,10 +299,10 @@ footer{
   </div>
   <div class="tiers-card">
     <span class="eyebrow">Niveles de descuento</span>
-    <div class="tier-row"><span>Precio detal</span><span class="qty">1–5 uds</span><span class="pct">0%</span></div>
-    <div class="tier-row"><span>Mayorista</span><span class="qty">desde 6 uds</span><span class="pct">20%</span></div>
-    <div class="tier-row"><span>Mayorista +</span><span class="qty">desde 25 uds</span><span class="pct">25%</span></div>
-    <div class="tier-row"><span>Distribuidor</span><span class="qty">desde 100 uds</span><span class="pct">28%</span></div>
+    <div class="tier-row"><span>Emprendedor</span><span class="qty">de 6 a 11 uds</span><span class="pct">10%</span></div>
+    <div class="tier-row"><span>Mayorista</span><span class="qty">desde 12 uds</span><span class="pct">20%</span></div>
+    <div class="tier-row"><span>Mayorista +</span><span class="qty">desde 50 uds</span><span class="pct">25%</span></div>
+    <div class="tier-row"><span>Distribuidor</span><span class="qty">desde 400 uds</span><span class="pct">28%</span></div>
   </div>
 </section>
 
@@ -320,7 +322,7 @@ footer{
     <button class="close-btn" id="closeCart">&times;</button>
   </div>
   <div class="drawer-tier">
-    <div class="msg" id="drawerTierMsg">Agrega 6 unidades para desbloquear 20% OFF</div>
+    <div class="msg" id="drawerTierMsg">Agrega 6 unidades para desbloquear 10% OFF</div>
     <div class="mini-track"><div class="mini-fill" id="miniFill"></div></div>
   </div>
   <div class="drawer-items" id="drawerItems">
@@ -348,15 +350,16 @@ const SIZES_STD = ["S","M","L","XL","2XL"];
 const SIZES_3XL = ["S","M","L","XL","2XL","3XL"];
 
 function P(id,name,desc,cat,detal,p20,p25,p28,colors,sizes,img){
+  const p10 = Math.round(detal*0.9);
   return {id,name,desc,cat,colors,sizes:sizes||SIZES_STD,img:img||null,hasVariant:false,
-    variants:[{key:"unico",label:null,detal,p20,p25,p28}]};
+    variants:[{key:"unico",label:null,detal,p10,p20,p25,p28}]};
 }
 // Producto con dos opciones de cierre (cierre / abrochadura), cada una con su propio precio
 function PV(id,name,desc,cat,cierre,abrochadura,colors,sizes,img){
   return {id,name,desc,cat,colors,sizes:sizes||SIZES_STD,img:img||null,hasVariant:true,
     variants:[
-      {key:"cierre",label:"Cierre",detal:cierre[0],p20:cierre[1],p25:cierre[2],p28:cierre[3]},
-      {key:"abrochadura",label:"Abrochadura",detal:abrochadura[0],p20:abrochadura[1],p25:abrochadura[2],p28:abrochadura[3]}
+      {key:"cierre",label:"Cierre",detal:cierre[0],p10:Math.round(cierre[0]*0.9),p20:cierre[1],p25:cierre[2],p28:cierre[3]},
+      {key:"abrochadura",label:"Abrochadura",detal:abrochadura[0],p10:Math.round(abrochadura[0]*0.9),p20:abrochadura[1],p25:abrochadura[2],p28:abrochadura[3]}
     ]};
 }
 const BCN = ["BEIGE","COCOA","NEGRO"];
@@ -450,9 +453,10 @@ const PRODUCTS = [
 /* ============ STATE ============ */
 const TIERS = [
   {key:"detal", min:0,   pct:0,  label:"Detal (0%)"},
-  {key:"p20",   min:6,   pct:20, label:"Mayorista (20% OFF)"},
-  {key:"p25",   min:25,  pct:25, label:"Mayorista + (25% OFF)"},
-  {key:"p28",   min:100, pct:28, label:"Distribuidor (28% OFF)"},
+  {key:"p10",   min:6,   pct:10, label:"Emprendedor (10% OFF)"},
+  {key:"p20",   min:12,  pct:20, label:"Mayorista (20% OFF)"},
+  {key:"p25",   min:50,  pct:25, label:"Mayorista + (25% OFF)"},
+  {key:"p28",   min:400, pct:28, label:"Distribuidor (28% OFF)"},
 ];
 const cardState = {}; // per product: {size, color, qty}
 let cart = []; // {productId, size, color, qty}
@@ -546,7 +550,7 @@ function renderGrid(){
 
   let html = "";
   const catsInOrder = CATS.filter(c=>groups[c]);
-  if(catsInOrder.length===0){ html = `<p style="padding:40px 0; text-align:center; color:rgba(42,36,32,0.5);">Sin resultados para tu búsqueda.</p>`; }
+  if(catsInOrder.length===0){ html = `<p style="padding:40px 0; text-align:center; color:rgba(34,34,34,0.5);">Sin resultados para tu búsqueda.</p>`; }
 
   catsInOrder.forEach(cat=>{
     html += `<div class="section-title">${cat}</div><div class="grid">`;
@@ -582,16 +586,20 @@ function renderGrid(){
 
           <div class="tier-divider">Niveles de descuento</div>
           <div class="tier-table">
+            <div class="trow ${tier.key==='p10'?'active':''}">
+              <span class="tname">Emprendedor <span class="trange">6–11</span></span>
+              <span class="tprice">${fmt(v.p10)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p10,10))})</span></span>
+            </div>
             <div class="trow ${tier.key==='p20'?'active':''}">
-              <span class="tname">Mayorista <span class="trange">6–24</span></span>
+              <span class="tname">Mayorista <span class="trange">12–49</span></span>
               <span class="tprice">${fmt(v.p20)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p20,20))})</span></span>
             </div>
             <div class="trow ${tier.key==='p25'?'active':''}">
-              <span class="tname">Mayorista + <span class="trange">25–99</span></span>
+              <span class="tname">Mayorista + <span class="trange">50–399</span></span>
               <span class="tprice">${fmt(v.p25)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p25,25))})</span></span>
             </div>
             <div class="trow ${tier.key==='p28'?'active':''}">
-              <span class="tname">Distribuidor <span class="trange">+100</span></span>
+              <span class="tname">Distribuidor <span class="trange">+400</span></span>
               <span class="tprice">${fmt(v.p28)} <span style="opacity:0.55;">(${fmt(gananciaFor(v.p28,28))})</span></span>
             </div>
           </div>
@@ -690,7 +698,7 @@ function updateCardBody(id){
     btn.classList.toggle('sel', btn.dataset.val===st.color);
   });
 
-  const tierDefs = [["p20",20],["p25",25],["p28",28]];
+  const tierDefs = [["p10",10],["p20",20],["p25",25],["p28",28]];
   const trows = cardEl.querySelectorAll('.tier-table .trow');
   trows.forEach((row,i)=>{
     const [key,pct] = tierDefs[i];
@@ -734,9 +742,9 @@ function renderTideBar(){
   const totalQty = cart.reduce((s,i)=>s+i.qty,0);
   const tier = currentTier(totalQty);
   const nt = nextTier(totalQty);
-  const pct = Math.min(100, (totalQty/100)*100);
+  const pct = Math.min(100, (totalQty/400)*100);
   document.getElementById('tideFill').style.width = pct + "%";
-  document.getElementById('tideQtyLabel').textContent = `${totalQty} / 100 uds`;
+  document.getElementById('tideQtyLabel').textContent = `${totalQty} / 400 uds`;
   document.getElementById('cartCount').textContent = `${totalQty} uds`;
 
   let msg;
@@ -787,11 +795,11 @@ function renderCart(){
   }
 
   // tier progress in drawer
-  const pct = Math.min(100, (totalQty/100)*100);
+  const pct = Math.min(100, (totalQty/400)*100);
   document.getElementById('miniFill').style.width = pct + "%";
   document.getElementById('drawerTierMsg').textContent = nt
     ? `Agrega ${nt.min-totalQty} unidades más para ${nt.pct}% OFF`
-    : (totalQty>0 ? `Nivel máximo: ${tier.label}` : "Agrega 6 unidades para desbloquear 20% OFF");
+    : (totalQty>0 ? `Nivel máximo: ${tier.label}` : "Agrega 6 unidades para desbloquear 10% OFF");
 
   // totals
   const total = cart.reduce((s,i)=>{
@@ -808,7 +816,7 @@ function renderCart(){
   if(cart.length===0){
     warnSlot.innerHTML = "";
   } else if(totalQty < 6){
-    warnSlot.innerHTML = `<div class="warn-box">⚠️ Tu pedido no cumple la cantidad mínima mayorista (6 unidades). Se está aplicando <strong>precio detal</strong>. Agrega ${6-totalQty} unidad(es) más para acceder al 20% OFF.</div>`;
+    warnSlot.innerHTML = `<div class="warn-box">⚠️ Tu pedido no cumple la cantidad mínima mayorista (6 unidades). Se está aplicando <strong>precio detal</strong>. Agrega ${6-totalQty} unidad(es) más para acceder al 10% OFF.</div>`;
   } else {
     warnSlot.innerHTML = `<div class="ok-box">✓ Tu pedido cumple las condiciones mayoristas: <strong>${tier.label}</strong> aplicado sobre ${totalQty} unidades.</div>`;
   }
