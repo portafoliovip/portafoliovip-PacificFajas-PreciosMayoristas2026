@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Portal de Pedidos — Pacific Fajas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,8 +22,9 @@
   --line:rgba(34,34,34,0.12);
   --ok:#4B7A63;          /* verde salvia, armónico con el petróleo, para estados de éxito */
 }
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+*{box-sizing:border-box; touch-action:manipulation;}
+html{scroll-behavior:smooth; overflow-x:hidden; -webkit-text-size-adjust:100%; text-size-adjust:100%;}
+body{overflow-x:clip; max-width:100%;}
 body{
   margin:0;
   background:var(--pearl);
@@ -298,6 +299,30 @@ footer{
 
 @media(max-width:800px){
   .hero{grid-template-columns:1fr; padding-top:36px;}
+}
+/* ===== AJUSTE MÓVIL ===== */
+@media(max-width:600px){
+  .top-inner{padding:10px 14px; gap:8px; flex-wrap:wrap;}
+  .brand .name{font-size:16px; white-space:nowrap;}
+  .brand .tag{display:none;}
+  .top-right{gap:8px; margin-left:auto;}
+  .cur-tabs{padding:3px;}
+  .cur-btn{padding:6px 11px; font-size:12px;}
+  .cart-btn{padding:8px 12px; font-size:13px; white-space:nowrap;}
+  .cart-count{padding:1px 7px; font-size:11px; white-space:nowrap;}
+  .tide-wrap{padding:0 14px 10px;}
+  .tide-label{font-size:11px; gap:8px;}
+  .tide-label span:last-child{white-space:nowrap;}
+  .hero{padding:28px 16px 24px; gap:24px;}
+  .main-tabs{padding:0 16px 16px;}
+  .filters{padding:0 16px 18px;}
+  .grid-wrap{padding:0 16px 60px;}
+  .panel-outer{padding:0 16px 40px;}
+  .grid{grid-template-columns:1fr;}
+  /* 16px evita que iOS haga zoom automático al tocar un campo */
+  .filters input[type="search"],
+  .customer-fields input,
+  .customer-fields textarea{font-size:16px;}
 }
 </style>
 </head>
@@ -1417,6 +1442,11 @@ document.querySelectorAll('.cur-btn').forEach(btn=>{
     renderCart();
     renderTideBar();
   });
+});
+
+/* ============ SIN ZOOM EN MÓVIL ============ */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>{
+  document.addEventListener(ev, e=>e.preventDefault());
 });
 
 /* ============ INIT ============ */
