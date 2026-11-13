@@ -59,6 +59,17 @@ header.top{
   background:rgba(0,0,0,0.25); border-radius:999px; padding:1px 8px; font-size:12px; font-family:'Poppins',sans-serif;
 }
 
+/* ===== SELECTOR DE MONEDA ===== */
+.cur-tabs{display:flex; gap:4px; background:rgba(255,255,255,0.1); border-radius:999px; padding:4px;}
+.cur-btn{
+  border:none; background:transparent; color:var(--pearl); opacity:0.7;
+  border-radius:999px; padding:7px 16px; font-family:'Poppins',sans-serif;
+  font-weight:600; font-size:13px; cursor:pointer; transition:all .15s ease;
+}
+.cur-btn:hover{opacity:1;}
+.cur-btn.active{background:var(--coral); color:#fff; opacity:1;}
+.top-right{display:flex; align-items:center; gap:12px;}
+
 /* Tide progress bar */
 .tide-wrap{max-width:1240px; margin:0 auto; padding:0 24px 14px;}
 .tide-label{
@@ -298,9 +309,15 @@ footer{
       <span class="name">PACIFIC FAJAS</span>
       <span class="tag">Portal de Pedidos</span>
     </div>
-    <button class="cart-btn" id="openCart">
-      Pedido <span class="cart-count" id="cartCount">0 uds</span>
-    </button>
+    <div class="top-right">
+      <div class="cur-tabs">
+        <button class="cur-btn" data-cur="USD">USD</button>
+        <button class="cur-btn active" data-cur="COP">COP</button>
+      </div>
+      <button class="cart-btn" id="openCart">
+        Pedido <span class="cart-count" id="cartCount">0 uds</span>
+      </button>
+    </div>
   </div>
   <div class="tide-wrap">
     <div class="tide-label">
@@ -758,7 +775,13 @@ const TIERS = [
 const MAX_TIER_QTY = 25;
 const cardState = {}; // per product: {size, color, qty}
 let cart = []; // {productId, size, color, qty}
-const fmt = n => "$" + Math.round(n).toLocaleString("es-CO");
+
+// Moneda: los precios base están en COP. En USD se divide por la tasa.
+let currency = "COP";
+const USD_RATE = 3000; // 1 USD = 3.000 COP (cámbialo aquí cuando quieras)
+const fmt = n => currency==="USD"
+  ? "US$ " + (n/USD_RATE).toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2})
+  : "$" + Math.round(n).toLocaleString("es-CO");
 
 function currentTier(totalQty){
   let t = TIERS[0];
@@ -1303,7 +1326,8 @@ document.getElementById('sendBtn').addEventListener('click', ()=>{
   if(regQty>0 && regQty<6){
     lines.push(`⚠️ No cumple mínimo mayorista (6 uds del catálogo) — se aplicó precio detal.`);
   }
-  lines.push(`*TOTAL: ${fmt(total)} COP*`);
+  lines.push(`*TOTAL: ${fmt(total)} ${currency}*`);
+  if(currency==="USD") lines.push(`(Equivale a $${Math.round(total).toLocaleString("es-CO")} COP · tasa: 1 USD = ${USD_RATE.toLocaleString("es-CO")} COP)`);
 
   const text = encodeURIComponent(lines.join("\n"));
   window.open(`https://wa.me/573172335456?text=${text}`, "_blank");
@@ -1383,6 +1407,17 @@ function applyHash(){
   }
 }
 window.addEventListener('hashchange', applyHash);
+
+/* ============ SELECTOR DE MONEDA ============ */
+document.querySelectorAll('.cur-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    currency = btn.dataset.cur;
+    document.querySelectorAll('.cur-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    renderGrid();
+    renderCart();
+    renderTideBar();
+  });
+});
 
 /* ============ INIT ============ */
 buildChips();
